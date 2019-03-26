@@ -64,19 +64,34 @@ maillon* creationMaillon(data *rent){
 }
 
 // valeur
-maillon* rechercheMaillonPrecedent(maillon *ptrTete, arith *data){
+maillon* rechercheMaillonPrecedent(maillon *ptrTete, data *rent){
     maillon *ptr = ptrTete;
     maillon *precedent = NULL;
-    if(ptr->data->typ_val == 0){
-        while(ptr != NULL && ptr->data->u.i < data->u.i){
-            precedent = ptr;
-            ptr = ptr->suivant;
-        }
-    } else if(ptr->data->typ_val == 1){
-        while(ptr != NULL && ptr->data->u.f < data->u.f){
-            precedent = ptr;
-            ptr = ptr->suivant;
-        }
+
+    switch (ptr->rent->typ_val) {
+      case 0:
+      while(ptr != NULL &&  strcmp(ptr->rent->value_car->category,rent->value_car->category) != 0 ){
+          precedent = ptr;
+          ptr = ptr->suivant;
+      }
+
+        break;
+      case 1:
+      while(ptr != NULL && ){
+          precedent = ptr;
+          ptr = ptr->suivant;
+      }
+
+        break;
+      case 2:
+
+          break;
+      case 3:
+
+          break;
+      default:
+        printf("ENUM TYPE NOT DEFINE");
+
     }
 
     return precedent;
@@ -183,7 +198,9 @@ void suppressionListe(maillon **ptrTete){
     }
 }
 
-// chainage
+/*
+*Fonction de renversement d'une liste chainée
+**/
 void inversionListe(maillon **ptrTete){
     maillon *ptr, *ptrTeteInverse;
     ptrTeteInverse = NULL;
