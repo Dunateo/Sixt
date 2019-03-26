@@ -6,5 +6,5 @@
 
 void writeFile(maillon **ptrtete){
   FILE *f;
-  
+
 }
