@@ -46,16 +46,20 @@ void afficheListe(maillon *ptrTete){
     }
 }
 
-// chainage
+/*
+*Fonction de création de maillon renvoie un pointeur sur maillon
+**/
 maillon* creationMaillon(data *rent){
     maillon *ptr;
     ptr = (maillon*)malloc(sizeof(maillon));
     if(ptr == NULL){
         return 1;
     }
-    switch (rent->typ_val){
-        case :
-    }
+
+    ptr->rent = rent;
+    ptr->suivant = NULL;
+
+
     return ptr;
 }
 
@@ -82,8 +86,10 @@ maillon* rechercheMaillonPrecedent(maillon *ptrTete, arith *data){
  * chainage
  * */
 void insertionMaillon(maillon **ptrTete, maillon *insert){
-    maillon *precedent;
-    precedent = rechercheMaillonPrecedent(*ptrTete, insert->data);
+    maillon *precedent = NULL;
+    //on veut inserer nos maillons en début donc pas besoins de rechercheMaillonPrecedent
+    //precedent = rechercheMaillonPrecedent(*ptrTete, insert->data)
+
     if(precedent == NULL){ // liste vide -> insertion en tête
         insert->suivant = *ptrTete;
         *ptrTete = insert;

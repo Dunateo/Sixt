@@ -65,7 +65,7 @@ typedef struct data{
 
 
 typedef struct maillon{
-    data rent;
+    data *rent;
     struct maillon *suivant;
 }maillon;
 
