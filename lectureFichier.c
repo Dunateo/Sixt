@@ -2,3 +2,9 @@
 #include <stdio.h>
 #include "file.h"
 #include "chained.h"
+
+
+void writeFile(maillon **ptrtete){
+  FILE *f;
+  
+}
