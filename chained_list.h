@@ -37,18 +37,18 @@ typedef struct car{
 }car;
 
 typedef struct reservation{
-    int number;
+    int number; //numero reservation
     date begining;
     date end;
     char category;
     client* client_info;
+    struct reservation *suivant;
 
 }reservation;
 
 typedef struct history{
     reservation* reserv;
-    char *plate_number;
-    int number;
+    int status;
 }history;
 
 //functions pointers

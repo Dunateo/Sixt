@@ -5,11 +5,12 @@
 #include "chained_list.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 
 void afficheListe(maillon *ptrTete){
     maillon *ptr = ptrTete;
-    switch(ptr->rent.typ_val){
+    switch(ptr->rent->typ_val){
         case 0:
             printf("CAR:\n");
             break;
@@ -27,18 +28,18 @@ void afficheListe(maillon *ptrTete){
             break;
     }
     while(ptr != NULL){
-        switch(ptr->rent.typ_val){
+        switch(ptr->rent->typ_val){
             case 0:
-                printf("%s|%s|%s;%d|%d|%f|%c\n", ptr->rent.u.value_car.brand_name,ptr->rent.u.value_car.brand_model,ptr->rent.u.value_car.plate_number,ptr->rent.u.value_car.car_year,ptr->rent.u.value_car.km,ptr->rent.u.value_car.price,ptr->rent.u.value_car.category);
+                printf("%s|%s|%s|%d|%d|%f|%c\n", ptr->rent->u.value_car->brand_name,ptr->rent->u.value_car->brand_model,ptr->rent->u.value_car->plate_number,ptr->rent->u.value_car->car_year,ptr->rent->u.value_car->km,ptr->rent->u.value_car->price,ptr->rent->u.value_car->category);
                 break;
             case 1:
-                printf("%s|%s|%s;%d|%d|%f|%c\n", ptr->rent.u.value_car.brand_name,ptr->rent.u.value_car.brand_model,ptr->rent.u.value_car.plate_number,ptr->rent.u.value_car.car_year,ptr->rent.u.value_car.km,ptr->rent.u.value_car.price,ptr->rent.u.value_car.category);
+                printf("%d\n", ptr->rent->u.value_hist->number);
                 break;
             case 2:
-                printf("%s|%s|%s;%d|%d|%f|%c\n", ptr->rent.u.value_car.brand_name,ptr->rent.u.value_car.brand_model,ptr->rent.u.value_car.plate_number,ptr->rent.u.value_car.car_year,ptr->rent.u.value_car.km,ptr->rent.u.value_car.price,ptr->rent.u.value_car.category);
+                printf("%d|%c|%d-%d-%d %dh|%d-%d-%d %dh\n", ptr->rent->u.value_reserv->number, ptr->rent->u.value_reserv->category, ptr->rent->u.value_reserv->begining.day, ptr->rent->u.value_reserv->begining.month, ptr->rent->u.value_reserv->begining.year, ptr->rent->u.value_reserv->begining.hour, ptr->rent->u.value_reserv->end.day, ptr->rent->u.value_reserv->end.month, ptr->rent->u.value_reserv->end.year, ptr->rent->u.value_reserv->end.hour);
                 break;
             case 3:
-                printf("%s|%s|%s;%d|%d|%f|%c\n", ptr->rent.u.value_car.brand_name,ptr->rent.u.value_car.brand_model,ptr->rent.u.value_car.plate_number,ptr->rent.u.value_car.car_year,ptr->rent.u.value_car.km,ptr->rent.u.value_car.price,ptr->rent.u.value_car.category);
+                printf("%s|%s|%d", ptr->rent->u.value_client->client_name,ptr->rent->u.value_client->driving_license_type, ptr->rent->u.value_client->phone_number);
                 break;
             default:
                 printf("ENUM TYPE NOT DEFINE");
@@ -46,52 +47,40 @@ void afficheListe(maillon *ptrTete){
     }
 }
 
-/*
-*Fonction de création de maillon renvoie un pointeur sur maillon
-**/
+// chainage
 maillon* creationMaillon(data *rent){
     maillon *ptr;
     ptr = (maillon*)malloc(sizeof(maillon));
     if(ptr == NULL){
         return 1;
     }
-
-    ptr->rent = rent;
-    ptr->suivant = NULL;
-
-
+    switch (rent->typ_val){
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+    }
     return ptr;
 }
 
 // valeur
-maillon* rechercheMaillonPrecedent(maillon *ptrTete, data *rent){
+maillon* rechercheMaillonPrecedent(maillon *ptrTete, arith *data){
     maillon *ptr = ptrTete;
     maillon *precedent = NULL;
-
-    switch (ptr->rent->typ_val) {
-      case 0:
-      while(ptr != NULL &&  strcmp(ptr->rent->value_car->category,rent->value_car->category) != 0 ){
-          precedent = ptr;
-          ptr = ptr->suivant;
-      }
-
-        break;
-      case 1:
-      while(ptr != NULL && ){
-          precedent = ptr;
-          ptr = ptr->suivant;
-      }
-
-        break;
-      case 2:
-
-          break;
-      case 3:
-
-          break;
-      default:
-        printf("ENUM TYPE NOT DEFINE");
-
+    if(ptr->data->typ_val == 0){
+        while(ptr != NULL && ptr->data->u.i < data->u.i){
+            precedent = ptr;
+            ptr = ptr->suivant;
+        }
+    } else if(ptr->data->typ_val == 1){
+        while(ptr != NULL && ptr->data->u.f < data->u.f){
+            precedent = ptr;
+            ptr = ptr->suivant;
+        }
     }
 
     return precedent;
@@ -101,10 +90,8 @@ maillon* rechercheMaillonPrecedent(maillon *ptrTete, data *rent){
  * chainage
  * */
 void insertionMaillon(maillon **ptrTete, maillon *insert){
-    maillon *precedent = NULL;
-    //on veut inserer nos maillons en début donc pas besoins de rechercheMaillonPrecedent
-    //precedent = rechercheMaillonPrecedent(*ptrTete, insert->data)
-
+    maillon *precedent;
+    precedent = rechercheMaillonPrecedent(*ptrTete, insert->data);
     if(precedent == NULL){ // liste vide -> insertion en tête
         insert->suivant = *ptrTete;
         *ptrTete = insert;
@@ -121,18 +108,30 @@ void insertionValeur(arith* data, maillon **ptrTete){
 }
 
 // valeur
-maillon* rechercheMaillon(maillon *ptrTete, arith* data){
+maillon* rechercheMaillon(maillon *ptrTete, data* data1){
     maillon* ptr = ptrTete;
-    if(ptr->data->typ_val == 0){
-        while(ptr != NULL && ptr->data->u.i != data->u.i){
-            ptr = ptr->suivant;
-        }
-    } else if(ptr->data->typ_val == 1){
-        while(ptr != NULL && ptr->data->u.f != data->u.f){
-            ptr = ptr->suivant;
-        }
+    switch (ptr->rent->typ_val){
+        case 0:
+            while(ptr != NULL && strcmp(ptr->rent->u.value_car->plate_number, data1->u.value_car->plate_number) != 0){
+                ptr = ptr->suivant;
+            }
+            break;
+        case 1:
+            while(ptr != NULL && ptr->rent->u.value_hist->reserv->number == data1->u.value_hist->reserv->number){
+                ptr = ptr->suivant;
+            }
+            break;
+        case 2:
+            while(ptr != NULL && ptr->rent->u.value_reserv->number == data1->u.value_reserv->number){
+                ptr = ptr->suivant;
+            }
+            break;
+        case 3:
+            while(ptr != NULL && ptr->rent->u.value_client->phone_number == data1->u.value_client->phone_number){
+                ptr = ptr->suivant;
+            }
+            break;
     }
-
     return ptr;
 }
 
@@ -155,36 +154,10 @@ void suppressionMaillon(maillon **ptrTete, maillon *del){
 }
 
 // chainage + valeur
-maillon* suppressionValeur(maillon *ptrTete, arith* data){
-    maillon* del = rechercheMaillon(ptrTete, data);
+maillon* suppressionValeur(maillon *ptrTete, data* rent){
+    maillon* del = rechercheMaillon(ptrTete, rent);
     suppressionMaillon(&ptrTete, del);
     return del;
-}
-
-// chainage + valeur
-maillon * creationListe(void){
-    maillon *ptrTete = NULL;
-    arith* data;
-    data = (arith*)malloc(sizeof(arith));
-    int x = -1;
-    while(x < 2){
-        printf("entier (0) ou flotant (1) ? stop (2)\n");
-        printf("-> ");
-        scanf("%d",&x);
-        if( x == 0){
-            printf("saisir un entier :\n");
-            printf("-> ");
-            scanf("%d",&data->u.i);
-            insertionValeur(data, &ptrTete);
-        } else if(x == 1){
-            printf("saisir un float :\n");
-            printf("-> ");
-            scanf("%f",&data->u.f);
-            insertionValeur(data, &ptrTete);
-        }
-    }
-    free(data);
-    return ptrTete;
 }
 
 // chainage
@@ -198,9 +171,7 @@ void suppressionListe(maillon **ptrTete){
     }
 }
 
-/*
-*Fonction de renversement d'une liste chainée
-**/
+// chainage
 void inversionListe(maillon **ptrTete){
     maillon *ptr, *ptrTeteInverse;
     ptrTeteInverse = NULL;
@@ -212,26 +183,4 @@ void inversionListe(maillon **ptrTete){
     }
     *ptrTete = ptrTeteInverse;
 
-}
-
-int main(){
-    maillon *ptrTete, *del;
-    arith create, suppr;
-    create.typ_val = 0;
-    create.u.i = 15;
-    suppr.typ_val = 0;
-    suppr.u.i = 15;
-    printf("CREATION\n");
-    ptrTete = creationListe();
-    afficheListe(ptrTete);
-    printf("INSERTION\n");
-    insertionMaillon(&ptrTete, creationMaillon(&create));
-    afficheListe(ptrTete);
-    printf("SUPPRESSION & INVERSION\n");
-    del = suppressionValeur(ptrTete, &suppr);
-    free(del);
-    inversionListe(&ptrTete);
-    afficheListe(ptrTete);
-    suppressionListe(&ptrTete);
-    return 0;
 }
