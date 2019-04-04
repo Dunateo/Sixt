@@ -33,7 +33,7 @@ void afficheListe(maillon *ptrTete){
                 printf("%s|%s|%s|%d|%d|%f|%c\n", ptr->rent->u.value_car->brand_name,ptr->rent->u.value_car->brand_model,ptr->rent->u.value_car->plate_number,ptr->rent->u.value_car->car_year,ptr->rent->u.value_car->km,ptr->rent->u.value_car->price,ptr->rent->u.value_car->category);
                 break;
             case 1:
-                printf("%d\n", ptr->rent->u.value_hist->number);
+                printf("%d\n", ptr->rent->u.value_hist->status);
                 break;
             case 2:
                 printf("%d|%c|%d-%d-%d %dh|%d-%d-%d %dh\n", ptr->rent->u.value_reserv->number, ptr->rent->u.value_reserv->category, ptr->rent->u.value_reserv->begining.day, ptr->rent->u.value_reserv->begining.month, ptr->rent->u.value_reserv->begining.year, ptr->rent->u.value_reserv->begining.hour, ptr->rent->u.value_reserv->end.day, ptr->rent->u.value_reserv->end.month, ptr->rent->u.value_reserv->end.year, ptr->rent->u.value_reserv->end.hour);
@@ -68,19 +68,34 @@ maillon* creationMaillon(data *rent){
 }
 
 // valeur
-maillon* rechercheMaillonPrecedent(maillon *ptrTete, arith *data){
+maillon* rechercheMaillonPrecedent(maillon *ptrTete, data *data1){
     maillon *ptr = ptrTete;
     maillon *precedent = NULL;
-    if(ptr->data->typ_val == 0){
-        while(ptr != NULL && ptr->data->u.i < data->u.i){
-            precedent = ptr;
-            ptr = ptr->suivant;
-        }
-    } else if(ptr->data->typ_val == 1){
-        while(ptr != NULL && ptr->data->u.f < data->u.f){
-            precedent = ptr;
-            ptr = ptr->suivant;
-        }
+    switch (ptr->rent->typ_val){
+        case 0:
+            while(ptr != NULL && strcmp(ptr->rent->u.value_car->plate_number, data1->u.value_car->plate_number) != 0){
+                precedent = ptr;
+                ptr->suivant;
+            }
+            break;
+        case 1:
+            while(ptr != NULL && ptr->rent->u.value_hist->reserv->number == data1->u.value_hist->reserv->number){
+                precedent = ptr;
+                ptr->suivant;
+            }
+            break;
+        case 2:
+            while(ptr != NULL && ptr->rent->u.value_reserv->number == data1->u.value_reserv->number){
+                precedent = ptr;
+                ptr->suivant;
+            }
+            break;
+        case 3:
+            while(ptr != NULL && ptr->rent->u.value_client->phone_number == data1->u.value_client->phone_number){
+                precedent = ptr;
+                ptr->suivant;
+            }
+            break;
     }
 
     return precedent;
@@ -91,7 +106,7 @@ maillon* rechercheMaillonPrecedent(maillon *ptrTete, arith *data){
  * */
 void insertionMaillon(maillon **ptrTete, maillon *insert){
     maillon *precedent;
-    precedent = rechercheMaillonPrecedent(*ptrTete, insert->data);
+    precedent = rechercheMaillonPrecedent(*ptrTete, insert->rent);
     if(precedent == NULL){ // liste vide -> insertion en tête
         insert->suivant = *ptrTete;
         *ptrTete = insert;
@@ -103,8 +118,8 @@ void insertionMaillon(maillon **ptrTete, maillon *insert){
 }
 
 // chainage + valeur
-void insertionValeur(arith* data, maillon **ptrTete){
-    insertionMaillon(ptrTete, creationMaillon(data));
+void insertionValeur(data *rent, maillon **ptrTete){
+    insertionMaillon(ptrTete, creationMaillon(rent));
 }
 
 // valeur
@@ -138,17 +153,27 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
 //chainage
 void suppressionMaillon(maillon **ptrTete, maillon *del){
     maillon *precedent;
-    precedent = rechercheMaillonPrecedent(*ptrTete,del->data);
+    precedent = rechercheMaillonPrecedent(*ptrTete,del->rent);
     if(precedent == NULL){ // liste vide -> insertion en tête
         *ptrTete = del->suivant;
         del->suivant = NULL;
     }
     else {
-        if(precedent->data->typ_val == 0){
-            precedent->data->u.i = del->suivant;
-        } else if(precedent->data->typ_val == 1){
-            precedent->data->u.f = del->suivant->data->u.f;
+        switch (precedent->rent->typ_val){
+            case 0:
+                precedent->rent->u.value_car = del->suivant->rent->u.value_car;
+                break;
+            case 1:
+                precedent->rent->u.value_hist = del->suivant->rent->u.value_hist;
+                break;
+            case 2:
+                precedent->rent->u.value_reserv = del->suivant->rent->u.value_reserv;
+                break;
+            case 3:
+                precedent->rent->u.value_client = del->suivant->rent->u.value_client;
+                break;
         }
+
         del->suivant = NULL;
     }
 }
