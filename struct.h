@@ -8,7 +8,7 @@ typedef struct car{
 	char *brand_model;
 	int car_year;
 	int km;
-	char category;
+	char* category;
 	float price;
   bool gearbox;
 	maintenance *car_maint;
