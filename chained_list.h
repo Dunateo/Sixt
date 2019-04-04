@@ -5,6 +5,8 @@
 #ifndef PROJET_CHAINED_LIST_H
 #define PROJET_CHAINED_LIST_H
 
+#include <stdbool.h>
+
 typedef struct date{
     int day;
     int year;
@@ -32,6 +34,7 @@ typedef struct car{
     int km;
     char category;
     float price;
+    bool gearbox;
     maintenance *car_maint;
 
 }car;

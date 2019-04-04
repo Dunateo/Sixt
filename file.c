@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "struct.h"
+#include "chained_list.h"
 #include "chaine.h"
 
 
@@ -51,8 +51,9 @@ int calculateNumberOfSeparator(char *fileNameExt)
 
 maillon* readingFile(char *fileName)
 {
-  arith vehicule;
-  car structTab;
+  maillon *vehicule;
+  car* structTab;
+  char indiceColonnes[150];
   char *fileNameExt= " ";
   char *chaineRecup = "";
   char **tabChaineRecup;
@@ -71,52 +72,57 @@ maillon* readingFile(char *fileName)
   else
   {
     fscanf(f, "%d", &nbLines);
-
+    fscanf(f,"%s",indiceColonnes);
+    strcat(indiceColonnes,"");
     for(int i=0; i<=nbLines-1; i++)
     {
-      nbCarac=nbCaracPerLines(fileNameExt);
-      chaineRecup = (char*)malloc(sizeof(char)*nbCarac);
-      tabChaineRecup = (char**)malloc(sizeof(char*)*nbSeparator-nbLines);
-      if(i<1)
-      {
-        fseek(f,67, SEEK_SET);
-      }
-      fscanf(f, "%s", chaineRecup);
-      fonct(chaineRecup, &tabChaineRecup, &nbSeparator);
-      structTab.plate_number = malloc(sizeof(char)*10);
-      structTab.brand_name = malloc(sizeof(char)*10);
-      structTab.brand_model = malloc(sizeof(char)*10);
-      structTab.category = malloc(sizeof(char)*10);
+        fscanf(f,"%s",indiceColonnes);
+        nbCarac = strlen(indiceColonnes);
+        chaineRecup = malloc(sizeof(char)*nbCarac);
+        strcpy(chaineRecup,indiceColonnes);
+        fonct(chaineRecup, &tabChaineRecup, &nbSeparator,';');
+
+        printf("\nModele : %s\n", tabChaineRecup[2]);
+
+        structTab->plate_number = malloc(sizeof(char) * 10);
+        structTab->brand_name = malloc(sizeof(char) * 10);
+        structTab->brand_model = malloc(sizeof(char) * 10);
 
 
-      structTab.plate_number = tabChaineRecup[0];
-      structTab.brand_name = tabChaineRecup[1];
-      structTab.brand_model = tabChaineRecup[2];
-      structTab.car_year = atoi(tabChaineRecup[3]);
-      structTab.km = atoi(tabChaineRecup[4]);
-      structTab.category = tabChaineRecup[5];
-      structTab.price = atoi(tabChaineRecup[6]);
-      structTab.gearbox = atoi(tabChaineRecup[7]);
 
-      vehicule.typ_val = CAR;
-      vehicule.u.value_car = structTab;
+        structTab->plate_number = tabChaineRecup[0];
+        structTab->brand_name = tabChaineRecup[1];
+        structTab->brand_model = tabChaineRecup[2];
 
 
-    printf("%s\n",structTab.plate_number);
-    printf("%s\n",structTab.brand_name);
-    printf("%s\n",structTab.brand_model);
-    printf("%d\n",structTab.car_year);
-    printf("%d\n",structTab.km);
-    printf("%s\n",structTab.category);
-    printf("%.2f\n",structTab.price);
-    printf("%d\n",structTab.gearbox);
+
+        structTab->car_year = atoi(tabChaineRecup[3]);
+        structTab->km = atoi(tabChaineRecup[4]);
+        structTab->category = *tabChaineRecup[5];
+        structTab->price = atoi(tabChaineRecup[6]);
+        structTab->gearbox = (tabChaineRecup[7]);
+
+        vehicule->rent->typ_val = CAR;
+        vehicule->rent->u.value_car = structTab;
+
+        printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->brand_model);
+
+        printf("===========\n");
+        printf("%s\n", structTab->plate_number);
+        printf("%s\n", structTab->brand_name);
+        printf("%s\n", structTab->brand_model);
+        printf("%d\n", structTab->car_year);
+        printf("%d\n", structTab->km);
+        printf("%c\n", structTab->category);
+        printf("%.2f\n", structTab->price);
+        printf("%d\n", structTab->gearbox);
 
     }
 
     fclose(f);
   }
 
-  return 0;
+  return vehicule;
 }
 
 
