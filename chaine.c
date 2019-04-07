@@ -8,6 +8,7 @@
 *This library was created by Matthieu Prezut 
 *it can replace string.h and add some new features
 */
+
 char *trim (char *str) {
 	
 	char * result ;

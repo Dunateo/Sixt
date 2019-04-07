@@ -5,9 +5,11 @@
 #include "chaine.h"
 
 
-
-
-//function to give numbers of char per lines
+/**
+ * Function to count nb Carac per lines
+ * @param
+ * @return
+ */
 int nbCaracPerLines(char *fileNameExt)
 {
   int nbCarac = 0;
@@ -26,7 +28,12 @@ int nbCaracPerLines(char *fileNameExt)
   return nbCarac;
 }
 
-//Function to calculate the number of separator in line 
+
+/**
+ * Function to calculate the number of separator in line 
+ * @param
+ * @return
+ */
 int calculateNumberOfSeparator(char *fileNameExt)
 {
   int nbCarac = 0;
@@ -50,12 +57,17 @@ int calculateNumberOfSeparator(char *fileNameExt)
 }
 
 
-//Function to read a file and assign them to a maillon
-maillon* readingFile(char *fileName)
+
+/**
+ * Function to read a file and assign them to a maillon
+ * @param char fileName
+ * @return maillon*
+ */
+maillon *readingFile(char *fileName)
 {
 
   maillon *vehicule;
-  car* structTab;
+  car *structTab;
   char indiceColonnes[150];
   char *fileNameExt= " ";
   char *chaineRecup = "";
@@ -74,10 +86,9 @@ maillon* readingFile(char *fileName)
   if(f == NULL)
   {
     printf("Impossible to open the file \n" );
-  }
 
-  else
-  {
+  }else{
+    
     //first scan to have the number of lines 
     fscanf(f, "%d", &nbLines);
     //take the name of columns 
@@ -104,11 +115,11 @@ maillon* readingFile(char *fileName)
         structTab->plate_number = malloc(sizeof(char) * 10);
         structTab->brand_name = malloc(sizeof(char) * 10);
         structTab->brand_model = malloc(sizeof(char) * 10);
-
-
+        
         structTab->plate_number = tabChaineRecup[0];
         structTab->brand_name = tabChaineRecup[1];
         structTab->brand_model = tabChaineRecup[2];
+
         printf("Modele avec struct:%s\n", structTab->brand_model);
 
         structTab->car_year = atoi(tabChaineRecup[3]);
@@ -119,11 +130,12 @@ maillon* readingFile(char *fileName)
         //printf("\nGearbox : %s\n", tabChaineRecup[7]);
 
         //give the CAR value to a maillon
-        //vehicule->rent->typ_val = CAR;
+        vehicule->rent->typ_val = CAR;
         vehicule->rent->u.value_car = structTab;
 
-        //printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->brand_model);
+        printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->plate_number);
 
+        
         printf("===========\n");
         printf("%s\n", structTab->plate_number);
         printf("%s\n", structTab->brand_name);
@@ -133,6 +145,7 @@ maillon* readingFile(char *fileName)
         printf("%c\n", structTab->category);
         printf("%.2f\n", structTab->price);
         printf("%d\n", structTab->gearbox);
+        
 
     }
 
@@ -145,8 +158,21 @@ maillon* readingFile(char *fileName)
 
 int main(void)
 {
-  int compteur = 0;
-  maillon *ptrTest;
+  //int compteur = 0;
+
+  //maillon
+  maillon *ptrTest = NULL;
   ptrTest = readingFile("files/vehicules");
+  printf("\nMain:\n");
+  printf("%s\n", ptrTest->rent->u.value_car->plate_number);
+  printf("%s\n", ptrTest->rent->u.value_car->brand_name);
+  printf("%s\n", ptrTest->rent->u.value_car->brand_model);
+  printf("%d\n", ptrTest->rent->u.value_car->car_year);
+  printf("%d\n", ptrTest->rent->u.value_car->km);
+  printf("%c\n", ptrTest->rent->u.value_car->category);
+  printf("%.2f\n", ptrTest->rent->u.value_car->price);
+  printf("%d\n", ptrTest->rent->u.value_car->gearbox);
+
+  return 0;
 
 }

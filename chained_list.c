@@ -8,7 +8,9 @@
 #include <stdio.h>
 #include <string.h>
 
-
+/**
+ * @param maillon*
+ */
 void afficheListe(maillon *ptrTete){
     maillon *ptr = ptrTete;
     switch(ptr->rent->typ_val){
