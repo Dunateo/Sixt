@@ -7,7 +7,7 @@
 
 
 
-
+//function to give numbers of char per lines
 int nbCaracPerLines(char *fileNameExt)
 {
   int nbCarac = 0;
@@ -26,6 +26,7 @@ int nbCaracPerLines(char *fileNameExt)
   return nbCarac;
 }
 
+//Function to calculate the number of separator in line 
 int calculateNumberOfSeparator(char *fileNameExt)
 {
   int nbCarac = 0;
@@ -49,8 +50,10 @@ int calculateNumberOfSeparator(char *fileNameExt)
 }
 
 
+//Function to read a file and assign them to a maillon
 maillon* readingFile(char *fileName)
 {
+
   maillon *vehicule;
   car* structTab;
   char indiceColonnes[150];
@@ -61,25 +64,37 @@ maillon* readingFile(char *fileName)
   int nbLines = 0;
   int nbCarac = 0;
   int nbSeparator = 0;
+
+  //file declaration
   fileNameExt = (char*)malloc(sizeof(char)*fileNameLenght);
   strcat(fileNameExt, fileName);
   strcat(fileNameExt, ".csv");
   FILE *f = fopen(fileNameExt, "rt");
+
   if(f == NULL)
   {
     printf("Impossible to open the file \n" );
   }
+
   else
   {
+    //first scan to have the number of lines 
     fscanf(f, "%d", &nbLines);
+    //take the name of columns 
     fscanf(f,"%s",indiceColonnes);
+    //reset the char indiceColonnes because we will use it after
     strcat(indiceColonnes,"");
+
+    //will assign a lign of nb lines
     for(int i=0; i<=nbLines-1; i++)
-    {
+    {   
+        //dynamique allocation
         fscanf(f,"%s",indiceColonnes);
         nbCarac = strlen(indiceColonnes);
         chaineRecup = malloc(sizeof(char)*nbCarac);
         strcpy(chaineRecup,indiceColonnes);
+
+        //divide the line in tabs
         fonct(chaineRecup, &tabChaineRecup, &nbSeparator,';');
 
         printf("\nModele : %s\n", tabChaineRecup[2]);
@@ -130,6 +145,6 @@ int main(void)
 {
   int compteur = 0;
   maillon *ptrTest;
-  ptrTest = readingFile("vehicules");
+  ptrTest = readingFile("files/vehicules");
 
 }
