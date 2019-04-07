@@ -99,28 +99,30 @@ maillon* readingFile(char *fileName)
 
         printf("\nModele : %s\n", tabChaineRecup[2]);
 
+
+        //allocation of our char
         structTab->plate_number = malloc(sizeof(char) * 10);
         structTab->brand_name = malloc(sizeof(char) * 10);
         structTab->brand_model = malloc(sizeof(char) * 10);
 
 
-
         structTab->plate_number = tabChaineRecup[0];
         structTab->brand_name = tabChaineRecup[1];
         structTab->brand_model = tabChaineRecup[2];
-
-
+        printf("Modele avec struct:%s\n", structTab->brand_model);
 
         structTab->car_year = atoi(tabChaineRecup[3]);
         structTab->km = atoi(tabChaineRecup[4]);
         structTab->category = *tabChaineRecup[5];
         structTab->price = atoi(tabChaineRecup[6]);
         structTab->gearbox = (tabChaineRecup[7]);
+        //printf("\nGearbox : %s\n", tabChaineRecup[7]);
 
-        vehicule->rent->typ_val = CAR;
+        //give the CAR value to a maillon
+        //vehicule->rent->typ_val = CAR;
         vehicule->rent->u.value_car = structTab;
 
-        printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->brand_model);
+        //printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->brand_model);
 
         printf("===========\n");
         printf("%s\n", structTab->plate_number);
