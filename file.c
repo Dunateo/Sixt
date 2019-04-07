@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "chained_list.h"
+#include "file.h"
 #include "chaine.h"
 
 
@@ -60,10 +61,11 @@ int calculateNumberOfSeparator(char *fileNameExt)
 
 /**
  * Function to read a file and assign them to a maillon
- * @param char fileName
+ * @param char fileName, int typeNum 
+ * typeNum is the type of enumeration 
  * @return maillon*
  */
-maillon *readingFile(char *fileName)
+maillon *readingFile(char *fileName,int typeNum)
 {
 
   maillon *vehicule;
@@ -88,7 +90,7 @@ maillon *readingFile(char *fileName)
     printf("Impossible to open the file \n" );
 
   }else{
-    
+
     //first scan to have the number of lines 
     fscanf(f, "%d", &nbLines);
     //take the name of columns 
@@ -130,7 +132,30 @@ maillon *readingFile(char *fileName)
         //printf("\nGearbox : %s\n", tabChaineRecup[7]);
 
         //give the CAR value to a maillon
-        vehicule->rent->typ_val = CAR;
+          
+        switch(typeNum){
+          case 0:
+      
+            vehicule->rent->typ_val = CAR;
+            break;
+        case 1:
+           
+            vehicule->rent->typ_val = HISTORY;
+            break;
+        case 2:
+           
+            vehicule->rent->typ_val = RESERVATION;
+            break;
+        case 3:
+            
+            vehicule->rent->typ_val = CLIENT;
+            break;
+        default:
+            printf("ERROR ! ENUM TYPE NOT DEFINE\n");
+            break;
+
+        }
+        
         vehicule->rent->u.value_car = structTab;
 
         printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->plate_number);
@@ -162,7 +187,7 @@ int main(void)
 
   //maillon
   maillon *ptrTest = NULL;
-  ptrTest = readingFile("files/vehicules");
+  ptrTest = readingFile("files/vehicules",0);
   printf("\nMain:\n");
   printf("%s\n", ptrTest->rent->u.value_car->plate_number);
   printf("%s\n", ptrTest->rent->u.value_car->brand_name);
