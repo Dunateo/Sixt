@@ -1,4 +1,4 @@
-//
+
 // Created by yncrea-hugo on 26/03/19.
 //
 
@@ -11,7 +11,9 @@
 /**
  * @param maillon*
  */
-void afficheListe(maillon *ptrTete){
+
+
+void afficheListe(maillon **ptrTete){
     maillon *ptr = ptrTete;
     switch(ptr->rent->typ_val){
         case 0:
@@ -36,7 +38,7 @@ void afficheListe(maillon *ptrTete){
                 printf("%s|%s|%s|%d|%d|%f|%c\n", ptr->rent->u.value_car->brand_name,ptr->rent->u.value_car->brand_model,ptr->rent->u.value_car->plate_number,ptr->rent->u.value_car->car_year,ptr->rent->u.value_car->km,ptr->rent->u.value_car->price,ptr->rent->u.value_car->category);
                 break;
             case 1:
-                printf("%d\n", ptr->rent->u.value_hist->status);
+                printf("%p\n", ptr->rent->u.value_hist->reserv);
                 break;
             case 2:
                 printf("%d|%c|%d-%d-%d %dh|%d-%d-%d %dh\n", ptr->rent->u.value_reserv->number, ptr->rent->u.value_reserv->category, ptr->rent->u.value_reserv->begining.day, ptr->rent->u.value_reserv->begining.month, ptr->rent->u.value_reserv->begining.year, ptr->rent->u.value_reserv->begining.hour, ptr->rent->u.value_reserv->end.day, ptr->rent->u.value_reserv->end.month, ptr->rent->u.value_reserv->end.year, ptr->rent->u.value_reserv->end.hour);
@@ -47,7 +49,9 @@ void afficheListe(maillon *ptrTete){
             default:
                 printf("ENUM TYPE NOT DEFINE");
         }
+        ptr = ptr->suivant;
     }
+
 }
 
 // chainage
@@ -57,46 +61,37 @@ maillon* creationMaillon(data *rent){
     if(ptr == NULL){
         return 1;
     }
-    switch (rent->typ_val){
-        case 0:
-            break;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-    }
+    ptr->rent = rent;
     return ptr;
 }
 
 // valeur
-maillon* rechercheMaillonPrecedent(maillon *ptrTete, data *data1){
+maillon* rechercheMaillonPrecedent(maillon **ptrTete, data *data1){
     maillon *ptr = ptrTete;
     maillon *precedent = NULL;
     switch (ptr->rent->typ_val){
         case 0:
             while(ptr != NULL && strcmp(ptr->rent->u.value_car->plate_number, data1->u.value_car->plate_number) != 0){
                 precedent = ptr;
-                ptr->suivant;
+                ptr = ptr->suivant;
             }
             break;
         case 1:
-            while(ptr != NULL && ptr->rent->u.value_hist->reserv->number == data1->u.value_hist->reserv->number){
+            while(ptr != NULL && ptr->rent->u.value_hist->reserv->number != data1->u.value_hist->reserv->number){
                 precedent = ptr;
-                ptr->suivant;
+                ptr = ptr->suivant;
             }
             break;
         case 2:
-            while(ptr != NULL && ptr->rent->u.value_reserv->number == data1->u.value_reserv->number){
+            while(ptr != NULL && ptr->rent->u.value_reserv->number != data1->u.value_reserv->number){
                 precedent = ptr;
-                ptr->suivant;
+                ptr = ptr->suivant;
             }
             break;
         case 3:
-            while(ptr != NULL && ptr->rent->u.value_client->phone_number == data1->u.value_client->phone_number){
+            while(ptr != NULL && ptr->rent->u.value_client->phone_number != data1->u.value_client->phone_number){
                 precedent = ptr;
-                ptr->suivant;
+                ptr = ptr->suivant;
             }
             break;
     }
@@ -109,7 +104,7 @@ maillon* rechercheMaillonPrecedent(maillon *ptrTete, data *data1){
  * */
 void insertionMaillon(maillon **ptrTete, maillon *insert){
     maillon *precedent;
-    precedent = rechercheMaillonPrecedent(*ptrTete, insert->rent);
+    precedent = rechercheMaillonPrecedent(ptrTete, insert->rent);
     if(precedent == NULL){ // liste vide -> insertion en tête
         insert->suivant = *ptrTete;
         *ptrTete = insert;
@@ -122,7 +117,10 @@ void insertionMaillon(maillon **ptrTete, maillon *insert){
 
 // chainage + valeur
 void insertionValeur(data *rent, maillon **ptrTete){
-    insertionMaillon(ptrTete, creationMaillon(rent));
+    if(rent != NULL){
+        insertionMaillon(ptrTete, creationMaillon(rent));
+    }
+
 }
 
 // valeur
@@ -135,17 +133,17 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
             }
             break;
         case 1:
-            while(ptr != NULL && ptr->rent->u.value_hist->reserv->number == data1->u.value_hist->reserv->number){
+            while(ptr != NULL && ptr->rent->u.value_hist->reserv->number != data1->u.value_hist->reserv->number){
                 ptr = ptr->suivant;
             }
             break;
         case 2:
-            while(ptr != NULL && ptr->rent->u.value_reserv->number == data1->u.value_reserv->number){
+            while(ptr != NULL && ptr->rent->u.value_reserv->number != data1->u.value_reserv->number){
                 ptr = ptr->suivant;
             }
             break;
         case 3:
-            while(ptr != NULL && ptr->rent->u.value_client->phone_number == data1->u.value_client->phone_number){
+            while(ptr != NULL && ptr->rent->u.value_client->phone_number != data1->u.value_client->phone_number){
                 ptr = ptr->suivant;
             }
             break;
@@ -211,4 +209,74 @@ void inversionListe(maillon **ptrTete){
     }
     *ptrTete = ptrTeteInverse;
 
+}
+
+bool dateCompare(date inf, date sup){
+    if(inf.year <= sup.year){
+        if(inf.month <= sup.month){
+            if(inf.day <= sup.day){
+                if(inf.hour <= sup.hour){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
+    }   else {
+        return false;
+    }
+}
+
+maintenance* rechercheMaintenacePrecedent(maintenance **ptrTete, maintenance *data1){
+    maintenance *ptr = ptrTete;
+    maintenance *precedent = NULL;
+    while(ptr != NULL && dateCompare(ptr->date_maintenance, data1->date_maintenance)!= true){
+        precedent = ptr;
+        ptr = ptr->suivant;
+    }
+
+    return precedent;
+}
+
+void insertionMaintenace(maintenance **ptrTete, maintenance *insert){
+    maintenance *precedent;
+    precedent = rechercheMaintenacePrecedent(ptrTete, insert);
+    if(precedent == NULL){ // liste vide -> insertion en tête
+        insert->suivant = *ptrTete;
+        *ptrTete = insert;
+    }
+    else {
+        insert->suivant = precedent->suivant;
+        precedent->suivant = insert;
+    }
+}
+
+maintenance* rechercheHistoryPrecedent(maintenance **ptrTete, maintenance *data1){
+    maintenance *ptr = ptrTete;
+    maintenance *precedent = NULL;
+    while(ptr != NULL && dateCompare(ptr->date_maintenance, data1->date_maintenance)!= true){
+        precedent = ptr;
+        ptr = ptr->suivant;
+    }
+
+    return precedent;
+}
+
+void insertionHystory(maintenance **ptrTete, maintenance *insert){
+    maintenance *precedent;
+    precedent = rechercheMaintenacePrecedent(ptrTete, insert);
+    if(precedent == NULL){ // liste vide -> insertion en tête
+        insert->suivant = *ptrTete;
+        *ptrTete = insert;
+    }
+    else {
+        insert->suivant = precedent->suivant;
+        precedent->suivant = insert;
+    }
 }

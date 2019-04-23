@@ -20,24 +20,12 @@ typedef struct client{
     int phone_number;
 }client;
 
+enum typeMaintenance {CT,REPAIR,REVISION};
 typedef struct maintenance{
-    date technical_control;
-    date revision;
-    date last_reparation;
+    enum typeMaintenance type;
+    date date_maintenance;
+    struct maintenance *suivant;
 }maintenance;
-
-typedef struct car{
-    char *plate_number;
-    char *brand_name;
-    char *brand_model;
-    int car_year;
-    int km;
-    char category;
-    float price;
-    bool gearbox;
-    maintenance *car_maint;
-
-}car;
 
 typedef struct reservation{
     int number; //numero reservation
@@ -51,11 +39,28 @@ typedef struct reservation{
 
 typedef struct history{
     reservation* reserv;
-    int status;
+    //int status;
+    struct history* suivant;
 }history;
 
+typedef struct car{
+    char *plate_number;
+    char *brand_name;
+    char *brand_model;
+    int car_year;
+    int km;
+    char category;
+    float price;
+    bool gearbox;
+    maintenance *car_maint;
+    history *history_rent;
+
+}car;
+
+
+
 //functions pointers
-enum type {CAR,RESERVATION,CLIENT,HISTORY};
+enum type {CAR,HISTORY,RESERVATION,CLIENT};
 typedef struct data{
     enum type typ_val; //indique ce qu'il y a dans u
     union{
@@ -71,5 +76,17 @@ typedef struct maillon{
     data *rent;
     struct maillon *suivant;
 }maillon;
+
+void afficheListe(maillon **ptrTete);
+maillon* creationMaillon(data *rent);
+maillon* rechercheMaillonPrecedent(maillon **ptrTete, data *data1);
+void insertionMaillon(maillon **ptrTete, maillon *insert);
+void insertionValeur(data *rent, maillon **ptrTete);
+void suppressionMaillon(maillon **ptrTete, maillon *del);
+maillon* rechercheMaillon(maillon *ptrTete, data* data1);
+maillon* suppressionValeur(maillon *ptrTete, data* rent);
+void suppressionListe(maillon **ptrTete);
+void inversionListe(maillon **ptrTete);
+void insertionMaintenace(maintenance **ptrTete, maintenance *insert);
 
 #endif //PROJET_CHAINED_LIST_H

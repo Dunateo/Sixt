@@ -1,3 +1,3 @@
 int nbCaracPerLines(char *fileNameExt);
 int calculateNumberOfSeparator(char *fileNameExt);
-maillon *readingFile(char *fileName,int typeNum);
+data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon* clients, char* plateNumber);
