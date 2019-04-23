@@ -21,7 +21,40 @@ int isCarFree(maillon **ptrtete){
 		printf("It's not a car!\n");
 		return 2;
 
+	}
+}
+
+float rentalPrice(data *val, reservation Car_reserv){
+	float price;
+	struct tm begin,end;
+	begin.tm_mday = Car_reserv.begining.day;
+	begin.tm_mon = 
+	begin.tm_hour = 
+	begin.tm_year =
+		
+
+	if(*(ptrtete->rent->type_val) == 0){
+
+
+		switch(val->value_car->category){
+			case 'A':
+
+			break;
+			case 'B':
+			break;
+			case 'C':
+			break;
+
+		}
+
+	}
+	else{
+		printf("It's not a car!\n");
+		return 0;
+
 	}	
+
+	return price;
 }
 
 /**

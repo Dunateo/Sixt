@@ -180,7 +180,7 @@ maillon *readingFile(char *fileName,int typeNum)
   return vehicule;
 }
 
-
+/**
 int main(void)
 {
   //int compteur = 0;
@@ -201,3 +201,4 @@ int main(void)
   return 0;
 
 }
+*/
