@@ -4,24 +4,52 @@
 #include "calculus.h"
 #include "chained_list.h"
 
+
 /**
- * [isCarFree Check if the Car is free to rent]
- * @param  ptrtete [maillon **]
- * @return int     [0 CAR FREE, 1 CAR NOT FREE, 2 NOT A CAR]
+ * [actualDate give the local date in a structure date]
+ * @return [date]
  */
-int isCarFree(maillon **ptrtete){
+date actualDate(){
+	//define a t at cpu time
+	time_t t; 
+	date actual;
+	time(&t);
+	actual.day = t.tm_mday;
+	actual.month = t.tm_mon+1;
+	actual.year = t.tm_year+1900;
+	actual.hour = t.tm_hour+1;
+	return actual;
 
-	if(*(ptrtete->rent->type_val) == 0){
+
+}
+
+/**
+ * [isCarFree check if a car is free]
+ * @param  ptrtete [history]
+ * @return         [0 car free , 1 car is reserv]
+ */
+int isCarFree(history **ptrtete){
+
+	history *ptrtrans = ptrtete;
+	bool cmpB, cmpE;
+	date actual = actualDate();
 
 
+		while(ptrtrans != NULL){
+			cmpB = dateCompare(ptrtrans->reserv->begining, actual);
+			cmpE = dateCompare(actual, ptrtrans->reserv->end);
 
+			if (cmpE == true || cmpB == true){
+				return 1;
+			}else{
+				ptrtrans = ptrtrans->suivant;
+			}
 
-	}
-	else{
-		printf("It's not a car!\n");
-		return 2;
+			
+		}
+	
+	return 0;
 
-	}
 }
 
 /**
