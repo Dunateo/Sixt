@@ -11,13 +11,15 @@
  */
 date actualDate(){
 	//define a t at cpu time
-	time_t t; 
+	time_t secondes;
+	struct tm instant;
 	date actual;
-	time(&t);
-	actual.day = t.tm_mday;
-	actual.month = t.tm_mon+1;
-	actual.year = t.tm_year+1900;
-	actual.hour = t.tm_hour+1;
+	time(&secondes);
+	instant=*localtime(&secondes);
+	actual.day = instant.tm_mday+1;
+	actual.month = instant.tm_mon+1;
+	actual.year = instant.tm_year+1900;
+	actual.hour = instant.tm_hour+1;
 	return actual;
 
 
@@ -115,16 +117,16 @@ int calculusDate(date begining, date end){
  * @param  Car_reserv [reservation]
  * @return            [float]
  */
-float rentalPrice(data *val, reservation Car_reserv){
+float rentalPrice(data *val, reservation* Car_reserv){
 	float price;
 	int nbday;
 	float pA = 64.98, pB = 108.98,pC = 178.98;
-	nbday = calculusDate(Car_reserv.begining, Car_reserv.end);
+	nbday = calculusDate(Car_reserv->begining, Car_reserv->end);
 
-	if(*(ptrtete->rent->type_val) == 0){
+	if((val->typ_val) == 0){
 
 
-		switch(val->value_car->category){
+		switch(val->u.value_car->category){
 			case 'A':
 				
 				price =  checkRentPrice(pA,nbday);
@@ -156,33 +158,31 @@ float rentalPrice(data *val, reservation Car_reserv){
 float sellingCar(data *val){
 	float prix = 0;
 	int annee;
-	//time
-	time_t t; 
-	time(&t);
+	date actual = actualDate();
 
-	if (val->type_val == 0)
+	if (val->typ_val == CAR)
 	{	
 
-		annee = t.tm_year - val->value_car->car_year;
+		annee = actual.year - val->u.value_car->car_year;
 
-		switch(val->value_car->category){
+		switch(val->u.value_car->category){
 
 			case 'A':
 
 					if (annee == 1){
-						prix = val->value_car->price - (val->value_car->price*30)/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*30)/100;
 
 					}else if (annee == 2 && annee == 3){
 
-						prix = val->value_car->price - (val->value_car->price*15)/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*15)/100;
 
 					}else if (annee >= 3 && annee < 11){
 
-						prix = val->value_car->price - (val->value_car->price*(12-annee))/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*(12-annee))/100;
 					}
 					else if (annee >= 11){
 
-						prix = val->value_car->price - (val->value_car->price*(2))/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*(2))/100;
 
 					}
 				
@@ -190,38 +190,38 @@ float sellingCar(data *val){
 
 			case 'B':
 				if (annee == 1){
-						prix = val->value_car->price - (val->value_car->price*25)/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*25)/100;
 
 					}else if (annee == 2 && annee == 3){
 
-						prix = val->value_car->price - (val->value_car->price*15)/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*15)/100;
 
 					}else if (annee >= 3 && annee < 11){
 
-						prix = val->value_car->price - (val->value_car->price*(12-annee))/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*(12-annee))/100;
 					}
 					else if (annee >= 11){
 
-						prix = val->value_car->price - (val->value_car->price*(2))/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*(2))/100;
 
 					}
 			break;
 
 			case 'C':
 				if (annee == 1){
-						prix = val->value_car->price - (val->value_car->price*20)/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*20)/100;
 
 					}else if (annee == 2 && annee == 3){
 
-						prix = val->value_car->price - (val->value_car->price*15)/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*15)/100;
 
 					}else if (annee >= 3 && annee < 11){
 
-						prix = val->value_car->price - (val->value_car->price*(12-annee))/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*(12-annee))/100;
 					}
 					else if (annee >= 11){
 
-						prix = val->value_car->price - (val->value_car->price*(2))/100;
+						prix = val->u.value_car->price - (val->u.value_car->price*(2))/100;
 
 					}
 			break;

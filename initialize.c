@@ -162,14 +162,3 @@ maillon* initializeHistory(char* fileName, maillon* reservation, char *plateNumb
     }
     return ptrTete;
 }
-
-int main(void){
-    maillon *car, *customers, *reservation;
-    customers = initializeClients("files/clients.csv");
-    reservation = initializeReservation("files/booking.csv", customers);
-    car = initializeCar("files/vehicules.csv", reservation);
-    /*
-    afficheListe(&car);
-    afficheListe(&customers);
-    afficheListe(&reservation);*/
-}

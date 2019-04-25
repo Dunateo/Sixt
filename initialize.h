@@ -12,6 +12,9 @@
 #include "file.h"
 #include "chaine.h"
 
+maillon* initializeCar(char* fileName, maillon *reservation);
+maillon* initializeClients(char* fileName);
+maillon* initializeReservation(char* fileName, maillon* client);
 maillon* initializeHistory(char* fileName, maillon* reservation, char *plateNumber);
 
 #endif //PROJECT_INITIALIZE_H
