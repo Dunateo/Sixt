@@ -256,27 +256,3 @@ void insertionMaintenace(maintenance **ptrTete, maintenance *insert){
         precedent->suivant = insert;
     }
 }
-
-maintenance* rechercheHistoryPrecedent(maintenance **ptrTete, maintenance *data1){
-    maintenance *ptr = ptrTete;
-    maintenance *precedent = NULL;
-    while(ptr != NULL && dateCompare(ptr->date_maintenance, data1->date_maintenance)!= true){
-        precedent = ptr;
-        ptr = ptr->suivant;
-    }
-
-    return precedent;
-}
-
-void insertionHystory(maintenance **ptrTete, maintenance *insert){
-    maintenance *precedent;
-    precedent = rechercheMaintenacePrecedent(ptrTete, insert);
-    if(precedent == NULL){ // liste vide -> insertion en tête
-        insert->suivant = *ptrTete;
-        *ptrTete = insert;
-    }
-    else {
-        insert->suivant = precedent->suivant;
-        precedent->suivant = insert;
-    }
-}

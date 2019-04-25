@@ -33,13 +33,10 @@ typedef struct reservation{
     date end;
     char category;
     client* client_info;
-    struct reservation *suivant;
-
 }reservation;
 
 typedef struct history{
     reservation* reserv;
-    //int status;
     struct history* suivant;
 }history;
 
