@@ -211,6 +211,54 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon* maill
                 printf("ERROR ! ENUM TYPE NOT DEFINE\n");
                 break;
         }
+<<<<<<< HEAD
+        
+        vehicule->rent->u.value_car = structTab;
+
+        printf("structTab -> Modele : %s\n\n", vehicule->rent->u.value_car->plate_number);
+
+        
+        printf("===========\n");
+        printf("%s\n", structTab->plate_number);
+        printf("%s\n", structTab->brand_name);
+        printf("%s\n", structTab->brand_model);
+        printf("%d\n", structTab->car_year);
+        printf("%d\n", structTab->km);
+        printf("%c\n", structTab->category);
+        printf("%.2f\n", structTab->price);
+        printf("%d\n", structTab->gearbox);
+        
+
+    }
+
+    fclose(f);
+  }
+
+  return vehicule;
+}
+
+/**
+int main(void)
+{
+  //int compteur = 0;
+
+  //maillon
+  maillon *ptrTest = NULL;
+  ptrTest = readingFile("files/vehicules",0);
+  printf("\nMain:\n");
+  printf("%s\n", ptrTest->rent->u.value_car->plate_number);
+  printf("%s\n", ptrTest->rent->u.value_car->brand_name);
+  printf("%s\n", ptrTest->rent->u.value_car->brand_model);
+  printf("%d\n", ptrTest->rent->u.value_car->car_year);
+  printf("%d\n", ptrTest->rent->u.value_car->km);
+  printf("%c\n", ptrTest->rent->u.value_car->category);
+  printf("%.2f\n", ptrTest->rent->u.value_car->price);
+  printf("%d\n", ptrTest->rent->u.value_car->gearbox);
+
+  return 0;
+=======
+>>>>>>> origin/master
 
   return data1;
 }
+*/

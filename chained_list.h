@@ -82,6 +82,7 @@ void insertionValeur(data *rent, maillon **ptrTete);
 void suppressionMaillon(maillon **ptrTete, maillon *del);
 maillon* rechercheMaillon(maillon *ptrTete, data* data1);
 maillon* suppressionValeur(maillon *ptrTete, data* rent);
+bool dateCompare(date inf, date sup);
 void suppressionListe(maillon **ptrTete);
 void inversionListe(maillon **ptrTete);
 void insertionMaintenace(maintenance **ptrTete, maintenance *insert);
