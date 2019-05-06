@@ -14,7 +14,6 @@ int main(int argc, char const *argv[])
 
     float price;
     price = rentalPrice(car->rent, car->rent->u.value_car->history_rent->reserv);
-    printf("%f",price);
-
+    printf("%f\n",price);
 	return 0;
 }

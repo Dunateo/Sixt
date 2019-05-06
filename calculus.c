@@ -95,21 +95,25 @@ float checkRentPrice(float constClass, int nbday){
  * @return          [int]
  */
 int calculusDate(date begining, date end){
-	int nbday;
+	int nbday;	
 	struct tm d1 = {0};
    	struct tm d2 = {0};
    	d1.tm_mday = begining.day;
    	d1.tm_mon  = begining.month - 1;
    	d1.tm_year = begining.year - 1900;
+   	d1.tm_hour = begining.hour-1;
 
    	d2.tm_mday = end.day;
    	d2.tm_mon  = end.month - 1;
    	d2.tm_year = end.year - 1900;
+  	d2.tm_hour = end.hour-1;
+
 
    	nbday = difftime(mktime(&d2), mktime(&d1)) / 86400;
 
 	return nbday;
 }
+
 
 /**
  * [rentalPrice return the price to rent a car depend on the day number]
@@ -120,13 +124,18 @@ int calculusDate(date begining, date end){
 float rentalPrice(data *val, reservation* Car_reserv){
 	float price;
 	int nbday;
-	float pA = 64.98, pB = 108.98,pC = 178.98;
+	float pA  = 64.98, pB = 108.98,pC = 178.98;
 	nbday = calculusDate(Car_reserv->begining, Car_reserv->end);
 
 	if((val->typ_val) == 0){
 
+		//management for upgrading classe
+		//check if the car given is superior of the car reserved in this case we give the price of what he asked for
+		
+		if (val->u.value_car->category > Car_reserv->category){
 
-		switch(val->u.value_car->category){
+			switch(Car_reserv->category){
+
 			case 'A':
 				
 				price =  checkRentPrice(pA,nbday);
@@ -137,6 +146,25 @@ float rentalPrice(data *val, reservation* Car_reserv){
 			case 'C':
 				price =  checkRentPrice(pC,nbday);
 			break;
+		}
+
+			
+
+		}else{
+			switch(val->u.value_car->category){
+			case 'A':
+				
+				price =  checkRentPrice(pA,nbday);
+			break;
+			case 'B':
+				price =  checkRentPrice(pB,nbday);
+			break;
+			case 'C':
+				price =  checkRentPrice(pC,nbday);
+			break;
+		}
+
+		
 
 		}
 
@@ -144,7 +172,6 @@ float rentalPrice(data *val, reservation* Car_reserv){
 	else{
 		printf("It's not a car!\n");
 		return 0;
-
 	}	
 
 	return price;
