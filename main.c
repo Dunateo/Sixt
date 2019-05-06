@@ -14,6 +14,10 @@ int main(int argc, char const *argv[])
 
     float price;
     price = rentalPrice(car->rent, car->rent->u.value_car->history_rent->reserv);
-    printf("%f\n",price);
+    printf("Rental Price: %f $\n",price);
+
+    int days;
+    days = delayTime(car->rent->u.value_car->history_rent->reserv);
+    printf("Delayed Days: %d\n", days );
 	return 0;
 }

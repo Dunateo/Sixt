@@ -84,6 +84,8 @@ float checkRentPrice(float constClass, int nbday){
 					
 				}
 
+			printf("Prix par jour: %f\n",price/nbday );
+
 	return price;
 
 }
@@ -114,6 +116,25 @@ int calculusDate(date begining, date end){
 	return nbday;
 }
 
+/**
+ * [delayTime Check if the rental time has been delayed,]
+ * @param  Car_reserv [reservation]
+ * @return            [the days of delayed , return 0 if it hasn't been delayed]
+ */
+int delayTime(reservation *Car_reserv){
+
+	date today = actualDate();
+	int delayedDays =  calculusDate(Car_reserv->end, today);
+
+	if(delayedDays > 0){
+
+		return delayedDays;
+
+	}else{
+
+		return 0;
+	}
+}
 
 /**
  * [rentalPrice return the price to rent a car depend on the day number]
@@ -128,6 +149,8 @@ float rentalPrice(data *val, reservation* Car_reserv){
 	nbday = calculusDate(Car_reserv->begining, Car_reserv->end);
 
 	if((val->typ_val) == 0){
+
+		
 
 		//management for upgrading classe
 		//check if the car given is superior of the car reserved in this case we give the price of what he asked for
@@ -149,8 +172,10 @@ float rentalPrice(data *val, reservation* Car_reserv){
 		}
 
 			
-
+			
 		}else{
+
+			
 			switch(val->u.value_car->category){
 			case 'A':
 				
@@ -162,6 +187,8 @@ float rentalPrice(data *val, reservation* Car_reserv){
 			case 'C':
 				price =  checkRentPrice(pC,nbday);
 			break;
+
+			
 		}
 
 		
