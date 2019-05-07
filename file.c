@@ -214,3 +214,69 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon* maill
 
   return data1;
 }
+/*
+char* prepareCSV(maillon* save){
+    char* csv;
+    char* tmp = malloc(sizeof(char)*50);
+    switch (save->rent->typ_val){
+        case 0:
+            csv = save->rent->u.value_car->plate_number;
+            strcat(csv,";");
+            strcat(csv,save->rent->u.value_car->brand_name);
+            strcat(csv,";");
+            strcat(csv,save->rent->u.value_car->brand_model);
+            strcat(csv,";");
+            sprintf(tmp,"%d",save->rent->u.value_car->car_year);
+            strcat(csv,tmp);
+            strcat(csv,";");
+            sprintf(tmp,"%d",save->rent->u.value_car->km);
+            strcat(csv,tmp);
+            strcat(csv,";");
+            sprintf(tmp,"%c",save->rent->u.value_car->category);
+            strcat(csv,tmp);
+            strcat(csv,";");
+            sprintf(tmp,"%f",save->rent->u.value_car->price);
+            strcat(csv,tmp);
+            strcat(csv,";");
+            sprintf(tmp,"%d",save->rent->u.value_car->gearbox);
+            strcat(csv,tmp);
+            break;
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            break;
+    }
+    return csv;
+}
+
+void saveData(maillon *save){
+    FILE *f;
+    char *tmp = malloc(sizeof(char)*50);
+    switch (save->rent->typ_val){
+        case 0:
+            f = fopen("files/vehicules.csv", "w+");
+            break;
+        case 1:
+            break;
+        case 2:
+            f = fopen("files/booking.csv", "w+");
+            break;
+        case 3:
+            f = fopen("files/clients.csv", "w+");
+            break;
+        default:
+            break;
+    }
+    fscanf(f,"%s",tmp);
+    fscanf(f,"%s",tmp);
+    fprintf(f,"%s",prepareCSV(save));
+    if(save->rent->typ_val == 0){
+        f = fopen("files/vehicules.csv", "w+");
+        prepareCSV()
+    }
+    fclose(f);
+}*/

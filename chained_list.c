@@ -212,26 +212,31 @@ void inversionListe(maillon **ptrTete){
 }
 
 bool dateCompare(date inf, date sup){
-    if(inf.year <= sup.year){
-        if(inf.month <= sup.month){
-            if(inf.day <= sup.day){
-                if(inf.hour <= sup.hour){
+    if(inf.year < sup.year){
+        return true;
+    }
+    else if(inf.year == sup.year){
+        if(inf.month < sup.month) {
+            return true;
+        }
+        else if(inf.month == sup.month) {
+            if(inf.day < sup.day) {
+                return true;
+            }
+            else if (inf.day == sup.day){
+                if(inf.hour < sup.hour){
                     return true;
                 } else {
                     return false;
                 }
             }
             else {
-                return false;
+                    return false;
             }
-        }
-        else {
-            return false;
-        }
     }   else {
         return false;
     }
-}
+}}
 
 maintenance* rechercheMaintenacePrecedent(maintenance **ptrTete, maintenance *data1){
     maintenance *ptr = ptrTete;

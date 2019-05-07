@@ -22,7 +22,7 @@ int main(int argc, char const *argv[])
 
     int upgraded;
     printf("fd %d\n", car->rent->typ_val );
-    resultcar = searchCar(&car, car->rent->u.value_car->history_rent->reserv, &upgraded);
+    resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
     

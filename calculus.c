@@ -30,18 +30,18 @@ date actualDate(){
  * @param  ptrtete [history]
  * @return         [0 car free , 1 car is reserv]
  */
-int isCarFree(history **ptrtete){
+int isCarFree(history *ptrtete){
 
 	history *ptrtrans = ptrtete;
 	bool cmpB, cmpE;
 	date actual = actualDate();
 
 
-		while(ptrtrans != NULL){
+		while(ptrtrans != NULL && ptrtrans->reserv->number != NULL){
 			cmpB = dateCompare(ptrtrans->reserv->begining, actual);
-			cmpE = dateCompare(actual, ptrtrans->reserv->end);
+			cmpE = dateCompare(ptrtrans->reserv->end, actual);
 
-			if (cmpE == true || cmpB == true){
+			if (cmpE == false && cmpB == true){
 				return 1;
 			}else{
 				ptrtrans = ptrtrans->suivant;
@@ -296,23 +296,24 @@ float sellingCar(data *val){
  * @param upgraded    [int *, 0 not upgraded, 1 carUpgraded by +1, 2 carUpgraded by +2, 3 none cars are available]
  * @return            [maillon *]
  */
-maillon *searchCar(maillon **ptrtete, reservation* Car_reserv, int *upgraded){
+maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
 	maillon *ptrtrans = ptrtete;
 	maillon *carFinded, *carUpgrade, *carUpgrade2;
+	carFinded = carUpgrade = carUpgrade2 = NULL;
 	int i = 0;
 
-	if (ptrtrans->rent->typ_val == 0){	
+	if (ptrtrans->rent->typ_val == CAR){
 		
 		//travel int the car chained list
 		while(ptrtrans !=  NULL){
 
 			//check if the car is free and if it's a car request
-			if (isCarFree(&ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category == ptrtrans->rent->u.value_car->category){
+			if (isCarFree(ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category == ptrtrans->rent->u.value_car->category){
 
 				//check if the mileage is inferior at the carFinded before 
-				if (ptrtrans->rent->u.value_car->km < carFinded->rent->u.value_car->km && i > 0){
+				if (i > 0 && carFinded != NULL && ptrtrans->rent->u.value_car->km < carFinded->rent->u.value_car->km){
 					carFinded = ptrtrans;
-				}else{
+				}else if(carFinded == NULL){
 					carFinded = ptrtrans;
 				}
 				
@@ -321,22 +322,22 @@ maillon *searchCar(maillon **ptrtete, reservation* Car_reserv, int *upgraded){
 			}else{
 
 				//upgrading car +1 in case of carFinded is NULL
-				if(isCarFree(&ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category+1 == ptrtrans->rent->u.value_car->category){
+				if(isCarFree(ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category+1 == ptrtrans->rent->u.value_car->category){
 					
 					//check if the mileage is inferior at the carFinded before 
-					if (ptrtrans->rent->u.value_car->km < carUpgrade->rent->u.value_car->km && i > 0){
+					if (i > 0 && carUpgrade != NULL && ptrtrans->rent->u.value_car->km < carUpgrade->rent->u.value_car->km){
 						carUpgrade = ptrtrans;
-					}else{
+					}else if(carUpgrade == NULL){
 						carUpgrade = ptrtrans;
 					}
 					
 				}
 				//upgrading car +2 in case of carUpgrade is NULL 
-				if (isCarFree(&ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category+2 == ptrtrans->rent->u.value_car->category){
+				if (isCarFree(ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category+2 == ptrtrans->rent->u.value_car->category){
 						//check if the mileage is inferior at the carFinded before 
-					if (ptrtrans->rent->u.value_car->km < carUpgrade2->rent->u.value_car->km && i > 0){
+					if (i > 0 && carUpgrade2 != NULL && ptrtrans->rent->u.value_car->km < carUpgrade2->rent->u.value_car->km){
 						carUpgrade2 = ptrtrans;
-					}else{
+					}else if(carUpgrade2 == NULL){
 						carUpgrade2 = ptrtrans;
 					}
 					
@@ -347,7 +348,7 @@ maillon *searchCar(maillon **ptrtete, reservation* Car_reserv, int *upgraded){
 		}
 
 	}else{
-		printf("It's not a car!\n");
+		printf("It's not a car !\n");
 		return 0;
 	}
 
