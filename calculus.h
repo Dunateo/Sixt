@@ -7,3 +7,4 @@ int delayTime(reservation *Car_reserv);
 float rentalPrice(data *val, reservation *Car_reserv);
 int isCarFree(history **ptrtete);
 date actualDate();
+maillon *searchCar(maillon **ptrtete, reservation* Car_reserv, int *upgraded);
