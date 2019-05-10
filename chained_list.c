@@ -236,7 +236,8 @@ bool dateCompare(date inf, date sup){
     }   else {
         return false;
     }
-}}
+}
+}
 
 maintenance* rechercheMaintenacePrecedent(maintenance **ptrTete, maintenance *data1){
     maintenance *ptr = ptrTete;
