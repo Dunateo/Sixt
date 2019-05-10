@@ -3,6 +3,7 @@
 #include "calculus.h"
 #include "chained_list.h"
 #include "initialize.h"
+#include "smartFunctions.h"
 
 int main(int argc, char const *argv[])
 {
