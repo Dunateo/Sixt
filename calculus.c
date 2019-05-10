@@ -4,6 +4,8 @@
 #include "calculus.h"
 #include "chained_list.h"
 
+//const price for a daily rent per categories
+const float pA  = 64.98, pB = 108.98, pC = 178.98;
 
 /**
  * [actualDate give the local date in a structure date]
@@ -137,6 +139,32 @@ int delayTime(reservation *Car_reserv){
 }
 
 /**
+ * [dailyPrice give the daily Price for a car Category]
+ * @param  category [char]
+ * @return          [float]
+ */
+float dailyPrice(char category){
+	float price;
+
+	switch(category){
+
+		case 'A':
+			price = pA;
+		break;
+
+		case 'B':
+			price = pB;
+		break;
+
+		case 'C':
+			price = pC;
+		break;
+	}
+
+	return price;
+}
+
+/**
  * [rentalPrice return the price to rent a car depend on the day number]
  * @param  val        [car]
  * @param  Car_reserv [reservation]
@@ -145,12 +173,9 @@ int delayTime(reservation *Car_reserv){
 float rentalPrice(data *val, reservation* Car_reserv){
 	float price;
 	int nbday;
-	float pA  = 64.98, pB = 108.98,pC = 178.98;
 	nbday = calculusDate(Car_reserv->begining, Car_reserv->end);
 
 	if((val->typ_val) == 0){
-
-		
 
 		//management for upgrading classe
 		//check if the car given is superior of the car reserved in this case we give the price of what he asked for
@@ -288,6 +313,7 @@ float sellingCar(data *val){
 	}
 
 }
+
 
 /**
  * [searchCar give a car free with the less mileage]
