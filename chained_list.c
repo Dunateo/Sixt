@@ -54,7 +54,11 @@ void afficheListe(maillon **ptrTete){
 
 }
 
-// chainage
+/**
+ * [creationMaillon create Maillon]
+ * @param  rent [data]
+ * @return      [maillon]
+ */
 maillon* creationMaillon(data *rent){
     maillon *ptr;
     ptr = (maillon*)malloc(sizeof(maillon));
@@ -65,7 +69,12 @@ maillon* creationMaillon(data *rent){
     return ptr;
 }
 
-// valeur
+/**
+ * [rechercheMaillonPrecedent finding the last maillon]
+ * @param  ptrTete [maillon]
+ * @param  data1   [data]
+ * @return         [maillon]
+ */
 maillon* rechercheMaillonPrecedent(maillon **ptrTete, data *data1){
     maillon *ptr = ptrTete;
     maillon *precedent = NULL;
@@ -115,7 +124,11 @@ void insertionMaillon(maillon **ptrTete, maillon *insert){
     }
 }
 
-// chainage + valeur
+/**
+ * [insertionValeur chainage and insert data]
+ * @param rent    [data]
+ * @param ptrTete [maillon]
+ */
 void insertionValeur(data *rent, maillon **ptrTete){
     if(rent != NULL){
         insertionMaillon(ptrTete, creationMaillon(rent));
@@ -123,7 +136,12 @@ void insertionValeur(data *rent, maillon **ptrTete){
 
 }
 
-// valeur
+/**
+ * [rechercheMaillon search Maillon]
+ * @param  ptrTete [maillon]
+ * @param  data1   [data]
+ * @return         [maillon]
+ */
 maillon* rechercheMaillon(maillon *ptrTete, data* data1){
     maillon* ptr = ptrTete;
     switch (ptr->rent->typ_val){
@@ -151,7 +169,11 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
     return ptr;
 }
 
-//chainage
+/**
+ * [suppressionMaillon supress maillon]
+ * @param ptrTete [maillon]
+ * @param del     [maillon]
+ */
 void suppressionMaillon(maillon **ptrTete, maillon *del){
     maillon *precedent;
     precedent = rechercheMaillonPrecedent(*ptrTete,del->rent);
@@ -211,6 +233,12 @@ void inversionListe(maillon **ptrTete){
 
 }
 
+/**
+ * [dateCompare compare two dates]
+ * @param  inf [date]
+ * @param  sup [date]
+ * @return     [bool]
+ */
 bool dateCompare(date inf, date sup){
     if(inf.year < sup.year){
         return true;
@@ -239,6 +267,12 @@ bool dateCompare(date inf, date sup){
 }
 }
 
+/**
+ * [rechercheMaintenacePrecedent search last Maintenance]
+ * @param  ptrTete [maintenance]
+ * @param  data1   [maintenance]
+ * @return         [maintenance]
+ */
 maintenance* rechercheMaintenacePrecedent(maintenance **ptrTete, maintenance *data1){
     maintenance *ptr = ptrTete;
     maintenance *precedent = NULL;
@@ -250,6 +284,11 @@ maintenance* rechercheMaintenacePrecedent(maintenance **ptrTete, maintenance *da
     return precedent;
 }
 
+/**
+ * [insertionMaintenace insert a maintenance]
+ * @param ptrTete [maintenance]
+ * @param insert  [maintenance]
+ */
 void insertionMaintenace(maintenance **ptrTete, maintenance *insert){
     maintenance *precedent;
     precedent = rechercheMaintenacePrecedent(ptrTete, insert);

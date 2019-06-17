@@ -99,8 +99,8 @@
 
 /**
  * Function to read a file and assign them to a maillon
- * @param char fileName, int typeNum 
- * typeNum is the type of enumeration 
+ * @param char fileName, int typeNum
+ * typeNum is the type of enumeration
  * @return data*
  */
 data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon* maillonResearch, char* plateNumber){
@@ -119,7 +119,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon* maill
 
         //divide the line in tabs
         fonct(chaineRecup, &tabChaineRecup, &nbSeparator,';');
-          
+
         switch(typeNum) {
             case 0:
 
