@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 #include "smartFunctions.h"
 #include "calculus.h"
 
@@ -98,12 +99,12 @@ maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
  * @param ptrtete  [Reservation]
  * @param tabRecup [the array to get]
  */
-void createTabPrediction(maillon *ptrtete, predict *tabRecup, int *compteur){
+void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
 
 	//initialize tabRecup
-	maillon *ptrtrans = ptrtete;
+	maillon *ptrtrans = ptrTete;
 	tabRecup = malloc(sizeof(predict)*1);
-	cpt =0;
+	int cpt =0;
 
 	//check if the ptrtete is reservation
 	if (ptrtrans->rent->typ_val == RESERVATION) {
@@ -112,8 +113,8 @@ void createTabPrediction(maillon *ptrtete, predict *tabRecup, int *compteur){
 		//assignation des valeurs au tableau tabRecup
 		while (ptrtrans != NULL) {
 
-			tabRecup[cpt].jour = calculusDate(ptrtrans->begining, ptrtrans->end);
-			tabRecup[cpt].km = ptrtrans->km;
+			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
+			tabRecup[cpt].km = ptrtrans->rent->u.value_reserv->km;
 
 			//realloc to have more space
 			tabRecup = realloc(tabRecup, 1 * sizeof(predict));
@@ -134,7 +135,7 @@ void createTabPrediction(maillon *ptrtete, predict *tabRecup, int *compteur){
  */
 int milePrediction(maillon **ptrTete , date begin, date end){
 
-	maillon *ptrtrans = *ptrtete;
+	maillon *ptrtrans = *ptrTete;
 	predict tabVal;
 	int cpt=0, valP, n = cpt;
 
@@ -144,7 +145,7 @@ int milePrediction(maillon **ptrTete , date begin, date end){
 	//calculus for the km prediction
 	for (int i = 0; i < cpt; i++) {
 
-			valP = tabVal[n-i]+valP;
+			valP = tabVal[n-i] + valP;
 
 	}
 	valP = sqrt(valP);

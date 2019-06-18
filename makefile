@@ -1,5 +1,5 @@
 Sixt: file.o chaine.o calculus.o initialize.o main.o chained_list.o smartFunctions.o
-	gcc -o Sixt file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o main.o
+	gcc -o -lm Sixt file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o main.o
 
 chained_list.o: chained_list.h chained_list.c
 	gcc -c -Wall chained_list.c
