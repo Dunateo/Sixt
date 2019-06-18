@@ -21,11 +21,25 @@ int main(int argc, char const *argv[])
     days = delayTime(car->rent->u.value_car->history_rent->reserv);
     printf("Delayed Days: %d\n", days );
 /*
-    int upgraded;
+    int upgraded;date end
     resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
 */
+    int prediction;
+    date d,e;
+    d.day = 3;
+    d.year = 2019;
+    d.month = 10;
+    d.hour = 9;
+
+    e.day = 23;
+    e.year = 2019;
+    e.month = 10;
+    e.hour = 9;
+    prediction = milePrediction(&reservation , d, e);
+    printf("%d\n", prediction );
+
     saveData(customers);
     //saveData(car);
 	return 0;
