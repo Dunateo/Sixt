@@ -66,6 +66,7 @@ maillon* creationMaillon(data *rent){
         return 1;
     }
     ptr->rent = rent;
+    ptr->suivant = NULL;
     return ptr;
 }
 
