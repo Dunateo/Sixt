@@ -118,20 +118,16 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
 			tabRecup[cpt].km  = ptrtrans->rent->u.value_reserv->km;
 			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
 
-
-			printf("jour: %d\n",cpt);
-			printf("Km: %d\n",tabRecup[cpt].km);
-
 			cpt++;
 			//realloc to have more space
 			tabRecup = realloc(tabRecup, (cpt+1)*sizeof(predict));
 
 			ptrtrans = ptrtrans->suivant;
-			printf("%p\n",ptrtrans );
 		}
 		*compteur = cpt;
 		return tabRecup;
 	}
+	return 0;
 }
 
 /**
@@ -145,18 +141,33 @@ int milePrediction(maillon **ptrTete , date begin, date end){
 
 	maillon *ptrtrans = *ptrTete;
 	predict *tabVal = NULL;
-	int cpt=0, valP=0, n = cpt;
+	int cpt=0, delayT;
+	float temp=0, b1=0, b0=0, moyX=0,moyY=0, valP=0;
 
 	tabVal = createTabPrediction(ptrtrans,&cpt);
-	valP = calculusDate(begin,end);
+	delayT = calculusDate(begin,end);
+
+	//moyenne empirique
+	for (int h = 0; h < cpt; h++) {
+		moyX = tabVal[h].jour+moyX;
+		moyY = tabVal[h].km+moyY;
+	}
+	moyX = (1/cpt)*moyX;
+	moyY = (1/cpt)*moyY;
 
 	//calculus for the km prediction
 	for (int i = 0; i < cpt; i++) {
 
-			valP = tabVal[n-i].km + valP;
+			b1 = (tabVal[i].km-moyY)*(tabVal[i].jour-moyX) +b1;
+			temp = (tabVal[i].jour-moyX)*(tabVal[i].jour-moyX) + temp;
+
 
 	}
+	b1 = b1/temp;
+	b0 = moyY - (b1*moyX);
 
+
+	valP = b1*delayT +b0;
 
 	return valP;
 
