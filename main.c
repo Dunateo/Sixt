@@ -27,6 +27,6 @@ int main(int argc, char const *argv[])
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
 */
     saveData(customers);
-    //saveData(car);
+    saveData(car);
 	return 0;
 }

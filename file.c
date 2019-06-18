@@ -191,67 +191,67 @@ void saveChaine(data *ptrtete, char *plate, FILE *f) {
     char *csv = (char*) malloc(sizeof(char) * 150);
     char *tmp = (char*) malloc(sizeof(char) * 50);
     const char *typeNames[] = {"CT", "REPAIR", "REVISION"};
-    if (save->typ_val == 4) {
-        while (save->u.value_car->car_maint->suivant != NULL) {
+    if (save->typ_val == MAINTENANCE) {
+        while (save->u.value_maintenance != NULL) {
             strcpy(csv,plate);
             strcat(csv, ";");
-            strcat(csv, typeNames[save->u.value_car->car_maint->type]);
+            strcat(csv, typeNames[save->u.value_maintenance->type]);
             strcat(csv, ";");
-            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.day);
+            sprintf(tmp, "%d", save->u.value_maintenance->date_maintenance.day);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.month);
+            sprintf(tmp, "%d", save->u.value_maintenance->date_maintenance.month);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.year);
+            sprintf(tmp, "%d", save->u.value_maintenance->date_maintenance.year);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.hour);
+            sprintf(tmp, "%d", save->u.value_maintenance->date_maintenance.hour);
             strcat(csv, tmp);
             strcat(csv, "\n");
             fprintf(f, "%s", csv);
             nbData++;
-            save->u.value_car->car_maint = save->u.value_car->car_maint->suivant;
+            save->u.value_maintenance = save->u.value_maintenance->suivant;
         }
-    } else if (save->typ_val == 1) {
-        while (save->u.value_car->history_rent->suivant != NULL) {
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->number);
+    } else if (save->typ_val == HISTORY) {
+        while (save->u.value_hist != NULL) {
+            sprintf(tmp, "%d", save->u.value_hist->reserv->number);
             strcpy(csv, tmp);
             strcat(csv, ";");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.day);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->begining.day);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.month);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->begining.month);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.year);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->begining.year);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.hour);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->begining.hour);
             strcat(csv, tmp);
             strcat(csv, ";");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.day);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->end.day);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.month);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->end.month);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.year);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->end.year);
             strcat(csv, tmp);
             strcat(csv, "-");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.hour);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->end.hour);
             strcat(csv, tmp);
             strcat(csv, ";");
-            strcat(csv, &save->u.value_car->history_rent->reserv->category);
+            strcat(csv, &save->u.value_hist->reserv->category);
             strcat(csv, ";0");
-            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->client_info->phone_number);
+            sprintf(tmp, "%d", save->u.value_hist->reserv->client_info->phone_number);
             strcat(csv, tmp);
             strcat(csv, ";");
             strcat(csv, plate);
             strcat(csv, "\n");
             fprintf(f, "%s", csv);
             nbData++;
-            save->u.value_car->history_rent = save->u.value_car->history_rent->suivant;
+            save->u.value_hist = save->u.value_hist->suivant;
         }
     }
     free(tmp);
@@ -289,11 +289,12 @@ void saveData(maillon *ptrtete) {
         if (save->rent->typ_val == CAR) {
             data* dataTmp =(data*) malloc(sizeof(data));
             dataTmp->typ_val = MAINTENANCE;
-            dataTmp->u.value_car->car_maint = NULL;
-            dataTmp->u.value_car->car_maint = save->rent->u.value_car->car_maint;
+            dataTmp->u.value_maintenance = save->rent->u.value_car->car_maint;
             saveChaine(dataTmp, save->rent->u.value_car->plate_number, mtn);
+            free(dataTmp);
+            dataTmp =(data*) malloc(sizeof(data));
             dataTmp->typ_val = HISTORY;
-            dataTmp->u.value_car->history_rent = save->rent->u.value_car->history_rent;
+            dataTmp->u.value_hist = save->rent->u.value_car->history_rent;
             saveChaine(dataTmp, save->rent->u.value_car->plate_number, hist);
             free(dataTmp);
         }
