@@ -15,6 +15,7 @@
 maillon* initializeCar(char* fileName, maillon *reservation);
 maillon* initializeClients(char* fileName);
 maillon* initializeReservation(char* fileName, maillon* client);
-maillon* initializeHistory(char* fileName, maillon* reservation, char *plateNumber);
+data* initializeHistory(char* fileName, maillon* reservation, char *plateNumber);
+data* initializeMaintenance(char* fileName, char *plateNumber);
 
 #endif //PROJECT_INITIALIZE_H

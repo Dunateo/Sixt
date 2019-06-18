@@ -6,277 +6,321 @@
 #include "chaine.h"
 #include "initialize.h"
 
-
- maintenance* readingMaintenance(char* plateNumber, char * fileName){
-     char indiceColonnes[150];
-     maintenance* maintenance1 = NULL;
-     maintenance* maintenance2 = NULL;
-     char *chaineRecup = "";
-     int nbCarac = 0;
-     char **tabChaineRecup;
-     char **dateMaintenace;
-     int nb2 = 3;
-     int nbSeparator = 0;
-     int nbLines = 0;
-     int i = 0;
-
-     FILE *f = fopen(fileName, "rt");
-
-     if(f == NULL)
-     {
-         printf("Impossible to open the file \n" );
-
-     }else {
-
-         //first scan to have the number of lines
-         fscanf(f, "%d", &nbLines);
-         //take the name of columns
-         fscanf(f,"%s",indiceColonnes);
-         //reset the char indiceColonnes because we will use it after
-         strcat(indiceColonnes,"");
-
-         while (i < nbLines) {
-            fscanf(f, "%s", indiceColonnes);
-            nbCarac = strlen(indiceColonnes);
-            chaineRecup = malloc(sizeof(char) * nbCarac);
-            strcpy(chaineRecup, indiceColonnes);
-            fonct(chaineRecup, &tabChaineRecup, &nbSeparator, ';');
-            i++;
-            if(strcmp(plateNumber, tabChaineRecup[0]) == 0){
-                 maintenance1 = malloc(sizeof(maintenance));
-                 fonct(tabChaineRecup[2], &dateMaintenace, &nb2, '-');
-                 maintenance1->date_maintenance.day = atoi(dateMaintenace[0]);
-                 maintenance1->date_maintenance.month = atoi(dateMaintenace[1]);
-                 maintenance1->date_maintenance.year = atoi(dateMaintenace[2]);
-                 maintenance1->date_maintenance.hour = atoi(dateMaintenace[3]);
-                 if(strcmp(tabChaineRecup[1], "CT") == 0){
-                     maintenance1->type = CT;
-                 } else if(strcmp(tabChaineRecup[1], "REVISION") == 0){
-                     maintenance1->type = REVISION;
-                 } else if(strcmp(tabChaineRecup[1], "REPAIR") == 0){
-                     maintenance1->type = REPAIR;
-                 } else {
-                     printf("ERROR 0x800326xcF");
-                 }
-                 break;
-            }
-        }
-
-         while (i < nbLines) {
-
-             //dynamique allocation
-             fscanf(f, "%s", indiceColonnes);
-             nbCarac = strlen(indiceColonnes);
-             chaineRecup = malloc(sizeof(char) * nbCarac);
-             strcpy(chaineRecup, indiceColonnes);
-             i++;
-
-             //divide the line in tabs
-             fonct(chaineRecup, &tabChaineRecup, &nbSeparator, ';');
-             if(strcmp(plateNumber, tabChaineRecup[0]) == 0){
-                 maintenance2 = malloc(sizeof(maintenance));
-                 fonct(tabChaineRecup[2], &dateMaintenace, &nb2, '-');
-                 maintenance2->date_maintenance.day = atoi(dateMaintenace[0]);
-                 maintenance2->date_maintenance.month = atoi(dateMaintenace[1]);
-                 maintenance2->date_maintenance.year = atoi(dateMaintenace[2]);
-                 maintenance2->date_maintenance.hour = atoi(dateMaintenace[3]);
-                 if(strcmp(tabChaineRecup[1], "CT") == 0){
-                     maintenance2->type = CT;
-                 } else if(strcmp(tabChaineRecup[1], "REVISION") == 0){
-                     maintenance2->type = REVISION;
-                 } else if(strcmp(tabChaineRecup[1], "REPAIR") == 0){
-                     maintenance2->type = REPAIR;
-                 } else {
-                     printf("ERROR 0x800326xcF");
-                 }
-                 insertionMaintenace(&maintenance1, maintenance2);
-             }
-         }
-
-     }
-     return maintenance1;
- }
-
 /**
  * Function to read a file and assign them to a maillon
  * @param char fileName, int typeNum 
  * typeNum is the type of enumeration 
  * @return data*
  */
-data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon* maillonResearch, char* plateNumber){
+data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maillonResearch, char *plateNumber) {
 
     data *data1 = malloc(sizeof(data));
+    data *data2 = malloc(sizeof(data));
     maillon *link;
     char *chaineRecup = "";
     int nbCarac = 0;
     char **tabChaineRecup;
     int nbSeparator = 0;
-        //dynamique allocation
-        fscanf(f,"%s",indiceColonnes);
-        nbCarac = strlen(indiceColonnes);
-        chaineRecup = malloc(sizeof(char)*nbCarac);
-        strcpy(chaineRecup,indiceColonnes);
+    //dynamique allocation
+    fscanf(f, "%s", indiceColonnes);
+    nbCarac = strlen(indiceColonnes);
+    chaineRecup = malloc(sizeof(char) * nbCarac);
+    strcpy(chaineRecup, indiceColonnes);
 
-        //divide the line in tabs
-        fonct(chaineRecup, &tabChaineRecup, &nbSeparator,';');
-          
-        switch(typeNum) {
-            case 0:
-
-                data1->typ_val = CAR;
-                data1->u.value_car = malloc(sizeof(car));
-                data1->u.value_car->plate_number = malloc(sizeof(char) * 10);
-                data1->u.value_car->brand_name = malloc(sizeof(char) * 10);
-                data1->u.value_car->brand_model = malloc(sizeof(char) * 10);
-
-                data1->u.value_car->plate_number = tabChaineRecup[0];
-                data1->u.value_car->brand_name = tabChaineRecup[1];
-                data1->u.value_car->brand_model = tabChaineRecup[2];
-
-                data1->u.value_car->car_year = atoi(tabChaineRecup[3]);
-                data1->u.value_car->km = atoi(tabChaineRecup[4]);
-                data1->u.value_car->category = *tabChaineRecup[5];
-                data1->u.value_car->price = atoi(tabChaineRecup[6]);
-                data1->u.value_car->gearbox = atoi(tabChaineRecup[7])!=0 ;
-
-                data1->u.value_car->car_maint = readingMaintenance(tabChaineRecup[0], "files/maintenances.csv");
-
-                link = initializeHistory("files/booking.csv", maillonResearch, tabChaineRecup[0]);
-                data1->u.value_car->history_rent = link->rent->u.value_hist;
-
-                break;
-            case 1:
-
-                if(strcmp(plateNumber, tabChaineRecup[5])== 0){
-                    data *data2 = malloc(sizeof(data));
-                    data1->typ_val = HISTORY;
-                    data1->u.value_hist = malloc(sizeof(history));
-                    data2->typ_val = RESERVATION;
-                    data2->u.value_reserv = malloc(sizeof(reservation));
-                    data2->u.value_reserv->number = atoi(tabChaineRecup[0]);
-                    link = rechercheMaillon(maillonResearch, data2);
-                    data1->u.value_hist->reserv = link->rent->u.value_reserv;
-                    free(data2->u.value_reserv);
-                    free(data2);
-                } else {
-                    free(data1);
-                    data1 = NULL;
-                }
-
-
-                break;
-            case 2:
-
-                data1->typ_val = RESERVATION;
-                data1->u.value_reserv = malloc(sizeof(reservation));
-
-                data1->u.value_reserv->number = atoi(tabChaineRecup[0]);
-
-                char** dateTmp; int dateNB = 4;
-                fonct(tabChaineRecup[1], &dateTmp, &dateNB,'-');
-                data1->u.value_reserv->begining.day = atoi(dateTmp[0]);
-                data1->u.value_reserv->begining.month = atoi(dateTmp[1]);
-                data1->u.value_reserv->begining.year = atoi(dateTmp[2]);
-                data1->u.value_reserv->begining.hour = atoi(dateTmp[3]);
-
-                fonct(tabChaineRecup[2], &dateTmp, &dateNB,'-');
-                data1->u.value_reserv->end.day = atoi(dateTmp[0]);
-                data1->u.value_reserv->end.month = atoi(dateTmp[1]);
-                data1->u.value_reserv->end.year = atoi(dateTmp[2]);
-                data1->u.value_reserv->end.hour = atoi(dateTmp[3]);
-
-                data1->u.value_reserv->category = *tabChaineRecup[3];
-
-                data *data2 = malloc(sizeof(data));
-                data2->typ_val = CLIENT;
-                data2->u.value_client = malloc(sizeof(reservation));
-                data2->u.value_client->phone_number = atoi(tabChaineRecup[4]);
-                link = rechercheMaillon(maillonResearch,data2);
-                data1->u.value_reserv->client_info = link->rent->u.value_client;
-                free(data2->u.value_client);
-                free(data2);
-                break;
-            case 3:
-
-                data1->typ_val = CLIENT;
-                data1->u.value_client = malloc(sizeof(client));
-                data1->u.value_client->client_name = malloc(sizeof(char) * 25);
-                data1->u.value_client->driving_license_type = malloc(sizeof(char) * 2);
-
-                data1->u.value_client->client_name = tabChaineRecup[0];
-                data1->u.value_client->driving_license_type = tabChaineRecup[1];
-                data1->u.value_client->phone_number = atoi(tabChaineRecup[2]);
-                break;
-            default:
-                printf("ERROR ! ENUM TYPE NOT DEFINE\n");
-                break;
-        }
-
-  return data1;
-}
-/*
-char* prepareCSV(maillon* save){
-    char* csv;
-    char* tmp = malloc(sizeof(char)*50);
-    switch (save->rent->typ_val){
+    //divide the line in tabs
+    fonct(chaineRecup, &tabChaineRecup, &nbSeparator, ';');
+    char **dateTmp;
+    int dateNB = 4;
+    switch (typeNum) {
         case 0:
-            csv = save->rent->u.value_car->plate_number;
-            strcat(csv,";");
-            strcat(csv,save->rent->u.value_car->brand_name);
-            strcat(csv,";");
-            strcat(csv,save->rent->u.value_car->brand_model);
-            strcat(csv,";");
-            sprintf(tmp,"%d",save->rent->u.value_car->car_year);
-            strcat(csv,tmp);
-            strcat(csv,";");
-            sprintf(tmp,"%d",save->rent->u.value_car->km);
-            strcat(csv,tmp);
-            strcat(csv,";");
-            sprintf(tmp,"%c",save->rent->u.value_car->category);
-            strcat(csv,tmp);
-            strcat(csv,";");
-            sprintf(tmp,"%f",save->rent->u.value_car->price);
-            strcat(csv,tmp);
-            strcat(csv,";");
-            sprintf(tmp,"%d",save->rent->u.value_car->gearbox);
-            strcat(csv,tmp);
+
+            data1->typ_val = CAR;
+            data1->u.value_car = malloc(sizeof(car));
+            data1->u.value_car->plate_number = malloc(sizeof(char) * 10);
+            data1->u.value_car->brand_name = malloc(sizeof(char) * 10);
+            data1->u.value_car->brand_model = malloc(sizeof(char) * 10);
+
+            data1->u.value_car->plate_number = tabChaineRecup[0];
+            data1->u.value_car->brand_name = tabChaineRecup[1];
+            data1->u.value_car->brand_model = tabChaineRecup[2];
+
+            data1->u.value_car->car_year = atoi(tabChaineRecup[3]);
+            data1->u.value_car->km = atoi(tabChaineRecup[4]);
+            data1->u.value_car->category = *tabChaineRecup[5];
+            data1->u.value_car->price = atoi(tabChaineRecup[6]);
+            data1->u.value_car->gearbox = atoi(tabChaineRecup[7]) != 0;
+
+            data2 = initializeMaintenance("files/maintenances.csv",tabChaineRecup[0]);
+            data1->u.value_car->car_maint = initializeMaintenance("files/maintenances.csv",tabChaineRecup[0])->u.value_maintenance;
+
+            data1->u.value_car->history_rent = initializeHistory("files/booking.csv", maillonResearch, tabChaineRecup[0])->u.value_hist;
+
+            break;
+        case 1:
+
+            if (strcmp(plateNumber, tabChaineRecup[6]) == 0) {
+                data1->typ_val = HISTORY;
+                data1->u.value_hist = malloc(sizeof(history));
+                data2->typ_val = RESERVATION;
+                data2->u.value_reserv = malloc(sizeof(reservation));
+                data2->u.value_reserv->number = atoi(tabChaineRecup[0]);
+                link = rechercheMaillon(maillonResearch, data2);
+                data1->u.value_hist->reserv = link->rent->u.value_reserv;
+                free(data2->u.value_reserv);
+                free(data2);
+            } else {
+                free(data1);
+                data1 = NULL;
+            }
+
+
+            break;
+        case 2:
+
+            data1->typ_val = RESERVATION;
+            data1->u.value_reserv = malloc(sizeof(reservation));
+
+            data1->u.value_reserv->number = atoi(tabChaineRecup[0]);
+
+            fonct(tabChaineRecup[1], &dateTmp, &dateNB, '-');
+            data1->u.value_reserv->begining.day = atoi(dateTmp[0]);
+            data1->u.value_reserv->begining.month = atoi(dateTmp[1]);
+            data1->u.value_reserv->begining.year = atoi(dateTmp[2]);
+            data1->u.value_reserv->begining.hour = atoi(dateTmp[3]);
+
+            fonct(tabChaineRecup[2], &dateTmp, &dateNB, '-');
+            data1->u.value_reserv->end.day = atoi(dateTmp[0]);
+            data1->u.value_reserv->end.month = atoi(dateTmp[1]);
+            data1->u.value_reserv->end.year = atoi(dateTmp[2]);
+            data1->u.value_reserv->end.hour = atoi(dateTmp[3]);
+
+            data1->u.value_reserv->category = *tabChaineRecup[3];
+            data1->u.value_reserv->km = atoi(tabChaineRecup[4]);
+            data *data2 = malloc(sizeof(data));
+            data2->typ_val = CLIENT;
+            data2->u.value_client = malloc(sizeof(reservation));
+            data2->u.value_client->phone_number = atoi(tabChaineRecup[5]);
+            link = rechercheMaillon(maillonResearch, data2);
+            data1->u.value_reserv->client_info = link->rent->u.value_client;
+            free(data2->u.value_client);
+            free(data2);
+            break;
+        case 3:
+
+            data1->typ_val = CLIENT;
+            data1->u.value_client = malloc(sizeof(client));
+            data1->u.value_client->client_name = malloc(sizeof(char) * 25);
+            data1->u.value_client->driving_license_type = malloc(sizeof(char) * 2);
+
+            data1->u.value_client->client_name = tabChaineRecup[0];
+            data1->u.value_client->driving_license_type = tabChaineRecup[1];
+            data1->u.value_client->phone_number = atoi(tabChaineRecup[2]);
+            break;
+        case 4:
+            if (strcmp(plateNumber, tabChaineRecup[0]) == 0) {
+                data1->typ_val = MAINTENANCE;
+                data1->u.value_maintenance = malloc(sizeof(maintenance));
+                data1->u.value_maintenance->type = convertTypeMaintenance(tabChaineRecup[1]);
+                fonct(tabChaineRecup[2], &dateTmp, &dateNB, '-');
+                data1->u.value_maintenance->date_maintenance.hour = atoi(dateTmp[3]);
+                data1->u.value_maintenance->date_maintenance.day = atoi(dateTmp[0]);
+                data1->u.value_maintenance->date_maintenance.month = atoi(dateTmp[1]);
+                data1->u.value_maintenance->date_maintenance.year = atoi(dateTmp[2]);
+            } else {
+                free(data1);
+                data1 = NULL;
+            }
+            break;
+        default:
+            printf("ERROR ! ENUM TYPE NOT DEFINE\n");
+            break;
+    }
+    free(tabChaineRecup);
+    return data1;
+}
+
+
+char* prepareCSV(maillon *save) {
+    char *csv = malloc(sizeof(char) * 100);
+    char *Ctmp = malloc(sizeof(char) * 20);
+    switch (save->rent->typ_val) {
+        case 0:
+            strcpy(csv,save->rent->u.value_car->plate_number);
+            strcat(csv, ";");
+            strcat(csv, save->rent->u.value_car->brand_name);
+            strcat(csv, ";");
+            strcat(csv, save->rent->u.value_car->brand_model);
+            strcat(csv, ";");
+            sprintf(Ctmp, "%d", save->rent->u.value_car->car_year);
+            strcat(csv, Ctmp);
+            strcat(csv, ";");
+            sprintf(Ctmp, "%d", save->rent->u.value_car->km);
+            strcat(csv, Ctmp);
+            strcat(csv, ";");
+            strcat(csv, &save->rent->u.value_car->category);
+            strcat(csv, ";");
+            sprintf(Ctmp, "%.2f", save->rent->u.value_car->price);
+            strcat(csv, Ctmp);
+            strcat(csv, ";");
+            sprintf(Ctmp, "%d", save->rent->u.value_car->gearbox);
+            strcat(csv, Ctmp);
+            free(Ctmp);
             break;
         case 1:
             break;
         case 2:
             break;
         case 3:
+            strcpy(csv,save->rent->u.value_client->client_name);
+            strcat(csv, ";");
+            strcat(csv, save->rent->u.value_client->driving_license_type);
+            strcat(csv, ";0");
+            sprintf(Ctmp, "%d", save->rent->u.value_client->phone_number);
+            strcat(csv, Ctmp);
+            free(Ctmp);
             break;
         default:
             break;
     }
+    strcat(csv, "\n");
     return csv;
 }
 
-void saveData(maillon *save){
-    FILE *f;
-    char *tmp = malloc(sizeof(char)*50);
-    switch (save->rent->typ_val){
+void saveChaine(data *ptrtete, char *plate, FILE *f) {
+    data *save = ptrtete;
+    int nbData = 0;
+    char *csv = (char*) malloc(sizeof(char) * 150);
+    char *tmp = (char*) malloc(sizeof(char) * 50);
+    const char *typeNames[] = {"CT", "REPAIR", "REVISION"};
+    if (save->typ_val == 4) {
+        while (save->u.value_car->car_maint->suivant != NULL) {
+            strcpy(csv,plate);
+            strcat(csv, ";");
+            strcat(csv, typeNames[save->u.value_car->car_maint->type]);
+            strcat(csv, ";");
+            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.day);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.month);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.year);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->car_maint->date_maintenance.hour);
+            strcat(csv, tmp);
+            strcat(csv, "\n");
+            fprintf(f, "%s", csv);
+            nbData++;
+            save->u.value_car->car_maint = save->u.value_car->car_maint->suivant;
+        }
+    } else if (save->typ_val == 1) {
+        while (save->u.value_car->history_rent->suivant != NULL) {
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->number);
+            strcpy(csv, tmp);
+            strcat(csv, ";");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.day);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.month);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.year);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->begining.hour);
+            strcat(csv, tmp);
+            strcat(csv, ";");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.day);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.month);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.year);
+            strcat(csv, tmp);
+            strcat(csv, "-");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->end.hour);
+            strcat(csv, tmp);
+            strcat(csv, ";");
+            strcat(csv, &save->u.value_car->history_rent->reserv->category);
+            strcat(csv, ";0");
+            sprintf(tmp, "%d", save->u.value_car->history_rent->reserv->client_info->phone_number);
+            strcat(csv, tmp);
+            strcat(csv, ";");
+            strcat(csv, plate);
+            strcat(csv, "\n");
+            fprintf(f, "%s", csv);
+            nbData++;
+            save->u.value_car->history_rent = save->u.value_car->history_rent->suivant;
+        }
+    }
+    free(tmp);
+    rewind(f);
+    fprintf(f, "%d", nbData+1);
+}
+
+void saveData(maillon *ptrtete) {
+    maillon *save = ptrtete;
+    FILE *f, *mtn = NULL, *hist = NULL;
+    char *tmp = malloc(sizeof(char) * 50);
+    int nbData = 0, nbMtn = 0;
+    switch (save->rent->typ_val) {
         case 0:
-            f = fopen("files/vehicules.csv", "w+");
+            f = fopen("files/vehicules2.csv", "r+");
+            mtn = fopen("files/maintenances2.csv", "r+");
+            hist = fopen("files/booking2.csv", "r+");
             break;
         case 1:
             break;
         case 2:
-            f = fopen("files/booking.csv", "w+");
+            f = fopen("files/booking2.csv", "r+");
             break;
         case 3:
-            f = fopen("files/clients.csv", "w+");
+            f = fopen("files/clients2.csv", "r+");
             break;
         default:
             break;
     }
-    fscanf(f,"%s",tmp);
-    fscanf(f,"%s",tmp);
-    fprintf(f,"%s",prepareCSV(save));
-    if(save->rent->typ_val == 0){
-        f = fopen("files/vehicules.csv", "w+");
-        prepareCSV()
+    fscanf(f, "%s", tmp);
+    fscanf(f, "%s", tmp);
+    fseek(f, 1, SEEK_CUR);
+    while (save->suivant != NULL) {
+        fprintf(f, "%s", prepareCSV(save));
+        if (save->rent->typ_val == CAR) {
+            data* dataTmp =(data*) malloc(sizeof(data));
+            dataTmp->typ_val = MAINTENANCE;
+            dataTmp->u.value_car->car_maint = NULL;
+            dataTmp->u.value_car->car_maint = save->rent->u.value_car->car_maint;
+            saveChaine(dataTmp, save->rent->u.value_car->plate_number, mtn);
+            dataTmp->typ_val = HISTORY;
+            dataTmp->u.value_car->history_rent = save->rent->u.value_car->history_rent;
+            saveChaine(dataTmp, save->rent->u.value_car->plate_number, hist);
+            free(dataTmp);
+        }
+        nbData++;
+        save = save->suivant;
+    }
+    rewind(f);
+    fprintf(f, "%d", nbData);
+    if (mtn != NULL) {
+        fclose(mtn);
+    }
+    if (hist != NULL) {
+        fclose(hist);
     }
     fclose(f);
-}*/
+    free(tmp);
+}
+
+int convertTypeMaintenance(char *chaineType) {
+    if (strcmp(chaineType, "CT") == 0) {
+        return 0;
+    } else if (strcmp(chaineType, "REPAIR") == 0) {
+        return 1;
+    } else if (strcmp(chaineType, "REVISION") == 0) {
+        return 2;
+    } else {
+        exit(-1);
+    }
+}

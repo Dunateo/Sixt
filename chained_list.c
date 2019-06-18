@@ -94,6 +94,12 @@ maillon* rechercheMaillonPrecedent(maillon **ptrTete, data *data1){
                 ptr = ptr->suivant;
             }
             break;
+        case 4:
+            while(ptr != NULL && dateEqual(ptr->rent->u.value_maintenance->date_maintenance,data1->u.value_maintenance->date_maintenance) != true && ptr->rent->u.value_maintenance->type != data1->u.value_maintenance->type){
+                precedent = ptr;
+                ptr = ptr->suivant;
+            }
+            break;
     }
 
     return precedent;
@@ -147,6 +153,11 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
                 ptr = ptr->suivant;
             }
             break;
+        case 4:
+            while(ptr != NULL && dateEqual(ptr->rent->u.value_maintenance->date_maintenance,data1->u.value_maintenance->date_maintenance) != true && ptr->rent->u.value_maintenance->type != data1->u.value_maintenance->type){
+                ptr = ptr->suivant;
+            }
+            break;
     }
     return ptr;
 }
@@ -173,6 +184,10 @@ void suppressionMaillon(maillon **ptrTete, maillon *del){
             case 3:
                 precedent->rent->u.value_client = del->suivant->rent->u.value_client;
                 break;
+            case 4:
+                precedent->rent->u.value_maintenance= del->suivant->rent->u.value_maintenance;
+                break;
+
         }
 
         del->suivant = NULL;
@@ -236,28 +251,57 @@ bool dateCompare(date inf, date sup){
     }   else {
         return false;
     }
-}}
+}
+}
 
-maintenance* rechercheMaintenacePrecedent(maintenance **ptrTete, maintenance *data1){
-    maintenance *ptr = ptrTete;
-    maintenance *precedent = NULL;
-    while(ptr != NULL && dateCompare(ptr->date_maintenance, data1->date_maintenance)!= true){
-        precedent = ptr;
-        ptr = ptr->suivant;
+
+bool dateEqual(date d1, date d2){
+   if(d1.hour == d2.hour && d1.day == d2.day && d1.month == d2.month && d1.year == d2.year){
+       return true;
+   } else {
+       return false;
+   }
+}
+
+
+data* rechercheSousChainePrecedent(data *ptrTete, data *data1){
+    data *ptr = ptrTete;
+    data *precedent = NULL;
+    switch (ptrTete->typ_val) {
+        case 1:
+            while (ptr->u.value_hist->suivant != NULL && ptr->u.value_hist->reserv->number != data1->u.value_hist->reserv->number) {
+                precedent->u.value_hist = ptr->u.value_hist;
+                precedent->typ_val = ptr->typ_val;
+                ptr->u.value_hist = ptr->u.value_hist->suivant;
+            }
+            break;
+        case 4:
+            while (ptr->u.value_maintenance->suivant  != NULL && dateEqual(ptr->u.value_maintenance->date_maintenance,
+                                              data1->u.value_maintenance->date_maintenance) != true && ptr->u.value_maintenance->type != data1->u.value_maintenance->type) {
+                precedent->typ_val = ptr->typ_val;
+                precedent->u.value_maintenance = ptr->u.value_maintenance;
+                ptr->u.value_maintenance = ptr->u.value_maintenance->suivant;
+            }
+            break;
     }
 
     return precedent;
 }
 
-void insertionMaintenace(maintenance **ptrTete, maintenance *insert){
-    maintenance *precedent;
-    precedent = rechercheMaintenacePrecedent(ptrTete, insert);
-    if(precedent == NULL){ // liste vide -> insertion en tête
-        insert->suivant = *ptrTete;
-        *ptrTete = insert;
-    }
-    else {
-        insert->suivant = precedent->suivant;
-        precedent->suivant = insert;
+void insertionSousChaine(data **ptrTete, data *insert){
+    data *ptr = *ptrTete;
+    switch (ptr->typ_val){
+        case 1:
+            if(insert != NULL){
+                insert->u.value_hist->suivant = ptr->u.value_hist;
+                *ptrTete = insert;
+            }
+
+        case 4:
+            if(insert != NULL){
+                insert->u.value_maintenance->suivant = ptr->u.value_maintenance;
+                *ptrTete = insert;
+            }
+
     }
 }

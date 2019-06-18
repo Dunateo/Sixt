@@ -7,6 +7,10 @@
 
 #include <stdbool.h>
 
+//typedef struct maillon maillon;
+
+
+
 typedef struct date{
     int day;
     int year;
@@ -32,14 +36,17 @@ typedef struct reservation{
     date begining;
     date end;
     char category;
+    int km;
     client* client_info;
-
 }reservation;
 
 typedef struct history{
     reservation* reserv;
     struct history* suivant;
 }history;
+
+//functions pointers
+
 
 typedef struct car{
     char *plate_number;
@@ -52,13 +59,11 @@ typedef struct car{
     bool gearbox;
     maintenance *car_maint;
     history *history_rent;
-
 }car;
 
 
+enum type {CAR,HISTORY,RESERVATION,CLIENT,MAINTENANCE};
 
-//functions pointers
-enum type {CAR,HISTORY,RESERVATION,CLIENT};
 typedef struct data{
     enum type typ_val; //indique ce qu'il y a dans u
     union{
@@ -66,14 +71,15 @@ typedef struct data{
         history* value_hist;
         reservation* value_reserv;
         client* value_client;
+        maintenance* value_maintenance;
     }u;
 }data;
-
 
 typedef struct maillon{
     data *rent;
     struct maillon *suivant;
 }maillon;
+
 
 void afficheListe(maillon **ptrTete);
 maillon* creationMaillon(data *rent);
@@ -84,8 +90,10 @@ void suppressionMaillon(maillon **ptrTete, maillon *del);
 maillon* rechercheMaillon(maillon *ptrTete, data* data1);
 maillon* suppressionValeur(maillon *ptrTete, data* rent);
 bool dateCompare(date inf, date sup);
+bool dateEqual(date d1, date d2);
 void suppressionListe(maillon **ptrTete);
 void inversionListe(maillon **ptrTete);
-void insertionMaintenace(maintenance **ptrTete, maintenance *insert);
+data* rechercheSousChainePrecedent(data *ptrTete, data *data1);
+void insertionSousChaine(data **ptrTete, data *insert);
 
 #endif //PROJET_CHAINED_LIST_H

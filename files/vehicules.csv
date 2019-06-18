@@ -1,5 +1,5 @@
 5
-marque;modele;millesime;kilometrage;categorie;prix;gearbox
+plates;marque;modele;millesime;kilometrage;categorie;prix;gearbox
 AA-581-BB;Renault;clio;2017;56789;B;9000;0
 AB-789-CC;Volkswagen;up;2017;25432;A;12000;1
 BC-123-VE;Citroen;c5;2018;62234;C;10000;0
