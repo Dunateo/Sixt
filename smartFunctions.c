@@ -102,7 +102,7 @@ void createTabPrediction(maillon *ptrTete, predict **tabRecup, int *compteur){
 
 	//initialize tabRecup
 	maillon *ptrtrans = ptrTete;
-	*tabRecup = malloc(sizeof(predict)*1);
+	*tabRecup = malloc(sizeof(predict*)*1);
 	int cpt =0;
 
 
@@ -120,7 +120,7 @@ void createTabPrediction(maillon *ptrTete, predict **tabRecup, int *compteur){
 			printf("Km: %d\n",tabRecup[cpt]->km);
 
 			//realloc to have more space
-			*tabRecup = realloc(*tabRecup, 1 * sizeof(predict));
+			*tabRecup = realloc(*tabRecup, 1 * sizeof(predict*));
 			cpt++;
 
 			ptrtrans = ptrtrans->suivant;

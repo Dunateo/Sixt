@@ -67,6 +67,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
                     data1->u.value_hist->reserv = link->rent->u.value_reserv;
                     free(data2->u.value_reserv);
                     free(data2);
+                    data1->u.value_hist->suivant = NULL;
                 } else {
                     free(data1);
                     data1 = NULL;
@@ -287,16 +288,16 @@ void saveData(maillon *ptrtete) {
     while (save->suivant != NULL) {
         fprintf(f, "%s", prepareCSV(save));
         if (save->rent->typ_val == CAR) {
-            data* dataTmp =(data*) malloc(sizeof(data));
-            dataTmp->typ_val = MAINTENANCE;
-            dataTmp->u.value_maintenance = save->rent->u.value_car->car_maint;
-            saveChaine(dataTmp, save->rent->u.value_car->plate_number, mtn);
-            free(dataTmp);
-            dataTmp =(data*) malloc(sizeof(data));
-            dataTmp->typ_val = HISTORY;
-            dataTmp->u.value_hist = save->rent->u.value_car->history_rent;
-            saveChaine(dataTmp, save->rent->u.value_car->plate_number, hist);
-            free(dataTmp);
+            data* dataTmp1 =(data*) malloc(sizeof(data));
+            dataTmp1->typ_val = MAINTENANCE;
+            dataTmp1->u.value_maintenance = save->rent->u.value_car->car_maint;
+            saveChaine(dataTmp1, save->rent->u.value_car->plate_number, mtn);
+            free(dataTmp1);
+            data* dataTmp2 =(data*) malloc(sizeof(data));
+            dataTmp2->typ_val = HISTORY;
+            dataTmp2->u.value_hist = save->rent->u.value_car->history_rent;
+            saveChaine(dataTmp2, save->rent->u.value_car->plate_number, hist);
+            free(dataTmp2);
         }
         nbData++;
         save = save->suivant;
