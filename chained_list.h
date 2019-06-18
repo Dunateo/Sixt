@@ -7,10 +7,6 @@
 
 #include <stdbool.h>
 
-//typedef struct maillon maillon;
-
-
-
 typedef struct date{
     int day;
     int year;
@@ -38,15 +34,13 @@ typedef struct reservation{
     char category;
     int km;
     client* client_info;
+
 }reservation;
 
 typedef struct history{
     reservation* reserv;
     struct history* suivant;
 }history;
-
-//functions pointers
-
 
 typedef struct car{
     char *plate_number;
@@ -59,11 +53,13 @@ typedef struct car{
     bool gearbox;
     maintenance *car_maint;
     history *history_rent;
+
 }car;
 
 
-enum type {CAR,HISTORY,RESERVATION,CLIENT,MAINTENANCE};
 
+//functions pointers
+enum type {CAR,HISTORY,RESERVATION,CLIENT,MAINTENANCE};
 typedef struct data{
     enum type typ_val; //indique ce qu'il y a dans u
     union{
@@ -80,6 +76,11 @@ typedef struct maillon{
     struct maillon *suivant;
 }maillon;
 
+typedef struct predict{
+  int jour;
+  int km;
+
+}predict;
 
 void afficheListe(maillon **ptrTete);
 maillon* creationMaillon(data *rent);

@@ -15,17 +15,16 @@
 data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maillonResearch, char *plateNumber) {
 
     data *data1 = malloc(sizeof(data));
-    data *data2 = malloc(sizeof(data));
     maillon *link;
     char *chaineRecup = "";
     int nbCarac = 0;
     char **tabChaineRecup;
     int nbSeparator = 0;
-    //dynamique allocation
-    fscanf(f, "%s", indiceColonnes);
-    nbCarac = strlen(indiceColonnes);
-    chaineRecup = malloc(sizeof(char) * nbCarac);
-    strcpy(chaineRecup, indiceColonnes);
+        //dynamique allocation
+        fscanf(f,"%s",indiceColonnes);
+        nbCarac = strlen(indiceColonnes);
+        chaineRecup = malloc(sizeof(char)*nbCarac);
+        strcpy(chaineRecup,indiceColonnes);
 
     //divide the line in tabs
     fonct(chaineRecup, &tabChaineRecup, &nbSeparator, ';');
@@ -50,7 +49,6 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             data1->u.value_car->price = atoi(tabChaineRecup[6]);
             data1->u.value_car->gearbox = atoi(tabChaineRecup[7]) != 0;
 
-            data2 = initializeMaintenance("files/maintenances.csv",tabChaineRecup[0]);
             data1->u.value_car->car_maint = initializeMaintenance("files/maintenances.csv",tabChaineRecup[0])->u.value_maintenance;
 
             data1->u.value_car->history_rent = initializeHistory("files/booking.csv", maillonResearch, tabChaineRecup[0])->u.value_hist;
@@ -58,20 +56,21 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             break;
         case 1:
 
-            if (strcmp(plateNumber, tabChaineRecup[6]) == 0) {
-                data1->typ_val = HISTORY;
-                data1->u.value_hist = malloc(sizeof(history));
-                data2->typ_val = RESERVATION;
-                data2->u.value_reserv = malloc(sizeof(reservation));
-                data2->u.value_reserv->number = atoi(tabChaineRecup[0]);
-                link = rechercheMaillon(maillonResearch, data2);
-                data1->u.value_hist->reserv = link->rent->u.value_reserv;
-                free(data2->u.value_reserv);
-                free(data2);
-            } else {
-                free(data1);
-                data1 = NULL;
-            }
+                if(strcmp(plateNumber, tabChaineRecup[6])== 0){
+                    data *data2 = malloc(sizeof(data));
+                    data1->typ_val = HISTORY;
+                    data1->u.value_hist = malloc(sizeof(history));
+                    data2->typ_val = RESERVATION;
+                    data2->u.value_reserv = malloc(sizeof(reservation));
+                    data2->u.value_reserv->number = atoi(tabChaineRecup[0]);
+                    link = rechercheMaillon(maillonResearch, data2);
+                    data1->u.value_hist->reserv = link->rent->u.value_reserv;
+                    free(data2->u.value_reserv);
+                    free(data2);
+                } else {
+                    free(data1);
+                    data1 = NULL;
+                }
 
 
             break;

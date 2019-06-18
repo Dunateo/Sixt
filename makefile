@@ -1,5 +1,5 @@
-Sixt: file.o chaine.o calculus.o initialize.o main.o chained_list.o
-	gcc -o Sixt file.o chaine.o calculus.o initialize.o  chained_list.o main.o
+Sixt: file.o chaine.o calculus.o initialize.o main.o chained_list.o smartFunctions.o
+	gcc -o -lm Sixt file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o main.o
 
 chained_list.o: chained_list.h chained_list.c
 	gcc -c -Wall chained_list.c
@@ -12,6 +12,9 @@ file.o: file.c chaine.h chained_list.h file.h initialize.h
 
 calculus.o: calculus.h calculus.c chained_list.h
 	gcc -c -Wall calculus.c
+
+smartFunctions.o: calculus.h chained_list.h smartFunctions.h smartFunctions.c
+	gcc -c -Wall smartFunctions.c
 
 initialize.o: initialize.h initialize.c chaine.h file.h chained_list.h
 	gcc -c -Wall initialize.c

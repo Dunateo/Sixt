@@ -4,6 +4,8 @@
 #include "calculus.h"
 #include "chained_list.h"
 
+//const price for a daily rent per categories
+const float pA  = 64.98, pB = 108.98, pC = 178.98;
 
 /**
  * [actualDate give the local date in a structure date]
@@ -137,6 +139,32 @@ int delayTime(reservation *Car_reserv){
 }
 
 /**
+ * [dailyPrice give the daily Price for a car Category]
+ * @param  category [char]
+ * @return          [float]
+ */
+float dailyPrice(char category){
+	float price;
+
+	switch(category){
+
+		case 'A':
+			price = pA;
+		break;
+
+		case 'B':
+			price = pB;
+		break;
+
+		case 'C':
+			price = pC;
+		break;
+	}
+
+	return price;
+}
+
+/**
  * [rentalPrice return the price to rent a car depend on the day number]
  * @param  val        [car]
  * @param  Car_reserv [reservation]
@@ -145,12 +173,9 @@ int delayTime(reservation *Car_reserv){
 float rentalPrice(data *val, reservation* Car_reserv){
 	float price;
 	int nbday;
-	float pA  = 64.98, pB = 108.98,pC = 178.98;
 	nbday = calculusDate(Car_reserv->begining, Car_reserv->end);
 
 	if((val->typ_val) == 0){
-
-		
 
 		//management for upgrading classe
 		//check if the car given is superior of the car reserved in this case we give the price of what he asked for
@@ -286,94 +311,5 @@ float sellingCar(data *val){
 		printf("It's not a car!\n");
 		return 0;
 	}
-
-}
-
-/**
- * [searchCar give a car free with the less mileage]
- * @param  ptrtete    [maillon **]
- * @param  Car_reserv [reservation *]
- * @param upgraded    [int *, 0 not upgraded, 1 carUpgraded by +1, 2 carUpgraded by +2, 3 none cars are available]
- * @return            [maillon *]
- */
-maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
-	maillon *ptrtrans = ptrtete;
-	maillon *carFinded, *carUpgrade, *carUpgrade2;
-	carFinded = carUpgrade = carUpgrade2 = NULL;
-	int i = 0;
-
-	if (ptrtrans->rent->typ_val == CAR){
-		
-		//travel int the car chained list
-		while(ptrtrans !=  NULL){
-
-			//check if the car is free and if it's a car request
-			if (isCarFree(ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category == ptrtrans->rent->u.value_car->category){
-
-				//check if the mileage is inferior at the carFinded before 
-				if (i > 0 && carFinded != NULL && ptrtrans->rent->u.value_car->km < carFinded->rent->u.value_car->km){
-					carFinded = ptrtrans;
-				}else if(carFinded == NULL){
-					carFinded = ptrtrans;
-				}
-				
-				ptrtrans = ptrtrans->suivant;
-
-			}else{
-
-				//upgrading car +1 in case of carFinded is NULL
-				if(isCarFree(ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category+1 == ptrtrans->rent->u.value_car->category){
-					
-					//check if the mileage is inferior at the carFinded before 
-					if (i > 0 && carUpgrade != NULL && ptrtrans->rent->u.value_car->km < carUpgrade->rent->u.value_car->km){
-						carUpgrade = ptrtrans;
-					}else if(carUpgrade == NULL){
-						carUpgrade = ptrtrans;
-					}
-					
-				}
-				//upgrading car +2 in case of carUpgrade is NULL 
-				if (isCarFree(ptrtrans->rent->u.value_car->history_rent) == 0 && Car_reserv->category+2 == ptrtrans->rent->u.value_car->category){
-						//check if the mileage is inferior at the carFinded before 
-					if (i > 0 && carUpgrade2 != NULL && ptrtrans->rent->u.value_car->km < carUpgrade2->rent->u.value_car->km){
-						carUpgrade2 = ptrtrans;
-					}else if(carUpgrade2 == NULL){
-						carUpgrade2 = ptrtrans;
-					}
-					
-				}	
-				ptrtrans = ptrtrans->suivant;
-			}
-			i++;
-		}
-
-	}else{
-		printf("It's not a car !\n");
-		return 0;
-	}
-
-
-	//return the good car
-	if (carFinded == NULL){
-
-		*upgraded = 1;
-		return carUpgrade;
-
-	}if(carUpgrade == NULL){
-
-		*upgraded = 2;
-		return carUpgrade2;
-
-	}if(carUpgrade2 == NULL){
-
-		*upgraded = 3;
-		return carFinded;
-
-	}else{
-		*upgraded = 0;
-		return carFinded;
-	}
-
-	
 
 }

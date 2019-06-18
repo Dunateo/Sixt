@@ -54,7 +54,11 @@ void afficheListe(maillon **ptrTete){
 
 }
 
-// chainage
+/**
+ * [creationMaillon create Maillon]
+ * @param  rent [data]
+ * @return      [maillon]
+ */
 maillon* creationMaillon(data *rent){
     maillon *ptr;
     ptr = (maillon*)malloc(sizeof(maillon));
@@ -65,7 +69,12 @@ maillon* creationMaillon(data *rent){
     return ptr;
 }
 
-// valeur
+/**
+ * [rechercheMaillonPrecedent finding the last maillon]
+ * @param  ptrTete [maillon]
+ * @param  data1   [data]
+ * @return         [maillon]
+ */
 maillon* rechercheMaillonPrecedent(maillon **ptrTete, data *data1){
     maillon *ptr = ptrTete;
     maillon *precedent = NULL;
@@ -121,7 +130,11 @@ void insertionMaillon(maillon **ptrTete, maillon *insert){
     }
 }
 
-// chainage + valeur
+/**
+ * [insertionValeur chainage and insert data]
+ * @param rent    [data]
+ * @param ptrTete [maillon]
+ */
 void insertionValeur(data *rent, maillon **ptrTete){
     if(rent != NULL){
         insertionMaillon(ptrTete, creationMaillon(rent));
@@ -129,7 +142,12 @@ void insertionValeur(data *rent, maillon **ptrTete){
 
 }
 
-// valeur
+/**
+ * [rechercheMaillon search Maillon]
+ * @param  ptrTete [maillon]
+ * @param  data1   [data]
+ * @return         [maillon]
+ */
 maillon* rechercheMaillon(maillon *ptrTete, data* data1){
     maillon* ptr = ptrTete;
     switch (ptr->rent->typ_val){
@@ -162,7 +180,11 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
     return ptr;
 }
 
-//chainage
+/**
+ * [suppressionMaillon supress maillon]
+ * @param ptrTete [maillon]
+ * @param del     [maillon]
+ */
 void suppressionMaillon(maillon **ptrTete, maillon *del){
     maillon *precedent;
     precedent = rechercheMaillonPrecedent(*ptrTete,del->rent);
@@ -226,6 +248,12 @@ void inversionListe(maillon **ptrTete){
 
 }
 
+/**
+ * [dateCompare compare two dates]
+ * @param  inf [date]
+ * @param  sup [date]
+ * @return     [bool]
+ */
 bool dateCompare(date inf, date sup){
     if(inf.year < sup.year){
         return true;
