@@ -35,10 +35,12 @@ int main(int argc, char const *argv[])
 
     e.day = 23;
     e.year = 2019;
-    e.month = 10;
+    e.month = 11;
     e.hour = 9;
     prediction = milePrediction(&reservation , d, e);
-    printf("%d\n", prediction );
+    int h;
+    h = calculusDate(d,e);
+    printf("Prediction %d pour %d jours \n", prediction ,h);
 
     saveData(customers);
     //saveData(car);

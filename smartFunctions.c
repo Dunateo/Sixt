@@ -98,11 +98,11 @@ maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
  * @param ptrtete  [Reservation]
  * @param tabRecup [the array to get]
  */
-void createTabPrediction(maillon *ptrTete, predict **tabRecup, int *compteur){
+void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
 
 	//initialize tabRecup
 	maillon *ptrtrans = ptrTete;
-	*tabRecup = malloc(sizeof(predict)*1);
+	tabRecup = malloc(sizeof(predict)*1);
 	int cpt =0;
 
 
@@ -111,19 +111,23 @@ void createTabPrediction(maillon *ptrTete, predict **tabRecup, int *compteur){
 
 
 		//assignation des valeurs au tableau tabRecup
-		while (ptrtrans != NULL) {
-			
-			tabRecup[cpt]->jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
-			tabRecup[cpt]->km  = ptrtrans->rent->u.value_reserv->km;
+		while (ptrtrans != NULL ) {
 
-			printf("jour: %d\n",tabRecup[cpt]->jour);
-			printf("Km: %d\n",tabRecup[cpt]->km);
 
-			//realloc to have more space
-			*tabRecup = realloc(*tabRecup, 1 * sizeof(predict));
+
+			tabRecup[cpt].km  = ptrtrans->rent->u.value_reserv->km;
+			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
+
+
+			printf("jour: %d\n",cpt);
+			printf("Km: %d\n",tabRecup[cpt].km);
+
 			cpt++;
+			//realloc to have more space
+			tabRecup = realloc(tabRecup, (cpt+1)*sizeof(predict));
 
 			ptrtrans = ptrtrans->suivant;
+			printf("%p\n",ptrtrans );
 		}
 		*compteur = cpt;
 
@@ -140,16 +144,17 @@ void createTabPrediction(maillon *ptrTete, predict **tabRecup, int *compteur){
 int milePrediction(maillon **ptrTete , date begin, date end){
 
 	maillon *ptrtrans = *ptrTete;
-	predict *tabVal;
+	predict *tabVal = NULL;
 	int cpt=0, valP=0, n = cpt;
 
-	createTabPrediction(ptrtrans,&tabVal,&cpt);
+	createTabPrediction(ptrtrans,tabVal,&cpt);
 	valP = calculusDate(begin,end);
 
 	//calculus for the km prediction
 	for (int i = 0; i < cpt; i++) {
 
 			valP = tabVal[n-i].km + valP;
+			printf("%d\n",valP );
 
 	}
 
