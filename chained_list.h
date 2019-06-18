@@ -75,6 +75,12 @@ typedef struct maillon{
     struct maillon *suivant;
 }maillon;
 
+typedef struct predict{
+  int jour;
+  int km;
+
+}predict;
+
 void afficheListe(maillon **ptrTete);
 maillon* creationMaillon(data *rent);
 maillon* rechercheMaillonPrecedent(maillon **ptrTete, data *data1);
