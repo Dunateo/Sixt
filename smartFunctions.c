@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 #include "smartFunctions.h"
 #include "calculus.h"
 
@@ -99,12 +98,13 @@ maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
  * @param ptrtete  [Reservation]
  * @param tabRecup [the array to get]
  */
-void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
+void createTabPrediction(maillon *ptrTete, predict **tabRecup, int *compteur){
 
 	//initialize tabRecup
 	maillon *ptrtrans = ptrTete;
-	tabRecup = malloc(sizeof(predict)*1);
+	*tabRecup = malloc(sizeof(predict)*1);
 	int cpt =0;
+
 
 	//check if the ptrtete is reservation
 	if (ptrtrans->rent->typ_val == RESERVATION) {
@@ -112,13 +112,17 @@ void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
 
 		//assignation des valeurs au tableau tabRecup
 		while (ptrtrans != NULL) {
+			
+			tabRecup[cpt]->jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
+			tabRecup[cpt]->km  = ptrtrans->rent->u.value_reserv->km;
 
-			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
-			tabRecup[cpt].km = ptrtrans->rent->u.value_reserv->km;
+			printf("jour: %d\n",tabRecup[cpt]->jour);
+			printf("Km: %d\n",tabRecup[cpt]->km);
 
 			//realloc to have more space
-			tabRecup = realloc(tabRecup, 1 * sizeof(predict));
+			*tabRecup = realloc(*tabRecup, 1 * sizeof(predict));
 			cpt++;
+
 			ptrtrans = ptrtrans->suivant;
 		}
 		*compteur = cpt;
@@ -136,8 +140,8 @@ void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
 int milePrediction(maillon **ptrTete , date begin, date end){
 
 	maillon *ptrtrans = *ptrTete;
-	predict tabVal;
-	int cpt=0, valP, n = cpt;
+	predict *tabVal;
+	int cpt=0, valP=0, n = cpt;
 
 	createTabPrediction(ptrtrans,&tabVal,&cpt);
 	valP = calculusDate(begin,end);
@@ -145,10 +149,11 @@ int milePrediction(maillon **ptrTete , date begin, date end){
 	//calculus for the km prediction
 	for (int i = 0; i < cpt; i++) {
 
-			valP = tabVal[n-i] + valP;
+			valP = tabVal[n-i].km + valP;
 
 	}
-	valP = sqrt(valP);
+
+
 	return valP;
 
 }
