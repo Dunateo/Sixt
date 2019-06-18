@@ -98,11 +98,11 @@ maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
  * @param ptrtete  [Reservation]
  * @param tabRecup [the array to get]
  */
-void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
+predict *createTabPrediction(maillon *ptrTete, int *compteur){
 
 	//initialize tabRecup
 	maillon *ptrtrans = ptrTete;
-	tabRecup = malloc(sizeof(predict)*1);
+	predict *tabRecup = malloc(sizeof(predict)*1);
 	int cpt =0;
 
 
@@ -130,7 +130,7 @@ void createTabPrediction(maillon *ptrTete, predict *tabRecup, int *compteur){
 			printf("%p\n",ptrtrans );
 		}
 		*compteur = cpt;
-
+		return tabRecup;
 	}
 }
 
@@ -147,14 +147,13 @@ int milePrediction(maillon **ptrTete , date begin, date end){
 	predict *tabVal = NULL;
 	int cpt=0, valP=0, n = cpt;
 
-	createTabPrediction(ptrtrans,tabVal,&cpt);
+	tabVal = createTabPrediction(ptrtrans,&cpt);
 	valP = calculusDate(begin,end);
 
 	//calculus for the km prediction
 	for (int i = 0; i < cpt; i++) {
 
 			valP = tabVal[n-i].km + valP;
-			printf("%d\n",valP );
 
 	}
 
