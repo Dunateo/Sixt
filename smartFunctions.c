@@ -138,7 +138,7 @@ int errorPrediction(predict *tabVal,int cpt){
 			for (int j = i; j < cpt; j++) {
 				if (tabVal[i].jour == tabTrans[j].jour ) {
 						error =  tabVal[i].km / tabTrans[j].km + error;
-					
+
 						cptE++;
 						}
 			}
