@@ -116,9 +116,9 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
         case CLIENT:
             data1->typ_val = CLIENT;
-            data1->u.value_client = malloc(sizeof(client));
-            data1->u.value_client->client_name = (char*) malloc(sizeof(char) * 25);
-            data1->u.value_client->driving_license_type = (char*) malloc(2*sizeof(char));
+            data1->u.value_client = (client*) malloc(sizeof(client));
+            data1->u.value_client->client_name = (char*) malloc(sizeof(char) * strlen(tabChaineRecup[0]));
+            data1->u.value_client->driving_license_type = (char*) malloc(sizeof(char) * strlen(tabChaineRecup[1]));
 
             strcpy(data1->u.value_client->client_name,tabChaineRecup[0]);
             strcpy(data1->u.value_client->driving_license_type,tabChaineRecup[1]);
