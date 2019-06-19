@@ -24,6 +24,7 @@ enum typeMaintenance {CT,REPAIR,REVISION};
 typedef struct maintenance{
     enum typeMaintenance type;
     date date_maintenance;
+    float coast;
     struct maintenance *suivant;
 }maintenance;
 

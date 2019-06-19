@@ -119,7 +119,7 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
 			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
 
 
-			printf("jour: %d\n",cpt);
+			printf("jour: %d\n",tabRecup[cpt].jour);
 			printf("Km: %d\n",tabRecup[cpt].km);
 
 			cpt++;
