@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
     maillon *car, *customers, *reservation, *resultcar;
     customers = initializeClients("files/clients.csv");
     reservation = initializeReservation("files/booking.csv", customers);
+    printf("LOL\n");
     car = initializeCar("files/vehicules.csv", reservation);
 
 /*

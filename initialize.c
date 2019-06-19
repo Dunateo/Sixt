@@ -114,6 +114,7 @@ maillon* initializeReservation(char* fileName, maillon* client)
         //will assign a lign of nb lines
         for(int i=1; i<nbLines; i++)
         {
+            //printf("LOL %d\n",i);
             insertionValeur(readingData(indiceColonnes,f,RESERVATION,client,NULL),&ptrTete);
         }
         //fclose(f);
