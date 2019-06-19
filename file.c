@@ -147,7 +147,9 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             break;
     }
     for (int i = 0; i < nbSeparator+1; ++i) {
-        if(chaineRecup != NULL) {
+        printf("|%s|\n",tabChaineRecup[i]);
+        if(*tabChaineRecup != NULL && tabChaineRecup[i] != NULL) {
+
             free(tabChaineRecup[i]);
             tabChaineRecup[i]=NULL;
         }
