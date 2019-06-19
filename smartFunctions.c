@@ -129,6 +129,12 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
 	return 0;
 }
 
+/**
+ * [errorPrediction  caculus for the error model]
+ * @param tabVal
+ * @param cpt
+ * @return
+ */
 int errorPrediction(predict *tabVal,int cpt){
 		int cptE = 0;
 		float error =0;

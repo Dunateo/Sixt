@@ -81,6 +81,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
             data1->typ_val = RESERVATION;
             data1->u.value_reserv = malloc(sizeof(reservation));
+            printf("||%s||\n", tabChaineRecup[1]);
 
             data1->u.value_reserv->number = atoi(tabChaineRecup[0]);
 
