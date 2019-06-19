@@ -73,7 +73,7 @@ maillon* initializeClients(char* fileName)
         strcat(indiceColonnes,"");
 
         data1 = readingData(indiceColonnes,f,CLIENT,NULL,NULL);
-        ptrTete = creationMaillon(&data1);
+        ptrTete = creationMaillon(data1);
         freeDataInitialize(data1);
         data1 = NULL;
         //will assign a lign of nb lines
@@ -246,5 +246,4 @@ void freeDataInitialize(data* data1){
            break;
     }
     free(data1);
-    data1 = NULL;
 }

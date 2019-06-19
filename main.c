@@ -4,7 +4,6 @@
 #include "chained_list.h"
 #include "initialize.h"
 #include "smartFunctions.h"
-#include "getter.h"
 
 int main(int argc, char const *argv[])
 {
@@ -26,7 +25,7 @@ int main(int argc, char const *argv[])
     resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
-
+*/
     int prediction;
     date d,e;
     d.day = 3;
@@ -42,14 +41,7 @@ int main(int argc, char const *argv[])
     int h;
     h = calculusDate(d,e);
     printf("Prediction %d pour %d jours \n", prediction ,h);
-*/
-    date date1;
-    date1.hour = 8;
-    date1.day = 2;
-    date1.month = 10;
-    date1.year = 2019;
-    maillon* resultat;
-    //resultat = rechercheReservationJour(date1,&reservation);
+
     saveData(customers);
     saveData(car);
 	return 0;

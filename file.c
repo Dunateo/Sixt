@@ -122,6 +122,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
             strcpy(data1->u.value_client->client_name,tabChaineRecup[0]);
             strcpy(data1->u.value_client->driving_license_type,tabChaineRecup[1]);
+            //printf("%s|%d|\n",tabChaineRecup[1],atoi(tabChaineRecup[2]));
             data1->u.value_client->phone_number = atoi(tabChaineRecup[2]);
             break;
         case 4:
@@ -145,10 +146,17 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             break;
     }
     for (int i = 0; i < nbSeparator+1; ++i) {
-        free(tabChaineRecup[i]);
+        if(chaineRecup != NULL) {
+            free(tabChaineRecup[i]);
+            tabChaineRecup[i]=NULL;
+        }
     }
     free(*tabChaineRecup);
-    free(chaineRecup);
+    if(chaineRecup != NULL) {
+        free(chaineRecup);
+        chaineRecup=NULL;
+    }
+
     *tabChaineRecup = NULL;
     chaineRecup = NULL;
     return data1;
