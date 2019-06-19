@@ -188,6 +188,7 @@ void initResult(int *lgChaine, char ***resultat, int position[50], int *nbSep)
     {
         if(j == 0)
         {
+            //printf("$$%d\n",position[j]+1);
             (*resultat)[j] = (char *)malloc(sizeof(char)*((position[j]+1)));
         }
         else if(j < *nbSep && j != 0)
