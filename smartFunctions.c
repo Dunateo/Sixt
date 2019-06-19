@@ -114,28 +114,45 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
 		while (ptrtrans != NULL ) {
 
 
-
 			tabRecup[cpt].km  = ptrtrans->rent->u.value_reserv->km;
 			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
-
-
-			printf("jour: %d\n",tabRecup[cpt].jour);
-			printf("Km: %d\n",tabRecup[cpt].km);
 
 			cpt++;
 			//realloc to have more space
 			tabRecup = realloc(tabRecup, (cpt+1)*sizeof(predict));
 
 			ptrtrans = ptrtrans->suivant;
-			printf("%p\n",ptrtrans );
 		}
 		*compteur = cpt;
 		return tabRecup;
 	}
+	return 0;
+}
+
+int errorPrediction(predict *tabVal,int cpt){
+		int cptE = 0;
+		float error =0;
+		predict *tabTrans = tabVal;
+
+		for (int i = 0; i < cpt; i++) {
+			for (int j = i; j < cpt; j++) {
+				if (tabVal[i].jour == tabTrans[j].jour ) {
+						error =  tabVal[i].km / tabTrans[j].km + error;
+
+						cptE++;
+						}
+			}
+		}
+
+
+		error =	error/cptE;
+
+
+		return error;
 }
 
 /**
- * [milePrediction predict mile for a reservation]
+ * [milePrediction predict mile for a reservation based on date]
  * @param  ptrTete [Reservation]
  * @param  begin   [date begin]
  * @param  end     [date end]
@@ -145,18 +162,36 @@ int milePrediction(maillon **ptrTete , date begin, date end){
 
 	maillon *ptrtrans = *ptrTete;
 	predict *tabVal = NULL;
-	int cpt=0, valP=0, n = cpt;
+	int cpt=0, delayT, error;
+	float temp=0, b1=0, b0=0, moyX=0,moyY=0, valP=0;
 
 	tabVal = createTabPrediction(ptrtrans,&cpt);
-	valP = calculusDate(begin,end);
+	delayT = calculusDate(begin,end);
 
-	//calculus for the km prediction
-	for (int i = 0; i < cpt; i++) {
-
-			valP = tabVal[n-i].km + valP;
+	//moyenne empirique
+	for (int h = 0; h < cpt; h++) {
+		moyX = tabVal[h].jour+moyX;
+		moyY = tabVal[h].km+moyY;
 
 	}
+	moyX = (1/cpt)*moyX;
+	moyY = (1/cpt)*moyY;
 
+	//calculus of the coeff like b1X +b0
+	for (int i = 0; i < cpt; i++) {
+
+			b1 = (tabVal[i].km-moyY)*(tabVal[i].jour-moyX) +b1;
+			temp = (tabVal[i].jour-moyX)*(tabVal[i].jour-moyX) + temp;
+
+	}
+	b1 = b1/temp;
+	b0 = moyY - (b1*moyX);
+	error = errorPrediction(tabVal,cpt);
+	printf("Erreur: %d\n",error );
+	//using the function to calculate a prediction
+	valP = b1*delayT +b0 + error;
+
+	free(tabVal);
 
 	return valP;
 

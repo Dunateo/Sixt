@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h> 
+#include <time.h>
 #include "calculus.h"
 #include "chained_list.h"
 
@@ -49,9 +49,9 @@ int isCarFree(history *ptrtete){
 				ptrtrans = ptrtrans->suivant;
 			}
 
-			
+
 		}
-	
+
 	return 0;
 
 }
@@ -83,7 +83,7 @@ float checkRentPrice(float constClass, int nbday){
 				}else if (nbday >= 365){
 
 					price = nbday *(constClass - (constClass*60)/100);
-					
+
 				}
 
 			printf("Prix par jour: %f\n",price/nbday );
@@ -99,7 +99,7 @@ float checkRentPrice(float constClass, int nbday){
  * @return          [int]
  */
 int calculusDate(date begining, date end){
-	int nbday;	
+	int nbday;
 	struct tm d1 = {0};
    	struct tm d2 = {0};
    	d1.tm_mday = begining.day;
@@ -179,13 +179,13 @@ float rentalPrice(data *val, reservation* Car_reserv){
 
 		//management for upgrading classe
 		//check if the car given is superior of the car reserved in this case we give the price of what he asked for
-		
+
 		if (val->u.value_car->category > Car_reserv->category){
 
 			switch(Car_reserv->category){
 
 			case 'A':
-				
+
 				price =  checkRentPrice(pA,nbday);
 			break;
 			case 'B':
@@ -196,14 +196,14 @@ float rentalPrice(data *val, reservation* Car_reserv){
 			break;
 		}
 
-			
-			
+
+
 		}else{
 
-			
+
 			switch(val->u.value_car->category){
 			case 'A':
-				
+
 				price =  checkRentPrice(pA,nbday);
 			break;
 			case 'B':
@@ -213,7 +213,7 @@ float rentalPrice(data *val, reservation* Car_reserv){
 				price =  checkRentPrice(pC,nbday);
 			break;
 
-			
+
 		}
 
 		}
@@ -222,7 +222,7 @@ float rentalPrice(data *val, reservation* Car_reserv){
 	else{
 		printf("It's not a car!\n");
 		return 0;
-	}	
+	}
 
 	return price;
 }
@@ -238,7 +238,7 @@ float sellingCar(data *val){
 	date actual = actualDate();
 
 	if (val->typ_val == 0)
-	{	
+	{
 
 		annee = actual.year - val->u.value_car->car_year;
 
@@ -262,7 +262,7 @@ float sellingCar(data *val){
 						prix = val->u.value_car->price - (val->u.value_car->price*(2))/100;
 
 					}
-				
+
 			break;
 
 			case 'B':
