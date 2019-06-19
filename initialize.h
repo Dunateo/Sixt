@@ -17,5 +17,6 @@ maillon* initializeClients(char* fileName);
 maillon* initializeReservation(char* fileName, maillon* client);
 data* initializeHistory(char* fileName, maillon* reservation, char *plateNumber);
 data* initializeMaintenance(char* fileName, char *plateNumber);
+void freeDataInitialize(data* data1);
 
 #endif //PROJECT_INITIALIZE_H

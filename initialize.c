@@ -45,6 +45,7 @@ maillon* initializeCar(char* fileName, maillon *reservation)
         }
         fclose(f);
     }
+    freeDataInitialize(data1);
     return ptrTete;
 }
 
@@ -73,14 +74,19 @@ maillon* initializeClients(char* fileName)
 
         data1 = readingData(indiceColonnes,f,CLIENT,NULL,NULL);
         ptrTete = creationMaillon(data1);
-
+        freeDataInitialize(data1);
+        data1 = NULL;
         //will assign a lign of nb lines
         for(int i=1; i<nbLines; i++)
         {
-            insertionValeur(readingData(indiceColonnes,f,CLIENT,NULL,NULL),&ptrTete);
+            data1 = readingData(indiceColonnes,f,CLIENT,NULL,NULL);
+            insertionValeur(data1,&ptrTete);
+            freeDataInitialize(data1);
+            data1 = NULL;
         }
         fclose(f);
     }
+
     return ptrTete;
 
 }
@@ -117,8 +123,9 @@ maillon* initializeReservation(char* fileName, maillon* client)
             //printf("LOL %d\n",i);
             insertionValeur(readingData(indiceColonnes,f,RESERVATION,client,NULL),&ptrTete);
         }
-        //fclose(f);
+        fclose(f);
     }
+    freeDataInitialize(data1);
     return ptrTete;
 
 }
@@ -141,6 +148,7 @@ data* initializeHistory(char* fileName, maillon* reservation, char *plateNumber)
 
         //first scan to have the number of lines
         fscanf(f, "%d", &nbLines);
+        reservationTotal = nbLines;
         //take the name of columns
         fscanf(f,"%s",indiceColonnes);
         //reset the char indiceColonnes because we will use it after
@@ -203,4 +211,30 @@ data* initializeMaintenance(char* fileName, char *plateNumber)
         fclose(f);
     }
     return data1;
+}
+
+void freeDataInitialize(data* data1){
+    switch (data1->typ_val) {
+        case 0:
+            free(data1->u.value_car->plate_number);
+            free(data1->u.value_car->brand_name);
+            free(data1->u.value_car->brand_model);
+            free(data1->u.value_car);
+            break;
+        case 1:
+            free(data1->u.value_hist);
+            break;
+        case 2:
+            free(data1->u.value_reserv);
+            break;
+        case 3:
+            free(data1->u.value_client->client_name);
+            free(data1->u.value_client->driving_license_type);
+            free(data1->u.value_client);
+            break;
+        case 4:
+           free(data1->u.value_maintenance = malloc(sizeof(maintenance)));
+           break;
+    }
+    free(data1);
 }

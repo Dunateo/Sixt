@@ -6,6 +6,8 @@
 #include "chaine.h"
 #include "initialize.h"
 
+
+
 /**
  * Function to read a file and assign them to a maillon
  * @param char fileName, int typeNum 
@@ -16,14 +18,14 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
     data *data1 = malloc(sizeof(data));
     maillon *link;
-    char *chaineRecup = "";
+    char *chaineRecup;
     int nbCarac = 0;
     char **tabChaineRecup;
     int nbSeparator = 0;
         //dynamique allocation
         fscanf(f,"%s",indiceColonnes);
         nbCarac = strlen(indiceColonnes);
-        chaineRecup = malloc(sizeof(char)*nbCarac);
+        chaineRecup = (char*) malloc(sizeof(char)*nbCarac);
         strcpy(chaineRecup,indiceColonnes);
 
     //divide the line in tabs
@@ -94,6 +96,11 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             data1->u.value_reserv->end.year = atoi(dateTmp[2]);
             data1->u.value_reserv->end.hour = atoi(dateTmp[3]);
 
+            for (int i = 0; i < dateNB; ++i) {
+                free(dateTmp[i]);
+            }
+            free(*dateTmp);
+
             data1->u.value_reserv->category = *tabChaineRecup[3];
             data1->u.value_reserv->km = atoi(tabChaineRecup[4]);
             data *data2 = malloc(sizeof(data));
@@ -104,16 +111,17 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             data1->u.value_reserv->client_info = link->rent->u.value_client;
             free(data2->u.value_client);
             free(data2);
+            data2 = NULL;
             break;
-        case 3:
 
+        case CLIENT:
             data1->typ_val = CLIENT;
             data1->u.value_client = malloc(sizeof(client));
-            data1->u.value_client->client_name = malloc(sizeof(char) * 25);
-            data1->u.value_client->driving_license_type = malloc(sizeof(char) * 2);
+            data1->u.value_client->client_name = (char*) malloc(sizeof(char) * 25);
+            data1->u.value_client->driving_license_type = (char*) malloc(2*sizeof(char));
 
-            data1->u.value_client->client_name = tabChaineRecup[0];
-            data1->u.value_client->driving_license_type = tabChaineRecup[1];
+            strcpy(data1->u.value_client->client_name,tabChaineRecup[0]);
+            strcpy(data1->u.value_client->driving_license_type,tabChaineRecup[1]);
             data1->u.value_client->phone_number = atoi(tabChaineRecup[2]);
             break;
         case 4:
@@ -126,6 +134,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
                 data1->u.value_maintenance->date_maintenance.day = atoi(dateTmp[0]);
                 data1->u.value_maintenance->date_maintenance.month = atoi(dateTmp[1]);
                 data1->u.value_maintenance->date_maintenance.year = atoi(dateTmp[2]);
+                data1->u.value_maintenance->coast = atof(tabChaineRecup[3]);
             } else {
                 free(data1);
                 data1 = NULL;
@@ -135,7 +144,13 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             printf("ERROR ! ENUM TYPE NOT DEFINE\n");
             break;
     }
-    free(tabChaineRecup);
+    for (int i = 0; i < nbSeparator+1; ++i) {
+        free(tabChaineRecup[i]);
+    }
+    free(*tabChaineRecup);
+    free(chaineRecup);
+    *tabChaineRecup = NULL;
+    chaineRecup = NULL;
     return data1;
 }
 
@@ -170,7 +185,7 @@ char* prepareCSV(maillon *save) {
             break;
         case 2:
             break;
-        case 3:
+        case CLIENT:
             strcpy(csv,save->rent->u.value_client->client_name);
             strcat(csv, ";");
             strcat(csv, save->rent->u.value_client->driving_license_type);
@@ -192,6 +207,9 @@ void saveChaine(data *ptrtete, char *plate, FILE *f) {
     char *csv = (char*) malloc(sizeof(char) * 150);
     char *tmp = (char*) malloc(sizeof(char) * 50);
     const char *typeNames[] = {"CT", "REPAIR", "REVISION"};
+    fscanf(f, "%d", &nbData);
+    fscanf(f, "%s", tmp);
+    fseek(f, 1, SEEK_CUR);
     if (save->typ_val == MAINTENANCE) {
         while (save->u.value_maintenance != NULL) {
             strcpy(csv,plate);
@@ -264,7 +282,7 @@ void saveData(maillon *ptrtete) {
     maillon *save = ptrtete;
     FILE *f, *mtn = NULL, *hist = NULL;
     char *tmp = malloc(sizeof(char) * 50);
-    int nbData = 0, nbMtn = 0;
+    int nbData = 1;
     switch (save->rent->typ_val) {
         case 0:
             f = fopen("files/vehicules2.csv", "r+");
@@ -276,7 +294,7 @@ void saveData(maillon *ptrtete) {
         case 2:
             f = fopen("files/booking2.csv", "r+");
             break;
-        case 3:
+        case CLIENT:
             f = fopen("files/clients2.csv", "r+");
             break;
         default:
