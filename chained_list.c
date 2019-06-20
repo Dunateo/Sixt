@@ -170,7 +170,6 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
             break;
         case 3:
             while(ptr != NULL && ptr->rent->u.value_client->phone_number != data1->u.value_client->phone_number){
-                printf("%d\n",ptr->rent->u.value_client->phone_number);
                 ptr = ptr->suivant;
             }
             break;
