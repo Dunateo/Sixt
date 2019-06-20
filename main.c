@@ -5,7 +5,7 @@
 #include "initialize.h"
 #include "smartFunctions.h"
 
-int main(int argc, char const *argv[])
+void mainList(void)
 {
     maillon *car, *customers, *reservation, *resultcar;
     customers = initializeClients("files/clients.csv");
@@ -49,5 +49,4 @@ int main(int argc, char const *argv[])
     }
     //saveData(customers);
     //saveData(car);
-	return 0;
 }
