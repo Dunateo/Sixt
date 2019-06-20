@@ -104,31 +104,49 @@ static void manage_list_history(GtkListStore *list, maillon *ptrtete){
 
   maillon *ptrtrans = ptrtete;
   history *ptrtransH = ptrtete->rent->u.value_car->history_rent;
+  maintenance *ptrMaint = ptrtrans->rent->u.value_car->car_maint;
   GtkTreeIter iter; //On crée un itérateur
   gtk_list_store_clear(list); //On vide la liste
   char dateS[25];
-  int r = 0;
-  int priceEarn=0;
+  int r = 0,priceEarn=0, priceCost=0;
+  bool maintBool;
 
 if (ptrtete->rent->typ_val == CAR) {
 
-  //todo enlever le r compteur qui limite
-  while (ptrtrans != NULL && r != 60) {
-
+    //car while
+  while (ptrtrans != NULL) {
+    //reservation while
     while (ptrtransH != NULL) {
+        //maint while
+        priceCost = 0;
+        /**while (ptrMaint!=NULL){
+            maintBool = dateCompare(ptrtransH->reserv->end, ptrMaint->date_maintenance);
+            if (maintBool == true){
+                priceCost = ptrMaint->coast+priceCost;
+            }
+            ptrMaint = ptrMaint->suivant;
+        }**/
+
+        //dates and price of a reservation
       sprintf(dateS,"%d/%d/%d | %d/%d/%d", ptrtransH->reserv->begining.day, ptrtransH->reserv->begining.month, ptrtransH->reserv->begining.year, ptrtransH->reserv->end.day, ptrtransH->reserv->end.month, ptrtransH->reserv->end.year);
       priceEarn = (int )rentalPrice(ptrtrans->rent, ptrtransH->reserv);
+
       gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
-      gtk_list_store_set(list, &iter, 0,r,1,priceEarn,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
+      gtk_list_store_set(list, &iter, 0,priceCost,1,priceEarn,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
       strcpy(dateS, "");
       ptrtransH = ptrtransH->suivant;
       r++;
     }
-    ptrtrans = ptrtrans->suivant;
-    ptrtransH = ptrtrans->rent->u.value_car->history_rent;
 
+    //change the car
+    ptrtrans = ptrtrans->suivant;
+    if (ptrtrans != NULL){
+        ptrtransH = ptrtrans->rent->u.value_car->history_rent;
+        ptrMaint = ptrtrans->rent->u.value_car->car_maint;
+    }
 
   }
+  sprintf(dateS,"%d", r);
 }
 
 }

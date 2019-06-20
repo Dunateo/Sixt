@@ -253,6 +253,7 @@ void inversionListe(maillon **ptrTete){
 
 /**
  * [dateCompare compare two dates]
+ * inf < sup ?
  * @param  inf [date]
  * @param  sup [date]
  * @return     [bool]
