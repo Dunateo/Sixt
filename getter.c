@@ -30,3 +30,14 @@ maillon* rechercheReservationJour(date date1, maillon **reservation){
     }
     return resultat;
 }
+
+void returnVehicule(data* car, int KM){
+    date date1;
+    data* ptr = car;
+    date1 = actualDate();
+    ptr->u.value_car->km += KM;
+    while(dateCompare(ptr->u.value_car->history_rent->reserv->begining,date1) != true && dateCompare(date1,ptr->u.value_car->history_rent->reserv->end)!= true){
+        ptr->u.value_hist = ptr->u.value_hist->suivant;
+    }
+    ptr->u.value_hist->reserv->km = KM;
+}

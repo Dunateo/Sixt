@@ -39,7 +39,7 @@ int isCarFree(history *ptrtete){
 	date actual = actualDate();
 
 
-		while(ptrtrans != NULL && ptrtrans->reserv->number != NULL){
+		while(ptrtrans != NULL){
 			cmpB = dateCompare(ptrtrans->reserv->begining, actual);
 			cmpE = dateCompare(ptrtrans->reserv->end, actual);
 
