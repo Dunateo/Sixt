@@ -150,7 +150,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
         printf("|%s|\n",tabChaineRecup[i]);
         if(*tabChaineRecup != NULL && tabChaineRecup[i] != NULL) {
 
-            free(tabChaineRecup[i]);
+            free(tabChaineRecup);
             tabChaineRecup[i]=NULL;
         }
     }
