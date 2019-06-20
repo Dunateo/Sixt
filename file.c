@@ -51,9 +51,24 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             data1->u.value_car->price = atoi(tabChaineRecup[6]);
             data1->u.value_car->gearbox = atoi(tabChaineRecup[7]) != 0;
 
-            data1->u.value_car->car_maint = initializeMaintenance("files/maintenances.csv",tabChaineRecup[0])->u.value_maintenance;
+            data* data3 = initializeMaintenance("files/maintenances.csv",tabChaineRecup[0]);
 
-            data1->u.value_car->history_rent = initializeHistory("files/booking.csv", maillonResearch, tabChaineRecup[0])->u.value_hist;
+            if(data3 != NULL){
+                data1->u.value_car->car_maint = data3->u.value_maintenance;
+            } else {
+                data1->u.value_car->car_maint = NULL;
+            }
+            free(data3);
+
+            data3 = initializeHistory("files/booking.csv", maillonResearch, tabChaineRecup[0]);
+
+            if(data3 != NULL){
+                data1->u.value_car->history_rent = data3->u.value_hist ;
+            } else {
+                data1->u.value_car->history_rent = NULL;
+            }
+            free(data3);
+
 
             break;
         case HISTORY:
@@ -111,7 +126,13 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
             link = rechercheMaillon(maillonResearch, data2);
 
-            data1->u.value_reserv->client_info = link->rent->u.value_client;
+
+            if(link != NULL){
+                data1->u.value_reserv->client_info = link->rent->u.value_client;
+            } else {
+                data1->u.value_reserv->client_info = NULL;
+            }
+
 
             free(data2->u.value_client);
             free(data2);
@@ -125,7 +146,6 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
             strcpy(data1->u.value_client->client_name,tabChaineRecup[0]);
             strcpy(data1->u.value_client->driving_license_type,tabChaineRecup[1]);
-            //printf("%s|%d|\n",tabChaineRecup[1],atoi(tabChaineRecup[2]));
             data1->u.value_client->phone_number = atoi(tabChaineRecup[2]);
             break;
         case MAINTENANCE:
@@ -149,21 +169,11 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             break;
     }
     for (int i = 0; i < nbSeparator+1; ++i) {
-        printf("|%s|\n",tabChaineRecup[i]);
-        //if(*tabChaineRecup != NULL && tabChaineRecup[i] != NULL)
-        {
-            free(tabChaineRecup[i]);
-            //tabChaineRecup[i]=NULL;
-        }
+        free(tabChaineRecup[i]);
     }
     free(tabChaineRecup);
-    if(chaineRecup != NULL) {
-        free(chaineRecup);
-        chaineRecup=NULL;
-    }
+    free(chaineRecup);
 
-    //tabChaineRecup = NULL;
-    chaineRecup = NULL;
     return data1;
 }
 
