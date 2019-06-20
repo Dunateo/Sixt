@@ -64,7 +64,6 @@ int isCarFree(history *ptrtete){
  */
 float checkRentPrice(float constClass, int nbday){
 	float price;
-				printf("%d\n", nbday );
 				if (nbday == 1){
 
 					price = constClass;
@@ -86,7 +85,6 @@ float checkRentPrice(float constClass, int nbday){
 
 				}
 
-			printf("Prix par jour: %f\n",price/nbday );
 
 	return price;
 
@@ -223,7 +221,6 @@ float rentalPrice(data *val, reservation* Car_reserv){
 		printf("It's not a car!\n");
 		return 0;
 	}
-
 	return price;
 }
 

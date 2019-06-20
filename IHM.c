@@ -95,22 +95,25 @@ static void manage_list_revision(GtkListStore *list)
  * @param list [description]
  */
 static void manage_list_history(GtkListStore *list, maillon *ptrtete){
-    
+
   maillon *ptrtrans = ptrtete;
   history *ptrtransH = ptrtete->rent->u.value_car->history_rent;
   GtkTreeIter iter; //On crée un itérateur
   gtk_list_store_clear(list); //On vide la liste
   char dateS[25];
   int r = 0;
+  int priceEarn=0;
 
 if (ptrtete->rent->typ_val == CAR) {
 
-  while (ptrtrans != NULL && r != 62) {
+  //todo enlever le r compteur qui limite
+  while (ptrtrans != NULL && r != 60) {
 
     while (ptrtransH != NULL) {
       sprintf(dateS,"%d/%d/%d | %d/%d/%d", ptrtransH->reserv->begining.day, ptrtransH->reserv->begining.month, ptrtransH->reserv->begining.year, ptrtransH->reserv->end.day, ptrtransH->reserv->end.month, ptrtransH->reserv->end.year);
+      priceEarn = (int )rentalPrice(ptrtrans->rent, ptrtransH->reserv);
       gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
-      gtk_list_store_set(list, &iter, 0,r,1,30,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
+      gtk_list_store_set(list, &iter, 0,r,1,priceEarn,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
       strcpy(dateS, "");
       ptrtransH = ptrtransH->suivant;
       r++;
