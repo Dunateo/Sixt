@@ -5,7 +5,7 @@
 #include "initialize.h"
 #include "smartFunctions.h"
 
-int main(int argc, char const *argv[])
+int mainList(int argc, char const *argv[])
 {
     maillon *car, *customers, *reservation, *resultcar;
     customers = initializeClients("files/clients.csv");
@@ -21,19 +21,12 @@ int main(int argc, char const *argv[])
     days = delayTime(car->rent->u.value_car->history_rent->reserv);
     printf("Delayed Days: %d\n", days );
 
-<<<<<<< HEAD
     int upgraded;
     resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
 
-=======
-    int upgraded;date end
-    resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
-    printf("The car is: %d\n",upgraded );
-    printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
->>>>>>> 112a165dc484b9c4c7c127c2b78eab76615ce631
-
+*/
     int prediction;
     date d,e;
     d.day = 3;
@@ -49,7 +42,7 @@ int main(int argc, char const *argv[])
     int h;
     h = calculusDate(d,e);
     printf("Prediction %d pour %d jours \n", prediction ,h);
-*/
+
     //saveData(customers);
     //saveData(car);
 	return 0;
