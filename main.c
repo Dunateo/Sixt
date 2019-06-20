@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
     h = calculusDate(d,e);
     printf("Prediction %d pour %d jours \n", prediction ,h);
 
-    saveData(customers);
-    saveData(car);
+    //saveData(customers);
+    //saveData(car);
 	return 0;
 }
