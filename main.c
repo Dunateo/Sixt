@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     reservation = initializeReservation("files/booking.csv", customers);
     car = initializeCar("files/vehicules.csv", reservation);
 
-
+/*
     float price;
     price = rentalPrice(car->rent, car->rent->u.value_car->history_rent->reserv);
     printf("Rental Price: %f $\n",price);
@@ -21,11 +21,18 @@ int main(int argc, char const *argv[])
     days = delayTime(car->rent->u.value_car->history_rent->reserv);
     printf("Delayed Days: %d\n", days );
 
+<<<<<<< HEAD
     int upgraded;
     resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
 
+=======
+    int upgraded;date end
+    resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
+    printf("The car is: %d\n",upgraded );
+    printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
+>>>>>>> 112a165dc484b9c4c7c127c2b78eab76615ce631
 
     int prediction;
     date d,e;
@@ -41,8 +48,8 @@ int main(int argc, char const *argv[])
     prediction = milePrediction(&reservation , d, e);
     int h;
     h = calculusDate(d,e);
-    printf("Prédiction %d km pour %d jours \n", prediction ,h);
-
+    printf("Prediction %d pour %d jours \n", prediction ,h);
+*/
     //saveData(customers);
     //saveData(car);
 	return 0;
