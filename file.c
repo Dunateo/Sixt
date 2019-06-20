@@ -37,13 +37,13 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
             data1->typ_val = CAR;
             data1->u.value_car = malloc(sizeof(car));
-            data1->u.value_car->plate_number = malloc(sizeof(char) * 10);
-            data1->u.value_car->brand_name = malloc(sizeof(char) * 10);
-            data1->u.value_car->brand_model = malloc(sizeof(char) * 10);
+            data1->u.value_car->plate_number = malloc(sizeof(char) * (strlen(tabChaineRecup[0])+1));
+            data1->u.value_car->brand_name = malloc(sizeof(char) * (strlen(tabChaineRecup[1])+1));
+            data1->u.value_car->brand_model = malloc(sizeof(char) * (strlen(tabChaineRecup[2])+1));
 
-            data1->u.value_car->plate_number = tabChaineRecup[0];
-            data1->u.value_car->brand_name = tabChaineRecup[1];
-            data1->u.value_car->brand_model = tabChaineRecup[2];
+            strcpy(data1->u.value_car->plate_number,tabChaineRecup[0]);
+            strcpy(data1->u.value_car->brand_name,tabChaineRecup[1]);
+            strcpy(data1->u.value_car->brand_model,tabChaineRecup[2]);
 
             data1->u.value_car->car_year = atoi(tabChaineRecup[3]);
             data1->u.value_car->km = atoi(tabChaineRecup[4]);
