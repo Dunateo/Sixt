@@ -25,7 +25,7 @@ int main(int argc, char const *argv[])
     resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
-*/
+
     int prediction;
     date d,e;
     d.day = 3;
@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
     int h;
     h = calculusDate(d,e);
     printf("Prediction %d pour %d jours \n", prediction ,h);
-
+*/
     //saveData(customers);
     //saveData(car);
 	return 0;
