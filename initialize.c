@@ -15,7 +15,6 @@ maillon* initializeCar(char* fileName, maillon *reservation)
 {
 
     maillon *ptrTete = malloc(sizeof(maillon));
-    data *data1 = NULL;
     int nbLines = 0;
     char indiceColonnes[150];
 
@@ -35,8 +34,7 @@ maillon* initializeCar(char* fileName, maillon *reservation)
         //reset the char indiceColonnes because we will use it after
         strcat(indiceColonnes,"");
 
-        data1 = readingData(indiceColonnes,f,CAR, reservation,NULL);
-        ptrTete = creationMaillon(data1);
+        ptrTete = creationMaillon(readingData(indiceColonnes,f,CAR, reservation,NULL));
 
         //will assign a lign of nb lines
         for(int i=1; i<nbLines; i++)
@@ -45,7 +43,6 @@ maillon* initializeCar(char* fileName, maillon *reservation)
         }
         fclose(f);
     }
-    freeDataInitialize(data1);
     return ptrTete;
 }
 
@@ -53,7 +50,6 @@ maillon* initializeClients(char* fileName)
 {
 
     maillon *ptrTete = malloc(sizeof(maillon));
-    data *data1 = NULL;
     int nbLines = 0;
     char indiceColonnes[150];
 
@@ -80,7 +76,6 @@ maillon* initializeClients(char* fileName)
             insertionValeur(readingData(indiceColonnes,f,CLIENT,NULL,NULL),&ptrTete);
 
         }
-        //freeDataInitialize(data1);
         fclose(f);
     }
 
@@ -205,40 +200,4 @@ data* initializeMaintenance(char* fileName, char *plateNumber)
         fclose(f);
     }
     return data1;
-}
-
-void freeDataInitialize(data* data1){
-    switch (data1->typ_val) {
-        case 0:
-            free(data1->u.value_car->plate_number);
-            data1->u.value_car->plate_number = NULL;
-            free(data1->u.value_car->brand_name);
-            data1->u.value_car->brand_name = NULL;
-            free(data1->u.value_car->brand_model);
-            data1->u.value_car->brand_model = NULL;
-            free(data1->u.value_car);
-            data1->u.value_car = NULL;
-            break;
-        case 1:
-            free(data1->u.value_hist);
-            data1->u.value_hist = NULL;
-            break;
-        case 2:
-            free(data1->u.value_reserv);
-            data1->u.value_reserv = NULL;
-            break;
-        case 3:
-            free(data1->u.value_client->client_name);
-            data1->u.value_client->client_name = NULL;
-            free(data1->u.value_client->driving_license_type);
-            data1->u.value_client->driving_license_type = NULL;
-            free(data1->u.value_client);
-            data1->u.value_client = NULL;
-            break;
-        case 4:
-           free(data1->u.value_maintenance);
-           data1->u.value_maintenance = NULL;
-           break;
-    }
-    free(data1);
 }

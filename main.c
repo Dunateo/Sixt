@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     reservation = initializeReservation("files/booking.csv", customers);
     car = initializeCar("files/vehicules.csv", reservation);
 
-
+/*
     float price;
     price = rentalPrice(car->rent, car->rent->u.value_car->history_rent->reserv);
     printf("Rental Price: %f $\n",price);
@@ -41,7 +41,12 @@ int main(int argc, char const *argv[])
     int h;
     h = calculusDate(d,e);
     printf("Prediction %d pour %d jours \n", prediction ,h);
-
+*/
+    for (int i = 0; i < 99; ++i) {
+        customers = customers->suivant;
+        reservation = reservation->suivant;
+        car = car->suivant;
+    }
     //saveData(customers);
     //saveData(car);
 	return 0;
