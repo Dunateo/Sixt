@@ -97,5 +97,6 @@ void suppressionListe(maillon **ptrTete);
 void inversionListe(maillon **ptrTete);
 data* rechercheSousChainePrecedent(data *ptrTete, data *data1);
 void insertionSousChaine(data **ptrTete, data *insert);
+void mainList(void);
 
 #endif //PROJET_CHAINED_LIST_H

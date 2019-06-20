@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include <string.h>
+#include "calculus.h"
+#include "chained_list.h"
+#include "initialize.h"
 #define DIM 100
 
 
@@ -119,17 +122,26 @@ void attributVehicule(variable*var, GtkBuilder*p_builder) {
 
 
 
-void GenerateVehicule(variable*var, GtkBuilder*p_builder ) {
+void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
     GtkWidget*box_car = NULL; // La GtkBox contenant toute les voitures
     GtkWidget*car[DIM]; // Correspond au voiture a afficher, elle est ajouté dans box_car
     GtkWidget*tab[2];// Contient le contenu de GtkBox  de véhicule
     char number[4]; // Recupere le nombre de voiture pour le concaténer
+    maillon*ptr = ptrTete;
+    char*model_car;
+
+    model_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_name)+5));
 
   box_car = GTK_WIDGET(gtk_builder_get_object(p_builder, "box_car")); // Permet de définir la GtkBox de véhicule
 
   for(int i=1; i<100; i++) { // Boucle selon le nombre de voiture
 
     sprintf(number,"%d",i);
+
+    strcpy(model_car,ptr->rent->u.value_car->brand_name);
+    strcat(model_car, ".png");
+
+    printf("\n\n\n%s\n\n", model_car);
 
     car[i] = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5); // Param 1 : orientation, param 2 : nb de pixel qui separe les elements
 
@@ -158,6 +170,9 @@ int main (int argc, char ** argv)
   GError      *  p_err       = NULL;
 
   variable*var; // Structure affichant les details de chaque voiture
+  maillon*ptrCar;
+  maillon*ptrClient;
+  maillon*ptrReservation;
 
   /* Initialisation de GTK+ */
   gtk_init (& argc, & argv);
@@ -175,7 +190,11 @@ int main (int argc, char ** argv)
     var = (variable*) malloc(sizeof(variable));
     InitVar(var);
 
-    GenerateVehicule(var,p_builder);
+    ptrClient = initializeClients("files/clients.csv");
+    ptrReservation = initializeReservation("files/booking.csv", ptrClient);
+    ptrCar = initializeCar("files/vehicules.csv", ptrReservation);
+
+    GenerateVehicule(var,p_builder, ptrCar);
 
     attributVehicule(var,p_builder);
 

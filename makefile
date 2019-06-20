@@ -1,5 +1,9 @@
-Sixt: file.o chaine.o calculus.o initialize.o main.o chained_list.o smartFunctions.o
-	gcc -o Sixt file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o main.o
+PKGCONFIG = $(shell which pkg-config)
+CFLAGS = $(shell $(PKGCONFIG) --cflags gtk+-3.0)
+LIBS = $(shell $(PKGCONFIG) --libs gtk+-3.0)
+
+Sixt: file.o chaine.o calculus.o initialize.o main.o chained_list.o smartFunctions.o IHM_M.o
+	gcc -o Sixt file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o main.o IHM_M.o $(LIBS)
 
 chained_list.o: chained_list.h chained_list.c
 	gcc -c -Wall chained_list.c
@@ -21,6 +25,9 @@ initialize.o: initialize.h initialize.c chaine.h file.h chained_list.h
 
 main.o: calculus.h chained_list.h initialize.h smartFunctions.h main.c
 	gcc -c -Wall main.c
+
+IHM_M.o : calculus.h chained_list.h initialize.h IHM_M.c
+	gcc  -c -Wall IHM_M.c $(CFLAGS)
 
 clean:
 	rm -f *.o *~ core Sixt
