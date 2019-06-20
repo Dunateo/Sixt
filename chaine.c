@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
-#include <string.h>
 #include "chaine.h"
 
 
@@ -275,7 +274,7 @@ int Fill(char *chaine, char sep)
 void fonct(char *info, char ***R, int *nb, char sep)
 {
     int lg = 0,nbSep = 0;
-    int *posit = (int*)malloc(sizeof(int)*strlen(info));
+    int *posit = (int*)malloc(sizeof(int)*longChaine(info));
 
     char **result = NULL;
 
