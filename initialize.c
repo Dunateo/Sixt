@@ -14,39 +14,36 @@
 maillon* initializeCar(char* fileName, maillon *reservation)
 {
 
-    maillon *ptrTete = malloc(sizeof(maillon));
-    data *data1 = NULL;
-    int nbLines = 0;
-    char indiceColonnes[150];
+  maillon *ptrTete = malloc(sizeof(maillon));
+  int nbLines = 0;
+  char indiceColonnes[150];
 
-    //file declaration
-    FILE *f = fopen(fileName, "rt");
+  //file declaration
+  FILE *f = fopen(fileName, "rt");
 
-    if(f == NULL)
-    {
-        printf("Impossible to open the file \n" );
+  if(f == NULL)
+  {
+      printf("Impossible to open the file \n" );
 
-    }else{
+  }else{
 
-        //first scan to have the number of lines
-        fscanf(f, "%d", &nbLines);
-        //take the name of columns
-        fscanf(f,"%s",indiceColonnes);
-        //reset the char indiceColonnes because we will use it after
-        strcat(indiceColonnes,"");
+      //first scan to have the number of lines
+      fscanf(f, "%d", &nbLines);
+      //take the name of columns
+      fscanf(f,"%s",indiceColonnes);
+      //reset the char indiceColonnes because we will use it after
+      strcat(indiceColonnes,"");
 
-        data1 = readingData(indiceColonnes,f,CAR, reservation,NULL);
-        ptrTete = creationMaillon(data1);
+      ptrTete = creationMaillon(readingData(indiceColonnes,f,CAR, reservation,NULL));
 
-        //will assign a lign of nb lines
-        for(int i=1; i<nbLines; i++)
-        {
-            insertionValeur(readingData(indiceColonnes,f,CAR, reservation,NULL),&ptrTete);
-        }
-        fclose(f);
-    }
-    freeDataInitialize(data1);
-    return ptrTete;
+      //will assign a lign of nb lines
+      for(int i=1; i<nbLines; i++)
+      {
+          insertionValeur(readingData(indiceColonnes,f,CAR, reservation,NULL),&ptrTete);
+      }
+      fclose(f);
+  }
+  return ptrTete;
 }
 
 maillon* initializeClients(char* fileName)

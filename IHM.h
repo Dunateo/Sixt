@@ -5,6 +5,7 @@
 typedef struct clicReservationCalendrier{
     GtkListStore *list;
     maillon *ptrTete;
+    date press;
 }clicReservationCalendrier;
 
 void closeWindow(GtkWidget *widget, gpointer window);
