@@ -102,11 +102,7 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
 
 	//initialize tabRecup
 	maillon *ptrtrans = ptrTete;
-<<<<<<< HEAD
 	predict *tabRecup = malloc(sizeof(predict)*1);
-=======
-	*tabRecup = malloc(sizeof(predict)*1);
->>>>>>> parent of e0d06f5... fixing maillon suivant NULL
 	int cpt =0;
 
 
@@ -118,14 +114,9 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
 		while (ptrtrans != NULL ) {
 
 
-<<<<<<< HEAD
 			tabRecup[cpt].km  = ptrtrans->rent->u.value_reserv->km;
 			tabRecup[cpt].jour = calculusDate(ptrtrans->rent->u.value_reserv->begining, ptrtrans->rent->u.value_reserv->end);
 
-=======
-			//realloc to have more space
-			*tabRecup = realloc(*tabRecup, 1 * sizeof(predict));
->>>>>>> parent of e0d06f5... fixing maillon suivant NULL
 			cpt++;
 			//realloc to have more space
 			tabRecup = realloc(tabRecup, (cpt+1)*sizeof(predict));
