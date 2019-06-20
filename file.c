@@ -10,8 +10,8 @@
 
 /**
  * Function to read a file and assign them to a maillon
- * @param char fileName, int typeNum 
- * typeNum is the type of enumeration 
+ * @param char fileName, int typeNum
+ * typeNum is the type of enumeration
  * @return data*
  */
 data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maillonResearch, char *plateNumber) {
