@@ -10,30 +10,30 @@
 
 /**
  * Function to read a file and assign them to a maillon
- * @param char fileName, int typeNum 
- * typeNum is the type of enumeration 
+ * @param char fileName, int typeNum
+ * typeNum is the type of enumeration
  * @return data*
  */
 data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maillonResearch, char *plateNumber) {
 
     data *data1 = malloc(sizeof(data));
-    maillon *link;
-    char *chaineRecup;
+    maillon *link = NULL;
+    char *chaineRecup = NULL;
     int nbCarac = 0;
-    char **tabChaineRecup;
+    char **tabChaineRecup = NULL;
     int nbSeparator = 0;
         //dynamique allocation
         fscanf(f,"%s",indiceColonnes);
         nbCarac = strlen(indiceColonnes);
-        chaineRecup = (char*) malloc(sizeof(char)*nbCarac);
+        chaineRecup = (char*) malloc(sizeof(char)*(nbCarac+1));
         strcpy(chaineRecup,indiceColonnes);
 
     //divide the line in tabs
     fonct(chaineRecup, &tabChaineRecup, &nbSeparator, ';');
-    char **dateTmp;
+    char **dateTmp = NULL;
     int dateNB = 4;
     switch (typeNum) {
-        case 0:
+        case CAR:
 
             data1->typ_val = CAR;
             data1->u.value_car = malloc(sizeof(car));
@@ -56,7 +56,7 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             data1->u.value_car->history_rent = initializeHistory("files/booking.csv", maillonResearch, tabChaineRecup[0])->u.value_hist;
 
             break;
-        case 1:
+        case HISTORY:
 
                 if(strcmp(plateNumber, tabChaineRecup[6])== 0){
                     data *data2 = malloc(sizeof(data));
@@ -77,11 +77,10 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
 
 
             break;
-        case 2:
+        case RESERVATION:
 
             data1->typ_val = RESERVATION;
             data1->u.value_reserv = malloc(sizeof(reservation));
-            printf("||%s||\n", tabChaineRecup[1]);
 
             data1->u.value_reserv->number = atoi(tabChaineRecup[0]);
 
@@ -100,33 +99,36 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
             for (int i = 0; i < dateNB; ++i) {
                 free(dateTmp[i]);
             }
-            free(*dateTmp);
+            free(dateTmp);
 
             data1->u.value_reserv->category = *tabChaineRecup[3];
             data1->u.value_reserv->km = atoi(tabChaineRecup[4]);
+
             data *data2 = malloc(sizeof(data));
             data2->typ_val = CLIENT;
             data2->u.value_client = malloc(sizeof(reservation));
             data2->u.value_client->phone_number = atoi(tabChaineRecup[5]);
+
             link = rechercheMaillon(maillonResearch, data2);
+
             data1->u.value_reserv->client_info = link->rent->u.value_client;
+
             free(data2->u.value_client);
             free(data2);
-            data2 = NULL;
             break;
 
         case CLIENT:
             data1->typ_val = CLIENT;
             data1->u.value_client = (client*) malloc(sizeof(client));
-            data1->u.value_client->client_name = (char*) malloc(sizeof(char) * strlen(tabChaineRecup[0]));
-            data1->u.value_client->driving_license_type = (char*) malloc(sizeof(char) * strlen(tabChaineRecup[1]));
+            data1->u.value_client->client_name = (char*) malloc(sizeof(char) * (strlen(tabChaineRecup[0])+1));
+            data1->u.value_client->driving_license_type = (char*) malloc(sizeof(char) * (strlen(tabChaineRecup[1])+1));
 
             strcpy(data1->u.value_client->client_name,tabChaineRecup[0]);
             strcpy(data1->u.value_client->driving_license_type,tabChaineRecup[1]);
             //printf("%s|%d|\n",tabChaineRecup[1],atoi(tabChaineRecup[2]));
             data1->u.value_client->phone_number = atoi(tabChaineRecup[2]);
             break;
-        case 4:
+        case MAINTENANCE:
             if (strcmp(plateNumber, tabChaineRecup[0]) == 0) {
                 data1->typ_val = MAINTENANCE;
                 data1->u.value_maintenance = malloc(sizeof(maintenance));
@@ -148,19 +150,19 @@ data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maill
     }
     for (int i = 0; i < nbSeparator+1; ++i) {
         printf("|%s|\n",tabChaineRecup[i]);
-        if(*tabChaineRecup != NULL && tabChaineRecup[i] != NULL) {
-
-            free(tabChaineRecup);
-            tabChaineRecup[i]=NULL;
+        //if(*tabChaineRecup != NULL && tabChaineRecup[i] != NULL)
+        {
+            free(tabChaineRecup[i]);
+            //tabChaineRecup[i]=NULL;
         }
     }
-    free(*tabChaineRecup);
+    free(tabChaineRecup);
     if(chaineRecup != NULL) {
         free(chaineRecup);
         chaineRecup=NULL;
     }
 
-    *tabChaineRecup = NULL;
+    //tabChaineRecup = NULL;
     chaineRecup = NULL;
     return data1;
 }

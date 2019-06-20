@@ -72,18 +72,15 @@ maillon* initializeClients(char* fileName)
         //reset the char indiceColonnes because we will use it after
         strcat(indiceColonnes,"");
 
-        data1 = readingData(indiceColonnes,f,CLIENT,NULL,NULL);
-        ptrTete = creationMaillon(data1);
-        freeDataInitialize(data1);
-        data1 = NULL;
+        //data1 = readingData(indiceColonnes,f,CLIENT,NULL,NULL);
+        ptrTete = creationMaillon(readingData(indiceColonnes,f,CLIENT,NULL,NULL));
         //will assign a lign of nb lines
         for(int i=1; i<nbLines; i++)
         {
-            data1 = readingData(indiceColonnes,f,CLIENT,NULL,NULL);
-            insertionValeur(data1,&ptrTete);
-            freeDataInitialize(data1);
-            data1 = NULL;
+            insertionValeur(readingData(indiceColonnes,f,CLIENT,NULL,NULL),&ptrTete);
+
         }
+        //freeDataInitialize(data1);
         fclose(f);
     }
 
@@ -95,7 +92,6 @@ maillon* initializeReservation(char* fileName, maillon* client)
 {
 
     maillon *ptrTete = malloc(sizeof(maillon));
-    data *data1 = NULL;
     int nbLines = 0;
     char indiceColonnes[150];
 
@@ -114,8 +110,8 @@ maillon* initializeReservation(char* fileName, maillon* client)
         //reset the char indiceColonnes because we will use it after
         strcat(indiceColonnes,"");
 
-        data1 = readingData(indiceColonnes,f,RESERVATION,client,NULL);
-        ptrTete = creationMaillon(data1);
+        //readingData(indiceColonnes,f,RESERVATION,client,NULL);
+        ptrTete = creationMaillon(readingData(indiceColonnes,f,RESERVATION,client,NULL));
 
         //will assign a lign of nb lines
         for(int i=1; i<nbLines; i++)
@@ -124,7 +120,6 @@ maillon* initializeReservation(char* fileName, maillon* client)
         }
         fclose(f);
     }
-    freeDataInitialize(data1);
     return ptrTete;
 
 }

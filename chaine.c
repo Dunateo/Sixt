@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 #include "chaine.h"
 
 
@@ -180,26 +181,30 @@ void chaine(char *chaine, int *lgChaine, int *nbSep, int position[50], char sep)
 }
 
 
-void initResult(int *lgChaine, char ***resultat, int position[50], int *nbSep)
+void initResult(int *lgChaine, char ***resultat, int *position, int *nbSep)
 {
-    (*resultat) = (char **)malloc(sizeof(char *)*(*nbSep + 1));
+    char **temp = (char **)calloc((*nbSep + 1), sizeof(char *));
 
     for(int j = 0;j <= *nbSep; j++)
     {
         if(j == 0)
         {
             //printf("$$%d\n",position[j]+1);
-            (*resultat)[j] = (char *)malloc(sizeof(char)*((position[j]+1)));
+            temp[j] = (char *)calloc(((position[j]+1)), sizeof(char));
         }
         else if(j < *nbSep && j != 0)
         {
-            (*resultat)[j] = (char *)malloc(sizeof(char)*(position[j]-position[j-1]+1));
+            int positionJ = position[j];
+            int positionJm1 = position[j-1];
+            char *t = (char *)malloc(sizeof(char)*(positionJ-positionJm1+1));
+            temp[j] = t;
         }
         else
         {
-            (*resultat)[j] = (char *)malloc(sizeof(char)*(*lgChaine-position[j-1]+2));
+            temp[j] = (char *)malloc(sizeof(char)*(*lgChaine-position[j-1]+2));
         }
     }
+    *resultat = temp;
 }
 
 
@@ -269,9 +274,10 @@ int Fill(char *chaine, char sep)
 
 void fonct(char *info, char ***R, int *nb, char sep)
 {
-    int lg = 0,nbSep = 0,posit[50];
+    int lg = 0,nbSep = 0;
+    int *posit = (int*)malloc(sizeof(int)*strlen(info));
 
-    char **result;
+    char **result = NULL;
 
     if(info == NULL)
     {
@@ -306,4 +312,5 @@ void fonct(char *info, char ***R, int *nb, char sep)
     {
         printf("Chaine vide\n");
     }
+    free(posit);
 }

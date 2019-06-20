@@ -166,12 +166,15 @@ maillon* rechercheMaillon(maillon *ptrTete, data* data1){
             while(ptr != NULL && ptr->rent->u.value_reserv->number != data1->u.value_reserv->number){
                 ptr = ptr->suivant;
             }
+            // ptr == NULL || ptr->rent->u.value_reserv->number == data1->u.value_reserv->number
             break;
         case 3:
             while(ptr != NULL && ptr->rent->u.value_client->phone_number != data1->u.value_client->phone_number){
+                printf("%d\n",ptr->rent->u.value_client->phone_number);
                 ptr = ptr->suivant;
             }
             break;
+            // ptr == NULL || ptr->rent->u.value_client->phone_number == data1->u.value_client->phone_number
         case 4:
             while(ptr != NULL && dateEqual(ptr->rent->u.value_maintenance->date_maintenance,data1->u.value_maintenance->date_maintenance) != true && ptr->rent->u.value_maintenance->type != data1->u.value_maintenance->type){
                 ptr = ptr->suivant;
