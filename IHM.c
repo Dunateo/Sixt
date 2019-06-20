@@ -94,16 +94,34 @@ static void manage_list_revision(GtkListStore *list)
  * Fonction qui gère le contenu de la list d'historique
  * @param list [description]
  */
-static void manage_list_history(GtkListStore *list)
-{
+static void manage_list_history(GtkListStore *list, maillon *ptrtete){
+    
+  maillon *ptrtrans = ptrtete;
+  history *ptrtransH = ptrtete->rent->u.value_car->history_rent;
   GtkTreeIter iter; //On crée un itérateur
   gtk_list_store_clear(list); //On vide la liste
-  for(int i=0; i<10; i++)
-  {
-    gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
-    gtk_list_store_set(list, &iter, 0,20,1,30,2,"fr-236-pd",3,360,4,"07/02/2020", -1); //Et on l'initialise
+  char dateS[25];
+  int r = 0;
+
+if (ptrtete->rent->typ_val == CAR) {
+
+  while (ptrtrans != NULL && r != 62) {
+
+    while (ptrtransH != NULL) {
+      sprintf(dateS,"%d/%d/%d | %d/%d/%d", ptrtransH->reserv->begining.day, ptrtransH->reserv->begining.month, ptrtransH->reserv->begining.year, ptrtransH->reserv->end.day, ptrtransH->reserv->end.month, ptrtransH->reserv->end.year);
+      gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
+      gtk_list_store_set(list, &iter, 0,r,1,30,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
+      strcpy(dateS, "");
+      ptrtransH = ptrtransH->suivant;
+      r++;
+    }
+    ptrtrans = ptrtrans->suivant;
+    ptrtransH = ptrtrans->rent->u.value_car->history_rent;
+
 
   }
+}
+
 }
 
 /**
@@ -365,7 +383,7 @@ int main (int argc, char ** argv)
 
                         /* Gestion de la liste d'historique des reservations */
                         GtkListStore *list_price_history = (GtkListStore *) gtk_builder_get_object(p_builder, "price_history"); //On récupère la liste d'historique
-                        manage_list_history(list_price_history);
+                        manage_list_history(list_price_history, car);
 
                         /* Gestion de la liste de révision */
                         GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(p_builder, "Revision"); //On récup-re la liste de revision
