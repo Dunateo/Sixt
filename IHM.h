@@ -1,6 +1,5 @@
 #include <gtk/gtk.h>
 #include "chained_list.h"
-#define DIM 100
 
 
 typedef struct clicReservationCalendrier{

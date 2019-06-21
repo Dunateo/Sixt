@@ -12,6 +12,9 @@
 #include "file.h"
 #include "chaine.h"
 
+//global for the car display malloc
+int DIM;
+
 maillon* initializeCar(char* fileName, maillon *reservation);
 maillon* initializeClients(char* fileName);
 maillon* initializeReservation(char* fileName, maillon* client);
