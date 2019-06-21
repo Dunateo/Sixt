@@ -143,7 +143,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
 
 
     model_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_model)+1));
-    brand_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_name)+strlen(cwd)+5);
+    brand_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_name)+strlen(cwd)+15));
     sprintf(number,"%d",i);
 
     strcpy(model_car, ptr->rent->u.value_car->brand_model);
@@ -256,12 +256,14 @@ static void manage_list_revision(GtkListStore *list, maintenance *ptrTete)
 {
     GtkTreeIter iter; //On crée un itérateur
     char date_maintenance[20];
-    while(ptrTete != NULL)
+    maintenance *ptrTrans = ptrTete;
+    gtk_list_store_clear(list); //On vide la liste
+    while(ptrTrans!= NULL)
     {
-        sprintf(date_maintenance, "%d/%d/%d", ptrTete->date_maintenance.day, ptrTete->date_maintenance.month, ptrTete->date_maintenance.year);
+        sprintf(date_maintenance, "%d/%d/%d", ptrTrans->date_maintenance.day, ptrTrans->date_maintenance.month, ptrTrans->date_maintenance.year);
         gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
         gtk_list_store_set(list, &iter, 0,date_maintenance,-1); //Et on l'intialise
-        ptrTete = ptrTete->suivant;
+        ptrTrans = ptrTrans->suivant;
     }
 }
 

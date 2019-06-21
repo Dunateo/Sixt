@@ -2726,7 +2726,6 @@
                           <object class="GtkTreeView">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="model">Revision</property>
                             <property name="headers_visible">False</property>
                             <property name="search_column">0</property>
                             <property name="hover_selection">True</property>
@@ -2826,7 +2825,6 @@
                           <object class="GtkTreeView" id="Car_revision">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="model">Revision</property>
                             <property name="headers_visible">False</property>
                             <property name="search_column">0</property>
                             <property name="hover_selection">True</property>
