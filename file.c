@@ -16,7 +16,7 @@
  */
 data *readingData(char indiceColonnes[150], FILE *f, int typeNum, maillon *maillonResearch, char *plateNumber) {
 
-    data *data1 = malloc(sizeof(data));
+    data *data1 = (data*)malloc(sizeof(data));
     maillon *link = NULL;
     char *chaineRecup = NULL;
     int nbCarac = 0;
