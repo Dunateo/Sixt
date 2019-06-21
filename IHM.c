@@ -143,7 +143,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
 
 
     model_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_model)+1));
-    brand_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_name)+55));
+    brand_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_name)+strlen(cwd)+5);
     sprintf(number,"%d",i);
 
     strcpy(model_car, ptr->rent->u.value_car->brand_model);
