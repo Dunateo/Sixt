@@ -1,5 +1,6 @@
 #include <gtk/gtk.h>
 #include "chained_list.h"
+#define DIM 100
 
 
 typedef struct clicReservationCalendrier{
@@ -7,6 +8,13 @@ typedef struct clicReservationCalendrier{
     maillon *ptrTete;
     date press;
 }clicReservationCalendrier;
+
+typedef struct variable {
+  char***voiture_det;
+  GtkWidget*label1[11];
+  int i;
+  maillon*ptr;
+}variable;
 
 void closeWindow(GtkWidget *widget, gpointer window);
 void openWindow(GtkWidget *widget, gpointer window);
@@ -19,3 +27,8 @@ static void get_add_reservation_entry(GtkWidget *widget, GtkWidget *entry[3]);
 static void get_return_form_values( GtkWidget *widget, GtkWidget *entry[2]);
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2]);
 int main_ihm (int argc, char ** argv);
+void InitVar(variable*var, maillon*ptrTete);
+void initVoitureDetail(variable*var);
+void edit_label(GtkWidget*widget, gpointer data) ;
+void attributVehicule(variable*var, GtkBuilder*p_builder);
+void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete );
