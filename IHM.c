@@ -118,7 +118,7 @@ static void manage_list_revision(GtkListStore *list, maintenance *ptrTete)
  * Fonction qui gère le contenu de la list d'historique
  * @param list [description]
  */
-static void manage_list_history(GtkListStore *list, maillon *ptrtete){
+static void manage_list_history(GtkListStore *list, maillon *ptrtete,  int *recupTReserv, int *recupTprice){
 
   maillon *ptrtrans = ptrtete;
   history *ptrtransH = ptrtete->rent->u.value_car->history_rent;
@@ -126,7 +126,7 @@ static void manage_list_history(GtkListStore *list, maillon *ptrtete){
   GtkTreeIter iter; //On crée un itérateur
   gtk_list_store_clear(list); //On vide la liste
   char dateS[25];
-  int totalReserv = 0,priceEarn=0, priceCost=0;
+  int totalReserv = 0,priceEarn=0, priceCost=0, totalPrice=0;
   bool maintBool;
 
 if (ptrtete->rent->typ_val == CAR) {
@@ -153,6 +153,7 @@ if (ptrtete->rent->typ_val == CAR) {
       gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
       gtk_list_store_set(list, &iter, 0,priceCost,1,priceEarn,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
       strcpy(dateS, "");
+      totalPrice = priceEarn - priceCost +totalPrice;
       ptrtransH = ptrtransH->suivant;
       totalReserv++;
     }
@@ -165,7 +166,10 @@ if (ptrtete->rent->typ_val == CAR) {
     }
 
   }
-  sprintf(dateS,"%d", totalReserv);
+  //ressort la chaine de charactères total rserv
+   *recupTReserv = totalReserv;
+  *recupTprice = totalPrice;
+
 }
 
 }
@@ -428,9 +432,11 @@ int main (int argc, char ** argv)
                         GtkListStore *list_reservation = (GtkListStore *) gtk_builder_get_object(p_builder, "reservation_lists"); //On récupère la liste reservation_lists
 
                         /* Gestion de la liste d'historique des reservations */
+                        int RecupT , RecupP;
                         GtkListStore *list_price_history = (GtkListStore *) gtk_builder_get_object(p_builder, "price_history"); //On récupère la liste d'historique
-                        manage_list_history(list_price_history, car);
-
+                        manage_list_history(list_price_history, car,&RecupT, &RecupP);
+                        printf("Price: %d\n", RecupP);
+                        printf("Reserv: %d\n", RecupT);
                         /* Gestion de la liste de révision */
                         GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(p_builder, "Revision"); //On récup-re la liste de revision
                         manage_list_revision(list_revision, car->rent->u.value_car->car_maint);
