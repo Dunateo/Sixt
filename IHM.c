@@ -307,11 +307,11 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
     //affectations list avec les réservations qui correspondent au jour cliqué sur le calendrier
     while(ptrTemp != NULL){
 
-        interA = dateCompare(ptrTemp->rent->u.value_reserv->begining, strucTest->press);
-        interB = dateCompare(strucTest->press, ptrTemp->rent->u.value_reserv->end);
+        interA = dateCompare(ptrTemp->rent->u.value_reserv->begining, strucTest->clicJour);
+        interB = dateCompare(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);
 
         if (interA == true && interB == true){
-            daysLeft = calculusDate(strucTest->press, ptrTemp->rent->u.value_reserv->end);//caculus date between
+            daysLeft = calculusDate(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);//caculus date between
             gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
             gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, daysLeft ,-1); //Et on l'initailise
             cptReserv++;
@@ -684,14 +684,6 @@ int main (int argc, char ** argv)
                         printf("Reserv: %d\n", RecupT);
 
 
-
-
-
-                    clicReservationCalendrier structTest;
-                    structTest.list = list_reservation;
-                    //structTest->ptrTete = NULL;
-                    structTest.ptrTete = reservation;
-
                     /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                     calendrier */
                     for(int i=1; i<=31; i++)
@@ -707,7 +699,7 @@ int main (int argc, char ** argv)
                     structTest.list = list_reservation;
                     structTest.ptrTete = reservation;
 
-                        getJourCalendrier getJourCalendrier;
+                    getJourCalendrier getJourCalendrier;
 
                         /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                            calendrier */

@@ -22,8 +22,8 @@ smartFunctions.o: calculus.h chained_list.h smartFunctions.h smartFunctions.c
 initialize.o: initialize.h initialize.c chaine.h file.h chained_list.h
 	gcc -c -Wall initialize.c
 
-main.o: calculus.h chained_list.h initialize.h smartFunctions.h main.c
-	gcc -c -Wall main.c
+IHM.o : calculus.h chained_list.h initialize.h IHM.c IHM.h
+	gcc  -c -Wall IHM.c $(GTK_CFLAGS)
 
 clean:
 	rm -f *.o *~ core Sixt
