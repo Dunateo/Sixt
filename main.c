@@ -45,5 +45,4 @@ int mainList(int argc, char const *argv[])
 
     //saveData(customers);
     //saveData(car);
-	return 0;
 }
