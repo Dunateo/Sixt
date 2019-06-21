@@ -365,6 +365,15 @@
       </object>
     </child>
   </object>
+  <object class="GtkWindow">
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+  </object>
   <object class="GtkDialog" id="client_search">
     <property name="can_focus">False</property>
     <property name="type">popup</property>
@@ -878,11 +887,13 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">1</property>
                     <child>
                       <object class="GtkBox">
                         <property name="name">btn1</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">1</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_1">
@@ -931,10 +942,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">2</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">2</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_2">
@@ -980,6 +993,7 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">3</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1029,10 +1043,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">4</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">4</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_4">
@@ -1078,10 +1094,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">5</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">5</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_5">
@@ -1127,10 +1145,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">6</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">6</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_6">
@@ -1176,10 +1196,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">13</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">13</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_13">
@@ -1225,10 +1247,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">14</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">14</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_14">
@@ -1274,10 +1298,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">7</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">7</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_7">
@@ -1323,10 +1349,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">12</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">12</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_12">
@@ -1372,10 +1400,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">11</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">11</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_11">
@@ -1421,10 +1451,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">10</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">10</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_10">
@@ -1470,10 +1502,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">9</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">9</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_9">
@@ -1519,10 +1553,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">8</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">8</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_8">
@@ -1568,10 +1604,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">15</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">15</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_15">
@@ -1617,10 +1655,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">16</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">16</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_16">
@@ -1666,10 +1706,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">23</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">23</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_23">
@@ -1715,10 +1757,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">22</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">22</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_22">
@@ -1764,10 +1808,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">29</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">29</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_29">
@@ -1813,10 +1859,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">30</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">30</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_30">
@@ -1862,10 +1910,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">31</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">31</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_31">
@@ -1911,10 +1961,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">24</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">24</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_24">
@@ -1960,10 +2012,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">17</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">17</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_17">
@@ -2009,10 +2063,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">18</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">18</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_18">
@@ -2058,10 +2114,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">25</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">25</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_25">
@@ -2107,10 +2165,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">26</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">26</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_26">
@@ -2156,10 +2216,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">19</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">19</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_19">
@@ -2205,10 +2267,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">20</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">20</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_20">
@@ -2254,10 +2318,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">27</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">27</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_27">
@@ -2303,10 +2369,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">28</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">28</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_28">
@@ -2352,10 +2420,12 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">21</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="tooltip_text" translatable="yes">21</property>
                         <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="day_21">

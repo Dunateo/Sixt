@@ -16,7 +16,13 @@
  */
 void closeWindow(GtkWidget *widget, gpointer window)
 {
-        gtk_widget_hide(GTK_WIDGET(window)); //Cache la fenêtre passée en paramêtre
+    gtk_widget_hide(GTK_WIDGET(window)); //Cache la fenêtre passée en paramêtre
+}
+
+
+void getInfoBulle(GtkWidget *widget, getJourCalendrier *getDay)
+{
+  getDay->clicJour.day = atoi(gtk_widget_get_tooltip_text(widget));
 }
 
 /**
@@ -57,10 +63,10 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
   while(ptr->suivant != NULL ){
 
-    
 
-	 var->ptrMainTete[i] = ptr->rent->u.value_car->car_maint; 
-	 
+
+	 var->ptrMainTete[i] = ptr->rent->u.value_car->car_maint;
+
 
     if(ptr->rent->u.value_car->gearbox == true)
       var->voiture_det[i][5] = "Automatic"; // gearbox
@@ -76,9 +82,9 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
     sprintf(var->voiture_det[i][8] , "%.f€", dailyPrice(ptr->rent->u.value_car->category)); // daily price
     sprintf(var->voiture_det[i][9] ,"%.f€", sellingCar(ptr->rent)); // selling price
     sprintf(var->voiture_det[i][10] ,"%.f€",ptr->rent->u.value_car->price); // purchase price
-	
-	
-	
+
+
+
     i++;
     ptr = ptr->suivant;
 
@@ -192,13 +198,77 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
 
 static void get_combo_box_value(GtkWidget *widget, GtkComboBoxText *combo_box[2])
 {
-  gchar* return_text[2];
-  for(int i=0; i<2; i++)
-  {
-    return_text[i] = gtk_combo_box_text_get_active_text(combo_box[i]);
-    printf("%s\n", return_text[i]);
-  }
+        gchar* return_text[2];
+        for(int i=0; i<2; i++)
+        {
+                return_text[i] = gtk_combo_box_text_get_active_text(combo_box[i]);
+                printf("%s\n", return_text[i]);
+        }
 }
+
+static void get_calendar_values_from_main_window(GtkWidget *widget, getJourCalendrier *jourCalendrier)
+{
+        gchar *return_text[2];
+        for(int i=0; i<2; i++)
+        {
+                return_text[i] = gtk_combo_box_text_get_active_text(jourCalendrier->dropdown[i]);
+        }
+        if(strcmp(return_text[0],"Janvier" )== 0)
+        {
+                jourCalendrier->clicJour.month = 1;
+        }
+        else if(strcmp(return_text[0],"Fevrier") ==0)
+        {
+                jourCalendrier->clicJour.month = 2;
+        }
+        else if (strcmp(return_text[0],  "Mars")==0)
+        {
+                jourCalendrier->clicJour.month = 3;
+        }
+        else if (strcmp(return_text[0],  "Avril")==0)
+        {
+                jourCalendrier->clicJour.month = 4;
+        }
+        else if (strcmp(return_text[0],  "Mai")==0)
+        {
+                jourCalendrier->clicJour.month = 5;
+        }
+        else if (strcmp(return_text[0],  "Juin")==0)
+        {
+                jourCalendrier->clicJour.month = 6;
+        }
+        else if (strcmp(return_text[0],  "Juillet")==0)
+        {
+                jourCalendrier->clicJour.month = 7;
+        }
+        else if (strcmp(return_text[0],  "Aout")==0)
+        {
+                jourCalendrier->clicJour.month = 8;
+        }
+        else if (strcmp(return_text[0],  "Septembre")==0)
+        {
+                jourCalendrier->clicJour.month = 9;
+        }
+        else if (strcmp(return_text[0],  "Octobre")==0)
+        {
+                jourCalendrier->clicJour.month = 10;
+        }
+        else if (strcmp(return_text[0],  "Novembre")==0)
+        {
+                jourCalendrier->clicJour.month = 11;
+        }
+        else if (strcmp(return_text[0],  "Decembre") ==0)
+        {
+                jourCalendrier->clicJour.month = 12;
+        }
+
+        jourCalendrier->clicJour.year = atoi(return_text[1]);
+
+        printf("%d\n", jourCalendrier->clicJour.month);
+        printf("%d\n", jourCalendrier->clicJour.year);
+        printf("Jour :  %d\n", jourCalendrier->clicJour.day);
+}
+
 /**
  * Fonction qui permet de récupérer les dates du calendrier lors de l'ajout
  * d'une nouvelle réservation
@@ -413,10 +483,10 @@ int main (int argc, char ** argv)
         e.year = 2019;
         e.month = 10;
         e.hour = 9;
-        prediction = milePrediction(&reservation , d, e);
+        prediction = milePrediction(&reservation, d, e);
         int h;
         h = calculusDate(d,e);
-        printf("Prediction %d pour %d jours \n", prediction ,h);
+        printf("Prediction %d pour %d jours \n", prediction,h);
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
@@ -454,10 +524,11 @@ int main (int argc, char ** argv)
         /* Variables pour le calendrier de réservation*/
         GtkCalendar *calendar_reservation[2];
         char calendar_reservation_name[25];
-
         char compteur[20];
 
         var = (variable*) malloc(sizeof(variable));
+        GtkLabel *total_reservation;
+        GtkLabel *total_price;
 
 
         /* Initialisation de GTK+ */
@@ -496,6 +567,10 @@ int main (int argc, char ** argv)
                         GtkWidget * return_vehicule = (GtkWidget * ) gtk_builder_get_object (
                                 p_builder, "return_vehicule"
                                 );
+
+                        /* Permet d'intialisre les label a remplir pour l'onglet History */
+                        total_price = (GtkLabel*)gtk_builder_get_object(p_builder, "total_price");
+                        total_reservation = (GtkLabel*)gtk_builder_get_object(p_builder, "total_reservation");
 
 
 
@@ -551,8 +626,8 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values),calendar_reservation); //on appelle la fonction de calendrier au clic
 
 
-                        button_validate_date_changer = gtk_builder_get_object(p_builder, "validate_date_changer"); //On initialise le boutton de validation
-                        g_signal_connect(button_validate_date_changer, "clicked", G_CALLBACK(get_combo_box_value), date_changer); //On appelle la fonction de récupération de combo_box lors du clic souris
+
+
 
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
@@ -616,10 +691,7 @@ int main (int argc, char ** argv)
                     structTest.list = list_reservation;
                     //structTest->ptrTete = NULL;
                     structTest.ptrTete = reservation;
-                    structTest.press.day = 3;
-                    structTest.press.month = 9;
-                    structTest.press.year = 2019;
-                    structTest.press.hour = 9;
+
                     /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                     calendrier */
                     for(int i=1; i<=31; i++)
@@ -631,8 +703,28 @@ int main (int argc, char ** argv)
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
                     }
+                    clicReservationCalendrier structTest;
+                    structTest.list = list_reservation;
+                    structTest.ptrTete = reservation;
 
+                        getJourCalendrier getJourCalendrier;
 
+                        /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
+                           calendrier */
+                        for(int i=1; i<=31; i++)
+                        {
+
+                                sprintf(compteur, "%d",i); //on crée une chaine de caractère contenant le compteur
+                                strcpy(joursCalendrier, "day"); //on concatène les deux chaines
+                                strcat(joursCalendrier, compteur); //on concatène les deux chaines
+                                calendar[i]=gtk_builder_get_object(p_builder, joursCalendrier); //Pour chaque case, on récupère le bouton glade correspondant
+                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
+                                getJourCalendrier.dropdown[0] = date_changer[0];
+                                getJourCalendrier.dropdown[1] = date_changer[1];
+                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(getInfoBulle),&getJourCalendrier);
+                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(get_calendar_values_from_main_window), &getJourCalendrier); //On appelle la fonction de récupération de combo_box lors du clic souris
+                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
+                        }
                         /* Affichage des fenêtres */
                         gtk_widget_show_all(main_win);
 
