@@ -11,6 +11,7 @@ typedef struct clicReservationCalendrier{
 
 typedef struct variable {
   char***voiture_det;
+  maintenance **ptrMainTete;
   GtkWidget*label1[11];
   int i;
   maillon*ptr;
