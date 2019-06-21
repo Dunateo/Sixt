@@ -45,10 +45,13 @@ void InitVar(variable*var, maillon*ptrTete) {
 }
 
 
-void initVoitureDetail(variable*var) {
+void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
   maillon*ptr = var->ptr;
   int i = 1;
+  /* Gestion de la liste de révision */
+  GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(p_builder, "Car_revision"); //On récup-re la liste de revision
+
 
   while(ptr->suivant != NULL ){
 
@@ -63,7 +66,7 @@ void initVoitureDetail(variable*var) {
     strcpy(var->voiture_det[i][3], ptr->rent->u.value_car->brand_name); //brand
     strcpy(var->voiture_det[i][4], ptr->rent->u.value_car->brand_model); // model
     sprintf(var->voiture_det[i][6],"%d",ptr->rent->u.value_car->car_year); // years
-    //var->voiture_det[i][7] = "plate"; // revision
+    manage_list_revision(list_revision, var->ptr->rent->u.value_car->car_maint);//revision
     sprintf(var->voiture_det[i][8] , "%.f€", dailyPrice(ptr->rent->u.value_car->category)); // daily price
     sprintf(var->voiture_det[i][9] ,"%.f€", sellingCar(ptr->rent)); // selling price
     sprintf(var->voiture_det[i][10] ,"%.f€",ptr->rent->u.value_car->price); // purchase price
@@ -134,7 +137,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
 
   box_car = GTK_WIDGET(gtk_builder_get_object(p_builder, "box_car")); // Permet de définir la GtkBox de véhicule
 
-  initVoitureDetail(var);
+  initVoitureDetail(var, p_builder);
 
   while(ptr->suivant != NULL){ // Boucle selon le nombre de voiture
 
@@ -592,9 +595,7 @@ int main (int argc, char ** argv)
                         manage_list_history(list_price_history, car,&RecupT, &RecupP);
                         printf("Price: %d\n", RecupP);
                         printf("Reserv: %d\n", RecupT);
-                        /* Gestion de la liste de révision */
-                        GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(p_builder, "Revision"); //On récup-re la liste de revision
-                        manage_list_revision(list_revision, car->rent->u.value_car->car_maint);
+
 
 
 

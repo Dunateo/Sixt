@@ -28,7 +28,7 @@ static void get_return_form_values( GtkWidget *widget, GtkWidget *entry[2]);
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2]);
 int main_ihm (int argc, char ** argv);
 void InitVar(variable*var, maillon*ptrTete);
-void initVoitureDetail(variable*var);
+void initVoitureDetail(variable*var, GtkBuilder *p_builder);
 void edit_label(GtkWidget*widget, gpointer data) ;
 void attributVehicule(variable*var, GtkBuilder*p_builder);
 void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete );

@@ -28,8 +28,5 @@ IHM.o: IHM.c IHM.h calculus.h chained_list.h initialize.h smartFunctions.h
 main.o: calculus.h chained_list.h initialize.h smartFunctions.h main.c
 	gcc -c -Wall main.c
 
-IHM_M.o : calculus.h chained_list.h initialize.h IHM_M.c
-	gcc  -c -Wall IHM_M.c $(CFLAGS)
-
 clean:
 	rm -f *.o *~ core Sixt
