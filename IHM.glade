@@ -7,35 +7,6 @@
       <!-- column-name date -->
       <column type="gchararray"/>
     </columns>
-    <data>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-      <row>
-        <col id="0" translatable="yes">08/05/2019</col>
-      </row>
-    </data>
   </object>
   <object class="GtkPopover" id="popover1">
     <property name="width_request">290</property>
@@ -2726,6 +2697,7 @@
                           <object class="GtkTreeView">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="model">Revision</property>
                             <property name="headers_visible">False</property>
                             <property name="search_column">0</property>
                             <property name="hover_selection">True</property>
@@ -2822,9 +2794,10 @@
                         <property name="shadow_type">in</property>
                         <property name="min_content_height">80</property>
                         <child>
-                          <object class="GtkTreeView" id="Car_revision">
+                          <object class="GtkTreeView">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="model">Revision</property>
                             <property name="headers_visible">False</property>
                             <property name="search_column">0</property>
                             <property name="hover_selection">True</property>
