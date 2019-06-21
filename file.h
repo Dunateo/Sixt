@@ -1,7 +1,6 @@
 #ifndef PROJET_FILE_H
 #define PROJET_FILE_H
 
-int reservationTotal;
 
 int nbCaracPerLines(char *fileNameExt);
 int calculateNumberOfSeparator(char *fileNameExt);

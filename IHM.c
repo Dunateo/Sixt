@@ -70,12 +70,30 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
     GtkTreeIter iter; //On crée un itérateur
     maillon *ptrTemp = strucTest->ptrTete;
     gtk_list_store_clear(strucTest->list); //On vide la liste
+    bool interA, interB;
+    int daysLeft, cptReserv = 0;
 
+    //affectations list avec les réservations qui correspondent au jour cliqué sur le calendrier
     while(ptrTemp != NULL){
 
-        gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
-        gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, 696969,-1); //Et on l'initailise
+        interA = dateCompare(ptrTemp->rent->u.value_reserv->begining, strucTest->press);
+        interB = dateCompare(strucTest->press, ptrTemp->rent->u.value_reserv->end);
+
+        if (interA == true && interB == true){
+            daysLeft = calculusDate(strucTest->press, ptrTemp->rent->u.value_reserv->end);//caculus date between
+            gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
+            gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, daysLeft ,-1); //Et on l'initailise
+            cptReserv++;
+        }
+
+
         ptrTemp = ptrTemp->suivant;
+    }
+
+    //aucune réservation pour cette journée
+    if (cptReserv == 0){
+        gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
+        gtk_list_store_set(strucTest->list, &iter, 0, 0 , 1, 0 ,-1); //Et on l'initailise
     }
 }
 
@@ -108,7 +126,7 @@ static void manage_list_history(GtkListStore *list, maillon *ptrtete){
   GtkTreeIter iter; //On crée un itérateur
   gtk_list_store_clear(list); //On vide la liste
   char dateS[25];
-  int r = 0,priceEarn=0, priceCost=0;
+  int totalReserv = 0,priceEarn=0, priceCost=0;
   bool maintBool;
 
 if (ptrtete->rent->typ_val == CAR) {
@@ -119,13 +137,14 @@ if (ptrtete->rent->typ_val == CAR) {
     while (ptrtransH != NULL) {
         //maint while
         priceCost = 0;
-        /**while (ptrMaint!=NULL){
+
+        while (ptrMaint!=NULL){
             maintBool = dateCompare(ptrtransH->reserv->end, ptrMaint->date_maintenance);
             if (maintBool == true){
                 priceCost = ptrMaint->coast+priceCost;
             }
             ptrMaint = ptrMaint->suivant;
-        }**/
+        }
 
         //dates and price of a reservation
       sprintf(dateS,"%d/%d/%d | %d/%d/%d", ptrtransH->reserv->begining.day, ptrtransH->reserv->begining.month, ptrtransH->reserv->begining.year, ptrtransH->reserv->end.day, ptrtransH->reserv->end.month, ptrtransH->reserv->end.year);
@@ -135,7 +154,7 @@ if (ptrtete->rent->typ_val == CAR) {
       gtk_list_store_set(list, &iter, 0,priceCost,1,priceEarn,2,ptrtrans->rent->u.value_car->plate_number,3,ptrtransH->reserv->km,4,dateS, -1); //Et on l'initialise
       strcpy(dateS, "");
       ptrtransH = ptrtransH->suivant;
-      r++;
+      totalReserv++;
     }
 
     //change the car
@@ -146,7 +165,7 @@ if (ptrtete->rent->typ_val == CAR) {
     }
 
   }
-  sprintf(dateS,"%d", r);
+  sprintf(dateS,"%d", totalReserv);
 }
 
 }
@@ -423,6 +442,10 @@ int main (int argc, char ** argv)
                     structTest.list = list_reservation;
                     //structTest->ptrTete = NULL;
                     structTest.ptrTete = reservation;
+                    structTest.press.day = 3;
+                    structTest.press.month = 9;
+                    structTest.press.year = 2019;
+                    structTest.press.hour = 9;
                     /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                     calendrier */
                     for(int i=1; i<=31; i++)
