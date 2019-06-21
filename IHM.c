@@ -23,6 +23,7 @@ void closeWindow(GtkWidget *widget, gpointer window)
 void getInfoBulle(GtkWidget *widget, getJourCalendrier *getDay)
 {
   getDay->clicJour.day = atoi(gtk_widget_get_tooltip_text(widget));
+  printf("%d\n", getDay->clicJour.day );
 }
 
 /**
@@ -683,7 +684,7 @@ int main (int argc, char ** argv)
                         printf("Price: %d\n", RecupP);
                         printf("Reserv: %d\n", RecupT);
 
-
+                    clicReservationCalendrier structTest;
                     /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                     calendrier */
                     for(int i=1; i<=31; i++)
@@ -695,7 +696,7 @@ int main (int argc, char ** argv)
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
                     }
-                    clicReservationCalendrier structTest;
+
                     structTest.list = list_reservation;
                     structTest.ptrTete = reservation;
 
