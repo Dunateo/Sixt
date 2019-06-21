@@ -1072,7 +1072,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">4</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1123,7 +1122,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">5</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1174,7 +1172,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">6</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1225,7 +1222,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">13</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1276,7 +1272,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">14</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1327,7 +1322,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">7</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1378,7 +1372,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">12</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1429,7 +1422,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">11</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1480,7 +1472,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">10</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1531,7 +1522,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">9</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1582,7 +1572,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">8</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1633,7 +1622,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">15</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1684,7 +1672,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">16</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1735,7 +1722,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">23</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1786,7 +1772,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">22</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1837,7 +1822,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">29</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1888,7 +1872,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">30</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1939,7 +1922,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">31</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -1990,7 +1972,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">24</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2041,7 +2022,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">17</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2092,7 +2072,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">18</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2143,7 +2122,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">25</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2194,7 +2172,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">26</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2245,7 +2222,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">19</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2296,7 +2272,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">20</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2347,7 +2322,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">27</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2398,7 +2372,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">28</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
@@ -2449,7 +2422,6 @@
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
-                    <property name="tooltip_text" translatable="yes">21</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>

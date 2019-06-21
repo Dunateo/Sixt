@@ -5,7 +5,13 @@
 typedef struct clicReservationCalendrier{
     GtkListStore *list;
     maillon *ptrTete;
+    date clicJour;
 }clicReservationCalendrier;
+
+typedef struct getJourCalendrier{
+  GtkComboBoxText *dropdown[2];
+  date clicJour;
+}getJourCalendrier;
 
 void closeWindow(GtkWidget *widget, gpointer window);
 void openWindow(GtkWidget *widget, gpointer window);
