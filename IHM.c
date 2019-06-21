@@ -30,7 +30,7 @@ void openWindow(GtkWidget *widget, gpointer window)
 }
 
 
-void InitVar(variable*var, maillon*ptrTete) {
+void InitVar(variable*var, maillon*ptrTete, GtkBuilder*p_builder) {
   var->i = 0;
   var->voiture_det = (char***) malloc(sizeof(char**)*DIM); // Nombre de voiture + 1 (car le nombre de voiture commence a 1)
   for(int j = 0; j<DIM;j++) {
@@ -42,6 +42,8 @@ void InitVar(variable*var, maillon*ptrTete) {
   for(int i=0; i<=11; i++)
   var->label1[i] = NULL;
   var->ptr = ptrTete;
+  var->ptrMainTete = (maintenance**) malloc(sizeof(maintenance*)*DIM);
+  var->p_builder = p_builder;
 }
 
 
@@ -50,10 +52,15 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
   maillon*ptr = var->ptr;
   int i = 1;
   /* Gestion de la liste de révision */
-  GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(p_builder, "Revision"); //On récup-re la liste de revision
+
 
 
   while(ptr->suivant != NULL ){
+
+    
+
+	 var->ptrMainTete[i] = ptr->rent->u.value_car->car_maint; 
+	 
 
     if(ptr->rent->u.value_car->gearbox == true)
       var->voiture_det[i][5] = "Automatic"; // gearbox
@@ -66,11 +73,12 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
     strcpy(var->voiture_det[i][3], ptr->rent->u.value_car->brand_name); //brand
     strcpy(var->voiture_det[i][4], ptr->rent->u.value_car->brand_model); // model
     sprintf(var->voiture_det[i][6],"%d",ptr->rent->u.value_car->car_year); // years
-    manage_list_revision(list_revision, ptr->rent->u.value_car->car_maint);//revision
     sprintf(var->voiture_det[i][8] , "%.f€", dailyPrice(ptr->rent->u.value_car->category)); // daily price
     sprintf(var->voiture_det[i][9] ,"%.f€", sellingCar(ptr->rent)); // selling price
     sprintf(var->voiture_det[i][10] ,"%.f€",ptr->rent->u.value_car->price); // purchase price
-
+	
+	
+	
     i++;
     ptr = ptr->suivant;
 
@@ -83,6 +91,7 @@ void edit_label(GtkWidget*widget, gpointer data) {
   variable*var = data;
   var->i = atoi(gtk_widget_get_tooltip_text(widget)); // pour récuperer la voiture sur laquelle on clique
 
+  GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(var->p_builder, "Revision"); //On récup-re la liste de revision
 
   // Change le contenu du label
 
@@ -97,6 +106,7 @@ void edit_label(GtkWidget*widget, gpointer data) {
   gtk_label_set_text(GTK_LABEL(var->label1[8]), var->voiture_det[var->i][8]); // Remplace le label daily
   gtk_label_set_text(GTK_LABEL(var->label1[9]), var->voiture_det[var->i][9]); // Remplace le label selling
   gtk_label_set_text(GTK_LABEL(var->label1[10]), var->voiture_det[var->i][10]); // Remplace le label purchase
+  manage_list_revision(list_revision, var->ptrMainTete[var->i]);//revision
 
 }
 
@@ -489,7 +499,7 @@ int main (int argc, char ** argv)
 
 
 
-                        InitVar(var, car);
+                        InitVar(var, car, p_builder);
 
                         GenerateVehicule(var,p_builder, car);
 
