@@ -9,15 +9,6 @@ typedef struct clicReservationCalendrier{
     GtkComboBoxText *dropdown[2];
   }clicReservationCalendrier;
 
-typedef struct getJourCalendrier{
-    GtkComboBoxText *dropdown[2];
-    date clicJour;
-    }getJourCalendrier;
-
-typedef struct finalDateFromCalendar{
-  getJourCalendrier getJourCalendrier;
-  clicReservationCalendrier clicReservationCalendrier;
-}finalDateFromCalendar;
 
 
 typedef struct variable {

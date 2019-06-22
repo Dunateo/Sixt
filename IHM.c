@@ -263,8 +263,8 @@ static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservat
         jourCalendrier->clicJour.year = atoi(return_text[1]);
         jourCalendrier->clicJour.hour = 9;
 
-        printf("%d\n", jourCalendrier->clicJour.month);
-        printf("%d\n", jourCalendrier->clicJour.year);
+        printf("recup %d\n", jourCalendrier->clicJour.month);
+        printf("recup %d\n", jourCalendrier->clicJour.year);
         printf("Jour :  %d\n", jourCalendrier->clicJour.day);
 }
 
@@ -303,17 +303,23 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
     bool interA, interB;
     int daysLeft, cptReserv = 0;
     printf("Dans la struc jour :%d\n", strucTest->clicJour.day );
+    printf("Dans la struc jour :%d\n", strucTest->clicJour.hour );
+
     //affectations list avec les réservations qui correspondent au jour cliqué sur le calendrier
     while(ptrTemp != NULL){
-
+      
+        strucTest->clicJour.hour = ptrTemp->rent->u.value_reserv->begining.hour;
         interA = dateCompare(ptrTemp->rent->u.value_reserv->begining, strucTest->clicJour);
         interB = dateCompare(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);
 
         if (interA == true && interB == true){
             daysLeft = calculusDate(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);//caculus date between
-            gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
-            gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, daysLeft ,-1); //Et on l'initailise
-            cptReserv++;
+            printf("%d\n", daysLeft );
+            if (daysLeft > 0) {
+              gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
+              gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, daysLeft ,-1); //Et on l'initailise
+              cptReserv++;
+            }
         }
 
 
@@ -698,9 +704,9 @@ int main (int argc, char ** argv)
                     structTest.list = list_reservation;
                     structTest.ptrTete = reservation;
 
-                    getJourCalendrier getJourCalendrier;
 
-                    finalDateFromCalendar finalDateFromCalendar;
+
+
 
                         /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                            calendrier */
