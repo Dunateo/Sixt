@@ -50,6 +50,18 @@ void InitVar(variable*var, maillon*ptrTete, GtkBuilder*p_builder) {
   var->p_builder = p_builder;
 }
 
+void LibereVar(variable*var) {
+  for(int j = 0; j<DIM;j++) {
+    for(int i = 0; i<11; i++) {
+      free(var->voiture_det[j][i]); // Nombre de caractère
+    }
+  }
+  for(int j = 0; j<DIM;j++) {
+    free(var->voiture_det[j]);
+  }
+  free(var->voiture_det);
+}
+
 
 void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 

@@ -46,3 +46,4 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder);
 void edit_label(GtkWidget*widget, gpointer data) ;
 void attributVehicule(variable*var, GtkBuilder*p_builder);
 void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete );
+void LibereVar(variable*var);
