@@ -7,8 +7,6 @@
 #include "initialize.h"
 #include "smartFunctions.h"
 
-
-
 /**
  * Fonction qui permet de fermet une fenêtre pop-up
  * @param widget [description]
@@ -20,10 +18,9 @@ void closeWindow(GtkWidget *widget, gpointer window)
 }
 
 
-void getInfoBulle(GtkWidget *widget, getJourCalendrier *getDay)
+void getInfoBulle(GtkWidget *widget, clicReservationCalendrier *getDay)
 {
   getDay->clicJour.day = atoi(gtk_widget_get_tooltip_text(widget));
-  printf("%d\n", getDay->clicJour.day );
 }
 
 /**
@@ -207,7 +204,7 @@ static void get_combo_box_value(GtkWidget *widget, GtkComboBoxText *combo_box[2]
         }
 }
 
-static void get_calendar_values_from_main_window(GtkWidget *widget, getJourCalendrier *jourCalendrier)
+static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservationCalendrier *jourCalendrier)
 {
         gchar *return_text[2];
         for(int i=0; i<2; i++)
@@ -703,6 +700,8 @@ int main (int argc, char ** argv)
 
                     getJourCalendrier getJourCalendrier;
 
+                    finalDateFromCalendar finalDateFromCalendar;
+
                         /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                            calendrier */
                         for(int i=1; i<=31; i++)
@@ -713,15 +712,13 @@ int main (int argc, char ** argv)
                                 strcat(joursCalendrier, compteur); //on concatène les deux chaines
                                 calendar[i]=gtk_builder_get_object(p_builder, joursCalendrier); //Pour chaque case, on récupère le bouton glade correspondant
                                 g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
-                                getJourCalendrier.dropdown[0] = date_changer[0];
-                                getJourCalendrier.dropdown[1] = date_changer[1];
-                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(getInfoBulle),&getJourCalendrier);
-                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(get_calendar_values_from_main_window), &getJourCalendrier); //On appelle la fonction de récupération de combo_box lors du clic souris
+                                structTest.dropdown[0] = date_changer[0];
+                                structTest.dropdown[1] = date_changer[1];
+                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(getInfoBulle),&structTest);
+                                g_signal_connect(calendar[i], "clicked", G_CALLBACK(get_calendar_values_from_main_window), &structTest); //On appelle la fonction de récupération de combo_box lors du clic souris
                                 g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
+
                         }
-
-                        structTest.clicJour = getJourCalendrier.clicJour;
-
 
                         /* Affichage des fenêtres */
                         gtk_widget_show_all(main_win);
