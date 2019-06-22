@@ -204,6 +204,17 @@ static void get_combo_box_value(GtkWidget *widget, GtkComboBoxText *combo_box[2]
         }
 }
 
+static void get_combo_box_value_from_add_reservation(GtkWidget *widget, ajouteReservation *ajouteReservation)
+{
+  gchar* return_text[2];
+  for(int i=0; i<2; i++)
+  {
+          return_text[i] = gtk_combo_box_text_get_active_text(ajouteReservation->reservation_dropdown[i]);
+  }
+  ajouteReservation->client.driving_license_type = return_text[0];
+  ajouteReservation->reservation.category = return_text[1];
+}
+
 static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservationCalendrier *jourCalendrier)
 {
         gchar *return_text[2];
@@ -275,7 +286,7 @@ static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservat
  * @param widget widget sur lequel on clique
  * @param [calendar] un tableau de deux calendrier correspondant au début et a la fin de la réservation
  */
-static void get_calendar_values(GtkWidget *widget, GtkCalendar *calendar[2])
+static void get_calendar_values(GtkWidget *widget, ajouteReservation *ajouteReservation)
 {
         guint year[2]; //On crée un tableau de deux années permettant de stocker le résultat des deux calendriers
         guint month[2]; //On crée un tableau de deux mois permettant de stocker le résultat des deux calendriers
@@ -283,12 +294,17 @@ static void get_calendar_values(GtkWidget *widget, GtkCalendar *calendar[2])
         printf("DATES DE RESERVATION \n");
         for(int i=0; i<2; i++) //On parcours le tableau de calendrier passé en paramêtre
         {
-                gtk_calendar_get_date(calendar[i],&year[i],&month[i],&day[i]); //On récupère les valeurs qui sont stockées dans year, month, day
-                printf("%d\n", year[i]);
-                printf("%d\n", month[i]+1);
-                printf("%d\n", day[i]);
-                printf("------------\n");
+                gtk_calendar_get_date(ajouteReservation->calendar_reservation[i],&year[i],&month[i],&day[i]); //On récupère les valeurs qui sont stockées dans year, month, day
         }
+        ajouteReservation->reservation.begining.year = year[0];
+        ajouteReservation->reservation.begining.month = month[0];
+        ajouteReservation->reservation.begining.day = day[0];
+        ajouteReservation->reservation.begining.hour = 9;
+
+        ajouteReservation->reservation.end.year = year[1];
+        ajouteReservation->reservation.end.month = month[1];
+        ajouteReservation->reservation.end.day = day[1];
+        ajouteReservation->reservation.end.hour = 9;
 }
 
 /**
@@ -302,19 +318,16 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
     gtk_list_store_clear(strucTest->list); //On vide la liste
     bool interA, interB;
     int daysLeft, cptReserv = 0;
-    printf("Dans la struc jour :%d\n", strucTest->clicJour.day );
-    printf("Dans la struc jour :%d\n", strucTest->clicJour.hour );
 
     //affectations list avec les réservations qui correspondent au jour cliqué sur le calendrier
     while(ptrTemp != NULL){
-      
+
         strucTest->clicJour.hour = ptrTemp->rent->u.value_reserv->begining.hour;
         interA = dateCompare(ptrTemp->rent->u.value_reserv->begining, strucTest->clicJour);
         interB = dateCompare(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);
 
         if (interA == true && interB == true){
             daysLeft = calculusDate(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);//caculus date between
-            printf("%d\n", daysLeft );
             if (daysLeft > 0) {
               gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
               gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, daysLeft ,-1); //Et on l'initailise
@@ -418,15 +431,17 @@ if (ptrtete->rent->typ_val == CAR) {
  * @param widget [description]
  * @param [name] [description]
  */
-static void get_add_reservation_entry(GtkWidget *widget, GtkWidget *entry[3])
+static void get_add_reservation_entry(GtkWidget *widget, ajouteReservation *ajouteReservation)
 {
         const gchar *entry_text[3]; //On crée un tableau de 3 chaines dans lequel sera stocké les valeurs des champs
-        printf("INFORMATION CLIENT \n");
+        char *client_name = "";
         for(int i=0; i<3; i++) //On parcours le tableau d'entry passé en paramêtre
         {
-                entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i])); //On récupère la valeur des différents champs
-                printf ("Entry contents: %s\n", entry_text[i]);
+                entry_text[i] = gtk_entry_get_text (GTK_ENTRY (ajouteReservation->addReservation_form[i])); //On récupère la valeur des différents champs
         }
+
+        ajouteReservation->client.client_name = entry_text[0];
+        ajouteReservation->client.phone_number = atoi(entry_text[2]);
 }
 
 /**
@@ -535,6 +550,10 @@ int main (int argc, char ** argv)
         GtkLabel *total_reservation;
         GtkLabel *total_price;
 
+        ajouteReservation ajouteReservation;
+        /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
+        ajouteReservation.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
+        ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/
 
         /* Initialisation de GTK+ */
         gtk_init (&argc, &argv);
@@ -607,18 +626,18 @@ int main (int argc, char ** argv)
                                 sprintf(compteur, "%d", x); //on crée une chaine de caractère contenant le compteur
                                 strcpy(addReservationFormEntry, "add_reserv_entry"); //on concatène les deux chaines
                                 strcat(addReservationFormEntry, compteur); //on concatène les deux chaines
-                                addReservation_form[x] = (GtkEntry*)gtk_builder_get_object(p_builder, addReservationFormEntry); //on récupère les entryform de Glade
+                                ajouteReservation.addReservation_form[x] = (GtkEntry*)gtk_builder_get_object(p_builder, addReservationFormEntry); //on récupère les entryform de Glade
                         }
                         for(int w=0; w<2; w++)
                         {
                                 sprintf(compteur, "%d",w); //on crée une chaine de caractère contenant le compteur
                                 strcpy(calendar_reservation_name, "calendar_reservation"); //on concatène les deux chaines
                                 strcat(calendar_reservation_name, compteur); //on concatène les deux chaines
-                                calendar_reservation[w]=(GtkCalendar*)gtk_builder_get_object(p_builder, calendar_reservation_name); //on récupère les entryform de Glade
+                                ajouteReservation.calendar_reservation[w]=(GtkCalendar*)gtk_builder_get_object(p_builder, calendar_reservation_name); //on récupère les entryform de Glade
 
                                 strcpy(comboBox_id, "reservation_add_dropdown"); //On crée une chaine de caractère contenant le compteur
                                 strcat(comboBox_id, compteur); //On concatène la chaine avec le compteur
-                                reservation_dropdown[w]=(GtkComboBoxText*)gtk_builder_get_object(p_builder, comboBox_id); //on récupère le combo_box
+                                ajouteReservation.reservation_dropdown[w]=(GtkComboBoxText*)gtk_builder_get_object(p_builder, comboBox_id); //on récupère le combo_box
 
                                 strcpy(char_date_changer, "date_changer"); //On crée une chane de caractère contenant le compteur
                                 strcat(char_date_changer, compteur); //On concatène la chaine avec le compteur
@@ -626,13 +645,9 @@ int main (int argc, char ** argv)
                         }
 
                         button_validate_add_reservation = gtk_builder_get_object(p_builder, "add_reservation_validate_button"); //On initialise le boutton de validation
-                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(get_add_reservation_entry), addReservation_form); //on appelle la fonction des entryForm au clic
-                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_combo_box_value),reservation_dropdown); //on appelle la fonction de calendrier au clic
-                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values),calendar_reservation); //on appelle la fonction de calendrier au clic
-
-
-
-
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(get_add_reservation_entry), &ajouteReservation); //on appelle la fonction des entryForm au clic
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_combo_box_value_from_add_reservation), &ajouteReservation); //on appelle la fonction de calendrier au clic
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values), &ajouteReservation); //on appelle la fonction de calendrier au clic
 
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
@@ -703,10 +718,6 @@ int main (int argc, char ** argv)
 
                     structTest.list = list_reservation;
                     structTest.ptrTete = reservation;
-
-
-
-
 
                         /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                            calendrier */
