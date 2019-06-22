@@ -263,9 +263,6 @@ static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservat
         jourCalendrier->clicJour.year = atoi(return_text[1]);
         jourCalendrier->clicJour.hour = 9;
 
-        printf("recup %d\n", jourCalendrier->clicJour.month);
-        printf("recup %d\n", jourCalendrier->clicJour.year);
-        printf("Jour :  %d\n", jourCalendrier->clicJour.day);
 }
 
 /**
@@ -300,26 +297,22 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
     GtkTreeIter iter; //On crée un itérateur
     maillon *ptrTemp = strucTest->ptrTete;
     gtk_list_store_clear(strucTest->list); //On vide la liste
-    bool interA, interB;
-    int daysLeft, cptReserv = 0;
-    printf("Dans la struc jour :%d\n", strucTest->clicJour.day );
-    printf("Dans la struc jour :%d\n", strucTest->clicJour.hour );
+    bool interA = false, interB = false;
+    int daysLeft=0, cptReserv = 0;
+    char cptText[15];
 
     //affectations list avec les réservations qui correspondent au jour cliqué sur le calendrier
     while(ptrTemp != NULL){
-      
+
         strucTest->clicJour.hour = ptrTemp->rent->u.value_reserv->begining.hour;
         interA = dateCompare(ptrTemp->rent->u.value_reserv->begining, strucTest->clicJour);
         interB = dateCompare(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);
 
         if (interA == true && interB == true){
             daysLeft = calculusDate(strucTest->clicJour, ptrTemp->rent->u.value_reserv->end);//caculus date between
-            printf("%d\n", daysLeft );
-            if (daysLeft > 0) {
               gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
               gtk_list_store_set(strucTest->list, &iter, 0, ptrTemp->rent->u.value_reserv->number, 1, daysLeft ,-1); //Et on l'initailise
               cptReserv++;
-            }
         }
 
 
@@ -331,6 +324,10 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
         gtk_list_store_append(strucTest->list, &iter); //On crée une nouvelle ligne vide a notre liste
         gtk_list_store_set(strucTest->list, &iter, 0, 0 , 1, 0 ,-1); //Et on l'initailise
     }
+
+      sprintf(cptText, "%d", cptReserv);
+      gtk_label_set_text(strucTest->label[strucTest->clicJour.day-1], cptText);
+
 }
 
 /**
@@ -524,6 +521,7 @@ int main (int argc, char ** argv)
         GtkComboBoxText *date_changer[2];
         char char_date_changer[20];
         GObject *button_validate_date_changer;
+        char labelJourCalendrier[15];
 
 
         /* Variables pour le calendrier de réservation*/
@@ -685,8 +683,12 @@ int main (int argc, char ** argv)
                         int RecupT , RecupP;
                         GtkListStore *list_price_history = (GtkListStore *) gtk_builder_get_object(p_builder, "price_history"); //On récupère la liste d'historique
                         manage_list_history(list_price_history, car,&RecupT, &RecupP);
-                        printf("Price: %d\n", RecupP);
-                        printf("Reserv: %d\n", RecupT);
+                        char price[100000], reserv[1000];
+                        sprintf(price,"%d", RecupP);
+                        sprintf(reserv,"%d", RecupT);
+                        gtk_label_set_text(total_price, price);
+                        gtk_label_set_text(total_reservation, reserv);
+
 
                     clicReservationCalendrier structTest;
                     /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
@@ -696,6 +698,9 @@ int main (int argc, char ** argv)
                         sprintf(compteur, "%d",i); //on crée une chaine de caractère contenant le compteur
                         strcpy(joursCalendrier, "day"); //on concatène les deux chaines
                         strcat(joursCalendrier, compteur); //on concatène les deux chaines
+                        strcpy(labelJourCalendrier, "nb_reserv_");
+                        strcat(labelJourCalendrier, compteur);
+                        structTest.label[i-1] = (GtkLabel *) gtk_builder_get_object(p_builder, labelJourCalendrier);
                         calendar[i]=gtk_builder_get_object(p_builder, joursCalendrier); //Pour chaque case, on récupère le bouton glade correspondant
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
@@ -724,7 +729,14 @@ int main (int argc, char ** argv)
                                 g_signal_connect(calendar[i], "clicked", G_CALLBACK(get_calendar_values_from_main_window), &structTest); //On appelle la fonction de récupération de combo_box lors du clic souris
                                 g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
 
+                                structTest.clicJour = actualDate();
+                                structTest.clicJour.day = i;
+                                manage_list_reservation(list_reservation, &structTest);
+                                gtk_combo_box_set_active (date_changer[0],structTest.clicJour.month-1);
+                                gtk_combo_box_set_active (date_changer[1],0);
+
                         }
+
 
                         /* Affichage des fenêtres */
                         gtk_widget_show_all(main_win);

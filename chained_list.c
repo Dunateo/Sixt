@@ -3,6 +3,7 @@
 //
 
 #include "chained_list.h"
+#include "calculus.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -259,31 +260,19 @@ void inversionListe(maillon **ptrTete){
  * @return     [bool]
  */
 bool dateCompare(date inf, date sup){
-    if(inf.year < sup.year){
+    int daysbetween;
+    daysbetween = calculusDate(inf, sup);
+
+    //sup < inf nb negatif
+    if (daysbetween<0){
+        return false;
+    } else if (daysbetween > 0){ //inf< sup
         return true;
-    }
-    else if(inf.year == sup.year){
-        if(inf.month < sup.month) {
-            return true;
-        }
-        else if(inf.month == sup.month) {
-            if(inf.day < sup.day) {
-                return true;
-            }
-            else if (inf.day == sup.day){
-                if(inf.hour < sup.hour){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-            else {
-                    return false;
-            }
-    }   else {
+    } else if (daysbetween == 0){//inf == sup
+        return true;
+    } else{
         return false;
     }
-}
 }
 
 

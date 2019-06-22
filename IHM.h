@@ -7,6 +7,7 @@ typedef struct clicReservationCalendrier{
     maillon *ptrTete;
     date clicJour;
     GtkComboBoxText *dropdown[2];
+    GtkLabel *label[30];
   }clicReservationCalendrier;
 
 
