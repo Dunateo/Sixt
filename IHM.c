@@ -264,6 +264,7 @@ static void get_calendar_values_from_main_window(GtkWidget *widget, getJourCalen
         }
 
         jourCalendrier->clicJour.year = atoi(return_text[1]);
+        jourCalendrier->clicJour.hour = 9;
 
         printf("%d\n", jourCalendrier->clicJour.month);
         printf("%d\n", jourCalendrier->clicJour.year);
@@ -304,7 +305,7 @@ static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier
     gtk_list_store_clear(strucTest->list); //On vide la liste
     bool interA, interB;
     int daysLeft, cptReserv = 0;
-
+    printf("Dans la struc jour :%d\n", strucTest->clicJour.day );
     //affectations list avec les réservations qui correspondent au jour cliqué sur le calendrier
     while(ptrTemp != NULL){
 
@@ -718,6 +719,10 @@ int main (int argc, char ** argv)
                                 g_signal_connect(calendar[i], "clicked", G_CALLBACK(get_calendar_values_from_main_window), &getJourCalendrier); //On appelle la fonction de récupération de combo_box lors du clic souris
                                 g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
                         }
+
+                        structTest.clicJour = getJourCalendrier.clicJour;
+
+
                         /* Affichage des fenêtres */
                         gtk_widget_show_all(main_win);
 

@@ -7,6 +7,35 @@
       <!-- column-name date -->
       <column type="gchararray"/>
     </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">08/05/2019</col>
+      </row>
+    </data>
   </object>
   <object class="GtkPopover" id="popover1">
     <property name="width_request">290</property>
