@@ -66,7 +66,7 @@ void LibereVar(variable*var) {
   }
   free(var->voiture_det);
 }
-  
+
 
 void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
@@ -393,7 +393,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     //search a car for the reservation
     ajouteReservation->foundCar = searchCar(ajouteReservation->ptrTeteC, dataReservation->rent->u.value_reserv, &ajouteReservation->upgraded);
     printf("%s\n", ajouteReservation->foundCar->rent->u.value_car->brand_name);
-
+ 
 
     //get_result_search_car();
 }
