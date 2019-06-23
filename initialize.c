@@ -33,6 +33,13 @@ maillon* initializeCar(char* fileName, maillon *reservation)
         fscanf(f,"%s",indiceColonnes);
         //reset the char indiceColonnes because we will use it after
         strcat(indiceColonnes,"");
+        //first scan to have the number of lines
+        fscanf(f, "%d", &nbLines);
+        DIM = nbLines;
+        //take the name of columns
+        fscanf(f,"%s",indiceColonnes);
+        //reset the char indiceColonnes because we will use it after
+        strcat(indiceColonnes,"");
 
         ptrTete = creationMaillon(readingData(indiceColonnes,f,CAR, reservation,NULL));
 

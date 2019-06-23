@@ -6,7 +6,7 @@
 #include "smartFunctions.h"
 #include "getter.h"
 
-int main(void)
+int mainList(int argc, char const *argv[])
 {
     maillon *car, *customers, *reservation, *resultcar, *test;
     customers = initializeClients("files/clients.csv");

@@ -97,21 +97,28 @@ float checkRentPrice(float constClass, int nbday){
  * @return          [int]
  */
 int calculusDate(date begining, date end){
-	int nbday;
+	int nbday=0,ctrl1=0, ctrl2=0;
 	struct tm d1 = {0};
    	struct tm d2 = {0};
    	d1.tm_mday = begining.day;
    	d1.tm_mon  = begining.month - 1;
    	d1.tm_year = begining.year - 1900;
-   	d1.tm_hour = begining.hour-1;
+   	d1.tm_hour = begining.hour;
 
    	d2.tm_mday = end.day;
    	d2.tm_mon  = end.month - 1;
    	d2.tm_year = end.year - 1900;
-  	d2.tm_hour = end.hour-1;
+  	d2.tm_hour = end.hour;
 
+    ctrl1 = mktime(&d1);
+    ctrl2 = mktime(&d2);
 
-   	nbday = difftime(mktime(&d2), mktime(&d1)) / 86400;
+    if( ctrl1 == -1 || ctrl2 ==-1 ) {
+        printf("Error: unable to make time using mktime\n");
+    } else {
+        nbday = difftime(ctrl2, ctrl1) / 86400;
+    }
+
 
 	return nbday;
 }
