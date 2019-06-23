@@ -376,11 +376,10 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     dataReservation->rent->u.value_reserv->number = DIMReserv+1;
     DIMReserv = DIMReserv+1;
     dataReservation->rent->u.value_reserv->category = ajouteReservation->reservation.category;
-    printf("%c\n",ajouteReservation->reservation.category );
+
 
     //prediction for km
     dataReservation->rent->u.value_reserv->km = milePrediction(&(ajouteReservation->ptrTeteR),ajouteReservation->reservation.begining, ajouteReservation->reservation.end );
-
     //link with client
     dataReservation->rent->u.value_reserv->client_info = malloc(sizeof(client));
     dataReservation->rent->u.value_reserv->client_info->client_name = ajouteReservation->client.client_name;
@@ -392,7 +391,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
 
     //search a car for the reservation
     ajouteReservation->foundCar = searchCar(ajouteReservation->ptrTeteC, dataReservation->rent->u.value_reserv, &ajouteReservation->upgraded);
-    printf("%s\n", ajouteReservation->foundCar->rent->u.value_car->brand_name);
+
 }
 
 /**
