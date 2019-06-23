@@ -2,18 +2,6 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkListStore" id="History">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="History_client">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkDialog" id="Customer_file">
     <property name="can_focus">False</property>
     <property name="type">popup</property>
@@ -40,7 +28,7 @@
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
-              <object class="GtkButton" id="return_cancel_button1">
+              <object class="GtkButton" id="cancel_customer_file">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -91,13 +79,14 @@
           <object class="GtkFixed">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_right">20</property>
             <child>
               <object class="GtkAccelLabel">
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">First name : </property>
+                <property name="label" translatable="yes">Name : </property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -109,7 +98,7 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Last Name : </property>
+                <property name="label" translatable="yes">Phone : </property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                 </attributes>
@@ -134,7 +123,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="Last_name_client">
+              <object class="GtkLabel" id="Phone_client">
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
@@ -160,7 +149,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="First_name_client">
+              <object class="GtkLabel" id="Name_client">
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
@@ -169,58 +158,6 @@
               </object>
               <packing>
                 <property name="x">90</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">History : </property>
-              </object>
-              <packing>
-                <property name="x">240</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
-                <property name="shadow_type">in</property>
-                <property name="min_content_height">80</property>
-                <child>
-                  <object class="GtkTreeView">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="model">History_client</property>
-                    <property name="headers_visible">False</property>
-                    <property name="search_column">0</property>
-                    <property name="hover_selection">True</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection"/>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="Revision_car3">
-                        <child>
-                          <object class="GtkCellRendererText"/>
-                          <attributes>
-                            <attribute name="markup">0</attribute>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="x">330</property>
-                <property name="y">50</property>
               </packing>
             </child>
           </object>
@@ -232,6 +169,18 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="History">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="History_client">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
   </object>
   <object class="GtkListStore" id="Revision">
     <columns>
@@ -418,32 +367,8 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Name</property>
+                <property name="label" translatable="yes">Phone</property>
               </object>
-            </child>
-            <child>
-              <object class="GtkEntry" id="search_entry1">
-                <property name="width_request">166</property>
-                <property name="height_request">29</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="x">450</property>
-                <property name="y">25</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="width_request">135</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Reservation number</property>
-              </object>
-              <packing>
-                <property name="x">308</property>
-              </packing>
             </child>
           </object>
           <packing>
@@ -2990,7 +2915,7 @@
                 </child>
               </object>
               <packing>
-                <property name="x">170</property>
+                <property name="x">100</property>
                 <property name="y">325</property>
               </packing>
             </child>
