@@ -807,7 +807,7 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_result_car));
                         g_signal_connect(button_validate_add_reservation, "clicked", G_CALLBACK(add_reservation_car), &ajouteReservation);
-                       g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de recherche client d'intialiser le bouton de validation et de faire
