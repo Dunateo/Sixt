@@ -592,6 +592,8 @@ int main (int argc, char ** argv)
         GtkLabel *total_price;
 
         ajouteReservation ajouteReservation;
+        //ptrReserv
+        ajouteReservation.ptrTeteR = reservation;
         /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
         ajouteReservation.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
         ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/
