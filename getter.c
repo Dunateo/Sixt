@@ -78,7 +78,7 @@ data* rechercheClient(int dataSearch, int entry,maillon *reserv){
             break;
         case 1:
             searchReserv = (data *) calloc(1, sizeof(data));
-            searchReserv->typ_val = RESERVATION;
+            searchReserv->typ_val = HISTORY;
             searchReserv->u.value_reserv = (reservation*)calloc(1, sizeof(reservation));
             searchReserv->u.value_reserv->number = dataSearch;
             ptrTeteHist = rechercheMaillon(reserv, searchReserv)->rent;
