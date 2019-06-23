@@ -74,7 +74,7 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
   while(ptr->suivant != NULL ){
 
 
-
+    //ptr tete maintenance pour les maintenances
 	 var->ptrMainTete[i] = ptr->rent->u.value_car->car_maint;
 
 
@@ -106,6 +106,7 @@ void edit_label(GtkWidget*widget, gpointer data) {
 
   variable*var = data;
   var->i = atoi(gtk_widget_get_tooltip_text(widget)); // pour récuperer la voiture sur laquelle on clique
+  printf("%d\n", var->i);
 
   GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(var->p_builder, "Revision"); //On récup-re la liste de revision
 
