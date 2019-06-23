@@ -2,18 +2,6 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkListStore" id="History">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="History_client">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
   <object class="GtkDialog" id="Customer_file">
     <property name="can_focus">False</property>
     <property name="type">popup</property>
@@ -91,6 +79,7 @@
           <object class="GtkFixed">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="margin_right">20</property>
             <child>
               <object class="GtkAccelLabel">
                 <property name="width_request">100</property>
@@ -171,58 +160,6 @@
                 <property name="x">90</property>
               </packing>
             </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">History : </property>
-              </object>
-              <packing>
-                <property name="x">240</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkScrolledWindow">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="hscrollbar_policy">never</property>
-                <property name="shadow_type">in</property>
-                <property name="min_content_height">80</property>
-                <child>
-                  <object class="GtkTreeView">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="model">History_client</property>
-                    <property name="headers_visible">False</property>
-                    <property name="search_column">0</property>
-                    <property name="hover_selection">True</property>
-                    <child internal-child="selection">
-                      <object class="GtkTreeSelection"/>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="Revision_car3">
-                        <child>
-                          <object class="GtkCellRendererText"/>
-                          <attributes>
-                            <attribute name="markup">0</attribute>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
-                      </object>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="x">330</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -232,6 +169,18 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="History">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="History_client">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
   </object>
   <object class="GtkListStore" id="Revision">
     <columns>
@@ -267,6 +216,15 @@
         <col id="0" translatable="yes">08/05/2019</col>
       </row>
     </data>
+  </object>
+  <object class="GtkWindow">
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
   </object>
   <object class="GtkDialog" id="client_search">
     <property name="can_focus">False</property>
@@ -409,279 +367,8 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Tel :</property>
+                <property name="label" translatable="yes">Phone</property>
               </object>
-            </child>
-            <child>
-              <object class="GtkEntry" id="search_entry1">
-                <property name="width_request">166</property>
-                <property name="height_request">29</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-              </object>
-              <packing>
-                <property name="x">450</property>
-                <property name="y">25</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="width_request">135</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Reservation number</property>
-              </object>
-              <packing>
-                <property name="x">308</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkDialog" id="popup_result_car">
-    <property name="can_focus">False</property>
-    <property name="resizable">False</property>
-    <property name="modal">True</property>
-    <property name="type_hint">dialog</property>
-    <property name="skip_taskbar_hint">True</property>
-    <property name="deletable">False</property>
-    <property name="has_resize_grip">True</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child internal-child="vbox">
-      <object class="GtkBox">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
-            <property name="layout_style">end</property>
-            <child>
-              <object class="GtkButton" id="button_ok_add_reservation_result">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="always_show_image">True</property>
-                <child>
-                  <object class="GtkGrid">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <child>
-                      <object class="GtkImage">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="stock">gtk-apply</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">OK</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkFixed">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Plate number : </property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-            </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Model : </property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">gearbox :</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="y">100</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="pop-up_result_car_model">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-                <property name="y">50</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="pop-up_result_car_gearbox">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-                <property name="y">100</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="pop-up_result_car_plate">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">price :</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="y">150</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="pop-up_result_car_price">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-                <property name="y">150</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Surclasse :</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="y">200</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="pop-up_result_car_surclasse">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-                <property name="y">200</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">km :</property>
-                <attributes>
-                  <attribute name="weight" value="bold"/>
-                </attributes>
-              </object>
-              <packing>
-                <property name="y">250</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="pop-up_result_car_km">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-                <property name="y">250</property>
-              </packing>
             </child>
           </object>
           <packing>
@@ -3228,7 +2915,7 @@
                 </child>
               </object>
               <packing>
-                <property name="x">170</property>
+                <property name="x">100</property>
                 <property name="y">325</property>
               </packing>
             </child>
