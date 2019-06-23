@@ -2,19 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkListStore" id="History">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="History_client">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkDialog" id="return_vehicule1">
+  <object class="GtkDialog" id="Customer_file">
     <property name="can_focus">False</property>
     <property name="type">popup</property>
     <property name="modal">True</property>
@@ -24,7 +12,7 @@
     <property name="gravity">center</property>
     <child type="titlebar">
       <object class="GtkButton">
-        <property name="label" translatable="yes">Customer file</property>
+        <property name="label" translatable="yes">Customer File</property>
         <property name="visible">True</property>
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
@@ -97,7 +85,7 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">First Name : </property>
+                <property name="label" translatable="yes">First name : </property>
               </object>
             </child>
             <child>
@@ -118,14 +106,14 @@
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Licence  :  </property>
+                <property name="label" translatable="yes">Licence :</property>
               </object>
               <packing>
                 <property name="y">100</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel" id="last_name_client">
+              <object class="GtkLabel" id="Last_name_client">
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
@@ -138,28 +126,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkAccelLabel">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">First Name : </property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkLabel" id="first_name_client">
-                <property name="width_request">100</property>
-                <property name="height_request">80</property>
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label" translatable="yes">...</property>
-              </object>
-              <packing>
-                <property name="x">90</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="licence_client">
+              <object class="GtkLabel" id="Licence_client">
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
                 <property name="visible">True</property>
@@ -172,6 +139,18 @@
               </packing>
             </child>
             <child>
+              <object class="GtkLabel" id="First_name_client">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">...</property>
+              </object>
+              <packing>
+                <property name="x">90</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkAccelLabel">
                 <property name="width_request">100</property>
                 <property name="height_request">80</property>
@@ -180,7 +159,7 @@
                 <property name="label" translatable="yes">History : </property>
               </object>
               <packing>
-                <property name="x">220</property>
+                <property name="x">240</property>
                 <property name="y">50</property>
               </packing>
             </child>
@@ -219,7 +198,7 @@
                 </child>
               </object>
               <packing>
-                <property name="x">305</property>
+                <property name="x">330</property>
                 <property name="y">50</property>
               </packing>
             </child>
@@ -232,6 +211,12 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkListStore" id="History_client">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
   </object>
   <object class="GtkListStore" id="Revision">
     <columns>
@@ -2434,8 +2419,9 @@
                         <property name="label" translatable="yes">• Plate Number : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2454,7 +2440,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2474,8 +2460,9 @@
                         <property name="label" translatable="yes"> • Category : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2494,7 +2481,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2514,8 +2501,9 @@
                         <property name="label" translatable="yes"> • KM : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2534,7 +2522,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2554,8 +2542,9 @@
                         <property name="label" translatable="yes"> • Brand : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2574,7 +2563,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2605,8 +2594,9 @@
                         <property name="label" translatable="yes"> • Model  :  </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2625,7 +2615,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2645,8 +2635,9 @@
                         <property name="label" translatable="yes">• History  :  </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2670,7 +2661,7 @@
                           <object class="GtkTreeView">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="model">History</property>
+                            <property name="model">Revision</property>
                             <property name="headers_visible">False</property>
                             <property name="search_column">0</property>
                             <property name="hover_selection">True</property>
@@ -2705,8 +2696,9 @@
                         <property name="label" translatable="yes"> • Years : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2725,7 +2717,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2745,8 +2737,9 @@
                         <property name="label" translatable="yes"> • Revision : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2816,8 +2809,9 @@
                         <property name="label" translatable="yes"> • Gear Box : </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2836,7 +2830,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2856,8 +2850,9 @@
                         <property name="label" translatable="yes">• Daily Price  :  </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2876,7 +2871,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2896,8 +2891,9 @@
                         <property name="label" translatable="yes"> • Selling Price :  </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2916,7 +2912,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -2936,8 +2932,9 @@
                         <property name="label" translatable="yes"> • Purchase Price :  </property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="ultraheavy"/>
                           <attribute name="scale" value="2"/>
+                          <attribute name="underline" value="True"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
                         </attributes>
@@ -2956,7 +2953,7 @@
                         <property name="label" translatable="yes">to complete</property>
                         <attributes>
                           <attribute name="style" value="normal"/>
-                          <attribute name="weight" value="medium"/>
+                          <attribute name="weight" value="light"/>
                           <attribute name="scale" value="2"/>
                           <attribute name="foreground" value="#2e2e34343636"/>
                           <attribute name="size" value="7000"/>
@@ -3056,11 +3053,11 @@
             <child>
               <object class="GtkBox">
                 <property name="width_request">646</property>
-                <property name="height_request">390</property>
+                <property name="height_request">690</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="margin_right">116</property>
-                <property name="margin_top">19</property>
+                <property name="margin_top">50</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <property name="orientation">vertical</property>
@@ -3144,6 +3141,7 @@
                 <child>
                   <object class="GtkScrolledWindow">
                     <property name="width_request">1200</property>
+                    <property name="height_request">351</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="margin_left">100</property>
