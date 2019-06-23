@@ -66,7 +66,7 @@ void LibereVar(variable*var) {
   }
   free(var->voiture_det);
 }
- 
+  
 
 void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
