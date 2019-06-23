@@ -799,6 +799,7 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(get_add_reservation_entry), &ajouteReservation); //on appelle la fonction des entryForm au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_combo_box_value_from_add_reservation), &ajouteReservation); //on appelle la fonction de calendrier au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values), &ajouteReservation); //on appelle la fonction de calendrier au clic
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_result_car));
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
 
@@ -819,6 +820,7 @@ int main (int argc, char ** argv)
                         g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(openWindow), G_OBJECT(customer_file));
                         g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(InitCustomerFile), custom);
                         g_signal_connect(button_cancel_customer_file, "clicked", G_CALLBACK(closeWindow), G_OBJECT(customer_file));
+
                         /* Gestion des boutons */
                         button_cancel_add_reservation = gtk_builder_get_object(p_builder, "add_reservation_cancel_butto"); //Récupération du bouton d'annulation d'ajout de réservation
                         g_signal_connect (button_cancel_add_reservation, "clicked", G_CALLBACK (closeWindow), G_OBJECT(pop_up_reservation_add)); //On y associe la fonction de fermeture de fenetre
