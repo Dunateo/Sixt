@@ -31,7 +31,7 @@ typedef struct ajouteReservation{
 
 typedef struct returnVehiculeStruct{
     GtkEntry *return_form[2];
-    maillon *car;
+    maillon **car;
 }returnVehiculeStruct;
 
 void closeWindow(GtkWidget *widget, gpointer window);

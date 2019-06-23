@@ -32,13 +32,13 @@ maillon* rechercheReservationJour(date date1, maillon **reservation){
     return resultat;
 }
 
-void returnVehicule(maillon* ptrTete,char* plate, int KM){
+void returnVehicule(maillon** ptrTete,char* plate, int KM){
     data* searchCar = (data*)calloc(1, sizeof(data));
     searchCar->typ_val = CAR;
     searchCar->u.value_car = (car*)calloc(1, sizeof(car));
     searchCar->u.value_car->plate_number = (char*)calloc(strlen(plate), sizeof(char));
     strcpy(searchCar->u.value_car->plate_number, plate);
-    maillon* car = rechercheMaillon(ptrTete,searchCar);
+    maillon* car = rechercheMaillon(*ptrTete,searchCar);
     date date1;
     date1 = actualDate();
     car->rent->u.value_car->km += KM;

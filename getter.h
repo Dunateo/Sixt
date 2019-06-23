@@ -9,7 +9,7 @@
 
 char* convertDateShow(date date1);
 maillon* rechercheReservationJour(date date1, maillon **reservation);
-void returnVehicule(maillon* ptrTete,char* plate, int KM);
+void returnVehicule(maillon** ptrTete,char* plate, int KM);
 data* rechercheClient(int dataSearch, int entry, maillon *reserv);
 
 #endif //SIXT_GETTER_H

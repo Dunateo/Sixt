@@ -95,9 +95,6 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
     sprintf(var->voiture_det[i][8] , "%.2f€", dailyPrice(ptr->rent->u.value_car->category)); // daily price
     sprintf(var->voiture_det[i][9] ,"%.2f€", sellingCar(ptr->rent)); // selling price
     sprintf(var->voiture_det[i][10] ,"%.2f€",ptr->rent->u.value_car->price); // purchase price
-
-
-
     i++;
     ptr = ptr->suivant;
 
@@ -473,7 +470,12 @@ static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* ret
                 entry_text[i] = gtk_entry_get_text (GTK_ENTRY (retour->return_form[i])); //On récupère la valeur des différents champs parcourus
                 printf ("Entry contents: %s\n", entry_text[i]);
         }
-        returnVehicule(retour->car, entry_text[2], atoi(entry_text[1]));
+        returnVehicule(retour->car, entry_text[1], atoi(entry_text[0]));
+        for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en paramètre
+        {
+            gtk_entry_set_text (GTK_ENTRY (retour->return_form[i]), ""); //On récupère la valeur des différents champs parcourus
+        }
+
 }
 
 /**
@@ -526,7 +528,8 @@ int main (int argc, char ** argv)
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
-        GtkEntry *return_form[2];
+        returnVehiculeStruct *retour = (char*)calloc(1, sizeof(returnVehiculeStruct));
+        retour->car = &car;
         GObject *button_return_vehicule;
         GObject *button_validate_return_vehicule;
         GObject *button_cancel_return_vehicule;
@@ -569,7 +572,7 @@ int main (int argc, char ** argv)
 
         ajouteReservation ajouteReservation;
         /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
-        ajouteReservation.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
+        ajouteReservat        ion.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
         ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/
 
         /* Initialisation de GTK+ */
@@ -619,7 +622,7 @@ int main (int argc, char ** argv)
 
                         GenerateVehicule(var,p_builder, car);
 
-                        attributVehicule(var,p_builder);
+                                attributVehicule(var,p_builder);
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de retour vehicule, d'intialiser le bouton de validation et de faire
                            appel a la fonction correspondante */
@@ -628,11 +631,11 @@ int main (int argc, char ** argv)
                                 sprintf(compteur, "%d",j); //on crée une chaine de caractère contenant le compteur
                                 strcpy(returnFormEntry, "return_form"); //on concatène les deux chaines
                                 strcat(returnFormEntry, compteur); //on concatène les deux chaines
-                                return_form[j]=(GtkEntry*)gtk_builder_get_object(p_builder, returnFormEntry); //on récupère les entryform de Glade
+                                retour->return_form[j]=(GtkEntry*)gtk_builder_get_object(p_builder, returnFormEntry); //on récupère les entryform de Glade
                         }
                         button_validate_return_vehicule = gtk_builder_get_object(p_builder, "return_validate_button"); //On initialise le boutton de validation
-                        g_signal_connect(button_validate_return_vehicule, "clicked", G_CALLBACK(get_return_form_values), return_form); //on appelle la fonction au clic
-
+                        g_signal_connect(button_validate_return_vehicule, "clicked", G_CALLBACK(get_return_form_values), retour); //on appelle la fonction au clic
+                        g_signal_connect(button_validate_return_vehicule, "clicked", G_CALLBACK(closeWindow), G_OBJECT(return_vehicule));
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de retour de réservation ainsi que les calendriers de réservation,
