@@ -400,7 +400,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
  * @param strucTest
  */
 static void refresh_label_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest){
-
+  printf("test\n");
     for (int i=1; i<=31;i++){
         strucTest->clicJour.day = i;
         manage_list_reservation(widget, strucTest);
@@ -677,6 +677,8 @@ int main (int argc, char ** argv)
 
 
         GObject *button_validate_date_changer;
+
+
         /* Variables pour la recherche de client */
         char searchFormEntry[20];
         GtkEntry *search_form[2];
@@ -890,7 +892,9 @@ int main (int argc, char ** argv)
                         gtk_label_set_text(total_reservation, reserv);
 
 
-                        button_validate_date_changer = gtk_builder_get_object(p_builder, "validate_date_changer");
+
+
+
 
 
                     clicReservationCalendrier structTest;
@@ -907,10 +911,8 @@ int main (int argc, char ** argv)
                         calendar[i]=gtk_builder_get_object(p_builder, joursCalendrier); //Pour chaque case, on récupère le bouton glade correspondant
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
-                        
+
                     }
-
-
 
                     structTest.list = list_reservation;
                     structTest.ptrTete = reservation;
@@ -939,6 +941,10 @@ int main (int argc, char ** argv)
                                 gtk_combo_box_set_active (date_changer[1],0);
 
                         }
+
+                        button_validate_date_changer = gtk_builder_get_object(p_builder, "validate_date_changer");
+                        printf("\n\n\n\nTEST\n\n\n\n");
+                        g_signal_connect(button_validate_date_changer, "clicked", G_CALLBACK(refresh_label_reservation), &structTest);
 
 
                         /* Affichage des fenêtres */
