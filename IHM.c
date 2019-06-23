@@ -223,13 +223,13 @@ void InitCustomerFile(GtkWidget*widget, CustomerFile*data) {
   CustomerFile*custom = data;
 
 
-  const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
+  const gchar *entry_text; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
 
-    entry_text[0] = gtk_entry_get_text(GTK_ENTRY (custom->search_form[0]));
-    printf("%d\n", atoi(entry_text[0]));
+    entry_text = gtk_entry_get_text(GTK_ENTRY (custom->search_form[0]));
+    printf("%d\n", atoi(entry_text));
 
 
-  custom->data = rechercheClient(atoi(entry_text[0]), 0, custom->ptr);
+  custom->data = rechercheClient(atoi(entry_text), 0, custom->ptr);
 
 
   custom->name = (char*) malloc(sizeof(char)*(strlen(custom->data->u.value_hist->reserv->client_info->client_name)+1));
