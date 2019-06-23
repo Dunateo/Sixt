@@ -611,7 +611,7 @@
                 </attributes>
               </object>
               <packing>
-                <property name="y">144</property>
+                <property name="y">150</property>
               </packing>
             </child>
             <child>
@@ -623,8 +623,64 @@
                 <property name="label" translatable="yes">...</property>
               </object>
               <packing>
-                <property name="x">89</property>
-                <property name="y">144</property>
+                <property name="x">90</property>
+                <property name="y">150</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkAccelLabel">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Surclasse :</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="y">200</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="pop-up_result_car_surclasse">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">...</property>
+              </object>
+              <packing>
+                <property name="x">90</property>
+                <property name="y">200</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkAccelLabel">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">km :</property>
+                <attributes>
+                  <attribute name="weight" value="bold"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="y">250</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="pop-up_result_car_km">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">...</property>
+              </object>
+              <packing>
+                <property name="x">90</property>
+                <property name="y">250</property>
               </packing>
             </child>
           </object>

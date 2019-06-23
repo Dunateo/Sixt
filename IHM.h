@@ -26,6 +26,7 @@ typedef struct ajouteReservation{
       GtkCalendar *calendar_reservation[2];
       GtkEntry *addReservation_form[3];
       GtkComboBoxText *reservation_dropdown[2];
+      GtkBuilder  *p_builder;
       client client;
       reservation reservation;
       maillon *ptrTeteR;
@@ -55,3 +56,4 @@ void edit_label(GtkWidget*widget, variable* data) ;
 void attributVehicule(variable*var, GtkBuilder*p_builder);
 void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete );
 void LibereVar(variable*var);
+static void show_result_search_car( GtkWidget *widget,  ajouteReservation *reserv);

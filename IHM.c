@@ -352,7 +352,9 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     //adding the reservation to the chained list
     insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
 
-    //get_result_search_car();
+    show_result_search_car();
+
+
 }
 
 /**
@@ -544,7 +546,8 @@ static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* ret
  */
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2] )
 {
-    const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
+    const gchar *entry_text[2] = {NULL, NULL};
+   //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
         for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en parmètre
         {
                 entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i]));
@@ -558,15 +561,22 @@ static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2
  * @param widget [description]
  * @param [name] [description]
  */
-static void get_result_search_car( GtkWidget *widget, GtkWidget *entry[2] )
+static void show_result_search_car( GtkWidget *widget,  ajouteReservation *reserv)
 {
-    //maillon* result = searchCar();
-    const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
-    for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en parmètre
-    {
-        entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i]));
-        printf ("Entry contents: %s\n", entry_text[i]);
-    }
+    GtkLabel *car_plate, *car_gearbox, *car_model, *car_price, *car_surclasse, *car_km;
+    car_plate = (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_plate");
+    car_gearbox = (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_gearbox");
+    car_price = (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_price");
+    car_model = (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_model");
+    car_surclasse = (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_surclasse");
+    car_km= (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_km");
+
+    gtk_label_set_text(car_plate, "");
+    gtk_label_set_text(car_gearbox, "");
+    gtk_label_set_text(car_price, "");
+    gtk_label_set_text(car_model, "");
+    gtk_label_set_text(car_surclasse, "");
+    gtk_label_set_text(car_km, "");
 }
 
 int main (int argc, char ** argv)
@@ -742,7 +752,8 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(get_add_reservation_entry), &ajouteReservation); //on appelle la fonction des entryForm au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_combo_box_value_from_add_reservation), &ajouteReservation); //on appelle la fonction de calendrier au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values), &ajouteReservation); //on appelle la fonction de calendrier au clic
-
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_result_car));
+                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de recherche client d'intialiser le bouton de validation et de faire
