@@ -209,6 +209,43 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
 }
 
 
+void attributCustomer(CustomerFile*custom, GtkBuilder*p_builder) {
+
+  // Attribut le label a son identifiant
+
+  custom->label[0] = GTK_WIDGET(gtk_builder_get_object(p_builder, "Name_client"));
+  custom->label[1] = GTK_WIDGET(gtk_builder_get_object(p_builder, "Phone_client"));
+  custom->label[2] = GTK_WIDGET(gtk_builder_get_object(p_builder, "Licence_client"));
+}
+
+void InitCustomerFile(GtkWidget*widget, CustomerFile*data) {
+
+  CustomerFile*custom = data;
+
+
+  const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
+
+    entry_text[0] = gtk_entry_get_text(GTK_ENTRY (custom->search_form[0]));
+    printf("%d\n", atoi(entry_text[0]));
+
+
+  custom->data = rechercheClient(atoi(entry_text[0]), 0, custom->ptr);
+
+
+  custom->name = (char*) malloc(sizeof(char)*(strlen(custom->data->u.value_hist->reserv->client_info->client_name)+1));
+  custom->phone = (char*) malloc(sizeof(char)*10);
+  custom->licence = (char*) malloc(sizeof(char)*(strlen(custom->data->u.value_hist->reserv->client_info->driving_license_type)+1));
+
+  strcpy(custom->name, custom->data->u.value_hist->reserv->client_info->client_name);
+  strcpy(custom->licence, custom->data->u.value_hist->reserv->client_info->driving_license_type);
+  sprintf(custom->phone,"%d", custom->data->u.value_hist->reserv->client_info->phone_number);
+
+  gtk_label_set_text(GTK_LABEL(custom->label[0]), custom->name );
+  gtk_label_set_text(GTK_LABEL(custom->label[1]), custom->phone );
+  gtk_label_set_text(GTK_LABEL(custom->label[2]), custom->licence );
+}
+
+
 static void get_combo_box_value(GtkWidget *widget, GtkComboBoxText *combo_box[2])
 {
         gchar* return_text[2];
@@ -598,7 +635,8 @@ int main (int argc, char ** argv)
         reservation = initializeReservation("files/booking.csv", customers);
         car = initializeCar("files/vehicules.csv", reservation);
         variable*var; // Structure affichant les details de chaque voiture
-
+        CustomerFile*custom= (CustomerFile*)calloc(1, sizeof(CustomerFile));
+        custom->ptr = reservation;
 
 
         /* Variables pour la fenetre de retour vehicule */
@@ -712,7 +750,10 @@ int main (int argc, char ** argv)
 
                         GenerateVehicule(var,p_builder, car);
 
-                                attributVehicule(var,p_builder);
+                        attributVehicule(var,p_builder);
+
+                        attributCustomer(custom,p_builder);
+
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de retour vehicule, d'intialiser le bouton de validation et de faire
                            appel a la fonction correspondante */
@@ -770,11 +811,13 @@ int main (int argc, char ** argv)
                                 strcpy(searchFormEntry, "search_entry"); //on concatène les deux chaines
                                 strcat(searchFormEntry, compteur); //on concatène les deux chaines
                                 search_form[z] = (GtkEntry*)gtk_builder_get_object(p_builder, searchFormEntry); //on récupère les entryform de Glade
+                                custom->search_form[z] = search_form[z];
                         }
                         button_cancel_customer_file = gtk_builder_get_object(p_builder, "cancel_customer_file");
                         button_validate_search_client = gtk_builder_get_object(p_builder, "search_client_validate_button"); //On intialise le bouton de validation
                         g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(get_search_client_form_values), search_form); //On appelle la fonction au clic sur le bouton
                         g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(openWindow), G_OBJECT(customer_file));
+                        g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(InitCustomerFile), custom);
                         g_signal_connect(button_cancel_customer_file, "clicked", G_CALLBACK(closeWindow), G_OBJECT(customer_file));
                         /* Gestion des boutons */
                         button_cancel_add_reservation = gtk_builder_get_object(p_builder, "add_reservation_cancel_butto"); //Récupération du bouton d'annulation d'ajout de réservation
