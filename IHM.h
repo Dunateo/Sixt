@@ -29,6 +29,9 @@ typedef struct ajouteReservation{
       client client;
       reservation reservation;
       maillon *ptrTeteR;
+      maillon *ptrTeteC;
+      maillon *foundCar;
+      int upgraded;
 }ajouteReservation;
 
 typedef struct returnVehiculeStruct{

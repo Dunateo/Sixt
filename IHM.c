@@ -326,13 +326,12 @@ static void get_calendar_values(GtkWidget *widget, ajouteReservation *ajouteRese
  */
 static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteReservation){
     maillon *dataReservation = NULL;
-    printf("passe1\n");
+
     //init maillon reservation
     dataReservation = malloc(sizeof(maillon));
     dataReservation->rent = (data*)malloc(sizeof(data));
     dataReservation->rent->u.value_reserv = malloc(sizeof(reservation));
     dataReservation->rent->typ_val = RESERVATION;
-    printf("passe2\n");
 
     //assignation maillon
     dataReservation->rent->u.value_reserv->end = ajouteReservation->reservation.end;
@@ -340,20 +339,24 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     dataReservation->rent->u.value_reserv->number = DIMReserv+1;
     DIMReserv = DIMReserv+1;
     dataReservation->rent->u.value_reserv->category = ajouteReservation->reservation.category;
-    printf("passe3\n");
+
 
     //prediction for km
     dataReservation->rent->u.value_reserv->km = milePrediction(&(ajouteReservation->ptrTeteR),ajouteReservation->reservation.begining, ajouteReservation->reservation.end );
-    printf("passe4\n");
+
     //link with client
     dataReservation->rent->u.value_reserv->client_info = malloc(sizeof(client));
     dataReservation->rent->u.value_reserv->client_info->client_name = ajouteReservation->client.client_name;
     dataReservation->rent->u.value_reserv->client_info->driving_license_type = ajouteReservation->client.driving_license_type;
     dataReservation->rent->u.value_reserv->client_info->phone_number = ajouteReservation->client.phone_number;
-    printf("passe5\n");
 
     //adding the reservation to the chained list
     insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
+
+    //search a car for the reservation
+    ajouteReservation->foundCar = searchCar(ajouteReservation->ptrTeteC, dataReservation->rent->u.value_reserv, &ajouteReservation->upgraded);
+    printf("%s\n", ajouteReservation->foundCar->rent->u.value_car->brand_name);
+
 
     //get_result_search_car();
 }
@@ -633,8 +636,13 @@ int main (int argc, char ** argv)
         GtkLabel *total_price;
 
         ajouteReservation ajouteReservation;
-        //ptrReserv
+        ajouteReservation.ptrTeteR = NULL;
+        ajouteReservation.ptrTeteC = NULL;
+        ajouteReservation.foundCar = NULL;
+        //ptrReserv and ptrCar
         ajouteReservation.ptrTeteR = reservation;
+        ajouteReservation.ptrTeteC = car;
+
         /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
         ajouteReservat        ion.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
         ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/
