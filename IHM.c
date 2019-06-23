@@ -352,6 +352,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     //adding the reservation to the chained list
     insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
 
+    get_result_search_car();
 }
 
 /**
@@ -422,7 +423,6 @@ static void manage_list_history_car(GtkListStore*list, history *ptrTete) {
   gtk_list_store_clear(list); //On vide la liste
 
   while(ptr != NULL) {
-    ptr->reserv->begining;
     sprintf(dateS,"%d/%d/%d | %d/%d/%d", ptr->reserv->begining.day, ptr->reserv->begining.month, ptr->reserv->begining.year, ptr->reserv->end.day, ptr->reserv->end.month, ptr->reserv->end.year);
     gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
 
@@ -544,7 +544,7 @@ static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* ret
  */
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2] )
 {
-        const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
+    const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
         for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en parmètre
         {
                 entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i]));
@@ -552,7 +552,22 @@ static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2
         }
 }
 
-
+/**
+ * Fonction qui permet de récupérer la valeur des différents champs de formulaire
+ * de notre pop-up "Search Client"
+ * @param widget [description]
+ * @param [name] [description]
+ */
+static void get_result_search_car( GtkWidget *widget, GtkWidget *entry[2] )
+{
+    maillon* result = searchCar();
+    const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
+    for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en parmètre
+    {
+        entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i]));
+        printf ("Entry contents: %s\n", entry_text[i]);
+    }
+}
 
 int main (int argc, char ** argv)
 {
@@ -588,6 +603,7 @@ int main (int argc, char ** argv)
 
         /* Variables pour l'ajout de réservation */
         char addReservationFormEntry[30];
+        GObject *button_validate_result;
         GObject *button_validate_add_reservation;
         GObject *button_cancel_add_reservation;
         GObject *button_add_reservation;
@@ -607,6 +623,7 @@ int main (int argc, char ** argv)
         GtkComboBoxText *date_changer[2];
         char char_date_changer[20];
         char labelJourCalendrier[15];
+
 
 
         /* Variables pour le calendrier de réservation*/
@@ -665,6 +682,9 @@ int main (int argc, char ** argv)
                                 GtkWidget * customer_file = (GtkWidget * ) gtk_builder_get_object (
                                         p_builder, "Customer_file"
                                         );
+                                GtkWidget * pop_up_result_car = (GtkWidget *) gtk_builder_get_object (
+                                        p_builder, "popup_result_car"
+                                );
 
                         /* Permet d'intialisre les label a remplir pour l'onglet History */
                         total_price = (GtkLabel*)gtk_builder_get_object(p_builder, "total_price");
@@ -766,7 +786,9 @@ int main (int argc, char ** argv)
                         reservation_list_return_button = gtk_builder_get_object(p_builder, "reservation_list_return_button"); //Récupération du bouton de retour dans pop_up de liste reservation
                         g_signal_connect(reservation_list_return_button, "clicked", G_CALLBACK(closeWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction de fermeture fenetre lors du clic
 
-
+                        button_validate_result = gtk_builder_get_object(p_builder, "add_reservation_button"); //Récupération du bouton d'ajout de résérvation
+                        g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
+                        g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
 
                         /* Gestion de la liste de reservation */
                         GtkListStore *list_reservation = (GtkListStore *) gtk_builder_get_object(p_builder, "reservation_lists"); //On récupère la liste reservation_lists
