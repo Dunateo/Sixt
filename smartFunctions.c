@@ -135,7 +135,7 @@ predict *createTabPrediction(maillon *ptrTete, int *compteur){
  * @param cpt
  * @return
  */
-int errorPrediction(predict *tabVal,int cpt){
+int errorPrediction(predict *tabVal, int cpt){
 		int cptE = 0;
 		float error =0;
 		predict *tabTrans = tabVal;
@@ -143,7 +143,7 @@ int errorPrediction(predict *tabVal,int cpt){
 		for (int i = 0; i < cpt; i++) {
 			for (int j = i; j < cpt; j++) {
 				if (tabVal[i].jour == tabTrans[j].jour ) {
-						error =  tabVal[i].km / tabTrans[j].km + error;
+						error = (float)(tabVal[i].km / tabTrans[j].km) + error;
 
 						cptE++;
 						}
