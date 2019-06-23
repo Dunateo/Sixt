@@ -531,6 +531,7 @@ int main (int argc, char ** argv)
         GtkEntry *search_form[2];
         GObject *button_validate_search_client;
         GObject *button_search_stop;
+        GObject *button_cancel_customer_file;
 
         /* Variables pour le calendrier principal */
         GObject *calendar[31];
@@ -589,6 +590,11 @@ int main (int argc, char ** argv)
                         GtkWidget * return_vehicule = (GtkWidget * ) gtk_builder_get_object (
                                 p_builder, "return_vehicule"
                                 );
+
+                                /* Permet d'initailiser la fenetre de retour vehicule */
+                                GtkWidget * customer_file = (GtkWidget * ) gtk_builder_get_object (
+                                        p_builder, "Customer_file"
+                                        );
 
                         /* Permet d'intialisre les label a remplir pour l'onglet History */
                         total_price = (GtkLabel*)gtk_builder_get_object(p_builder, "total_price");
@@ -658,10 +664,11 @@ int main (int argc, char ** argv)
                                 strcat(searchFormEntry, compteur); //on concatène les deux chaines
                                 search_form[z] = (GtkEntry*)gtk_builder_get_object(p_builder, searchFormEntry); //on récupère les entryform de Glade
                         }
+                        button_cancel_customer_file = gtk_builder_get_object(p_builder, "cancel_customer_file");
                         button_validate_search_client = gtk_builder_get_object(p_builder, "search_client_validate_button"); //On intialise le bouton de validation
                         g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(get_search_client_form_values), search_form); //On appelle la fonction au clic sur le bouton
-
-
+                        g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(openWindow), G_OBJECT(customer_file));
+                        g_signal_connect(button_cancel_customer_file, "clicked", G_CALLBACK(closeWindow), G_OBJECT(customer_file));
                         /* Gestion des boutons */
                         button_cancel_add_reservation = gtk_builder_get_object(p_builder, "add_reservation_cancel_butto"); //Récupération du bouton d'annulation d'ajout de réservation
                         g_signal_connect (button_cancel_add_reservation, "clicked", G_CALLBACK (closeWindow), G_OBJECT(pop_up_reservation_add)); //On y associe la fonction de fermeture de fenetre
