@@ -945,6 +945,7 @@ int main (int argc, char ** argv)
 
                         //Calendrier date refresh
                         button_validate_date_changer = gtk_builder_get_object(p_builder, "validate_date_changer");
+                        g_signal_connect(button_validate_date_changer, "clicked", G_CALLBACK(get_calendar_values_from_main_window), &structTest);
                         g_signal_connect(button_validate_date_changer, "clicked", G_CALLBACK(refresh_label_reservation), &structTest);
 
 
