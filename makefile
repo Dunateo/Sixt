@@ -1,8 +1,9 @@
-GTK_CFLAGS = $(shell pkg-config --cflags gtk+-3.0)
-GTK_LDFLAGS = $(shell pkg-config --libs gtk+-3.0)
+PKGCONFIG = $(shell which pkg-config)
+CFLAGS = $(shell $(PKGCONFIG) --cflags gtk+-3.0)
+LIBS = $(shell $(PKGCONFIG) --libs gtk+-3.0)
 
-Sixt: file.o chaine.o calculus.o initialize.o chained_list.o smartFunctions.o IHM.o
-	gcc file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o IHM.o  $(GTK_LDFLAGS) $(GTK_CFLAGS) -o Sixt
+Sixt: file.o chaine.o calculus.o initialize.o main.o chained_list.o smartFunctions.o IHM.o
+	gcc -o Sixt file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o main.o IHM.o $(LIBS)
 
 chained_list.o: chained_list.h chained_list.c
 	gcc -c -Wall chained_list.c
@@ -22,11 +23,11 @@ smartFunctions.o: calculus.h chained_list.h smartFunctions.h smartFunctions.c
 initialize.o: initialize.h initialize.c chaine.h file.h chained_list.h
 	gcc -c -Wall initialize.c
 
-IHM.o: IHM.c IHM.h calculus.h chained_list.h initialize.h smartFunctions.h
-	gcc $(GTK_CFLAGS) -c -Wall IHM.c
-
 main.o: calculus.h chained_list.h initialize.h smartFunctions.h main.c
 	gcc -c -Wall main.c
+
+IHM.o : calculus.h chained_list.h initialize.h IHM.c
+	gcc  -c -Wall IHM.c $(CFLAGS)
 
 clean:
 	rm -f *.o *~ core Sixt

@@ -4,10 +4,11 @@
 #include "chained_list.h"
 #include "initialize.h"
 #include "smartFunctions.h"
+#include "getter.h"
 
-int mainList(int argc, char const *argv[])
+int main(void)
 {
-    maillon *car, *customers, *reservation, *resultcar;
+    maillon *car, *customers, *reservation, *resultcar, *test;
     customers = initializeClients("files/clients.csv");
     reservation = initializeReservation("files/booking.csv", customers);
     car = initializeCar("files/vehicules.csv", reservation);
@@ -21,12 +22,11 @@ int mainList(int argc, char const *argv[])
     days = delayTime(car->rent->u.value_car->history_rent->reserv);
     printf("Delayed Days: %d\n", days );
 
-    int upgraded;
+    int upgraded; date end;
     resultcar = searchCar(car, car->rent->u.value_car->history_rent->reserv, &upgraded);
     printf("The car is: %d\n",upgraded );
     printf("Model: %s\n", resultcar->rent->u.value_car->brand_name );
 
-*/
     int prediction;
     date d,e;
     d.day = 3;
@@ -42,8 +42,10 @@ int mainList(int argc, char const *argv[])
     int h;
     h = calculusDate(d,e);
     printf("Prediction %d pour %d jours \n", prediction ,h);
-
+*/
+    //returnVehicule(car,"TJ-048-AV\0", 60);
+    test = (maillon*) rechercheClient(0,1,reservation);
     //saveData(customers);
     //saveData(car);
-	return 0;
+    return 0;
 }
