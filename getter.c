@@ -51,7 +51,7 @@ void returnVehicule(maillon** ptrTete,char* plate, int KM){
     free(searchCar);
 }
 
-data* rechercheClient(int dataSearch, int entry,maillon *reserv){
+data* rechercheClient(int dataSearch, int entry, maillon *reserv){
     data* searchReserv = NULL;
     data* ptrTeteHist = NULL;
     switch (entry){
@@ -69,7 +69,6 @@ data* rechercheClient(int dataSearch, int entry,maillon *reserv){
                         searchReserv->u.value_hist = (history*)calloc(1, sizeof(history));
                         searchReserv->u.value_hist->reserv = reserv->rent->u.value_reserv;
                         insertionSousChaine(&ptrTeteHist,searchReserv);
-
                     }
                 }
                 reserv = reserv->suivant;
