@@ -51,10 +51,9 @@ void returnVehicule(maillon* ptrTete,char* plate, int KM){
     free(searchCar);
 }
 
-void* rechercheClient(int dataSearch, int entry,maillon *reserv){
+data* rechercheClient(int dataSearch, int entry,maillon *reserv){
     data* searchReserv = NULL;
     data* ptrTeteHist = NULL;
-    maillon* result = NULL;
     switch (entry){
         case 0:
             while (reserv != NULL){
@@ -76,17 +75,18 @@ void* rechercheClient(int dataSearch, int entry,maillon *reserv){
                 }
                 reserv = reserv->suivant;
             }
-            return (void*) ptrTeteHist;
+            break;
         case 1:
             searchReserv = (data *) calloc(1, sizeof(data));
-            searchReserv->typ_val = RESERVATION;
+            searchReserv->typ_val = HISTORY;
             searchReserv->u.value_reserv = (reservation*)calloc(1, sizeof(reservation));
             searchReserv->u.value_reserv->number = dataSearch;
-            result = rechercheMaillon(reserv, searchReserv);
+            ptrTeteHist = rechercheMaillon(reserv, searchReserv)->rent;
             free(searchReserv->u.value_reserv);
             free(searchReserv);
-            return (void*) result;
+            break;
         default:
-            return NULL;
+            break;
     }
+    return ptrTeteHist;
 }

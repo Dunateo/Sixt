@@ -44,7 +44,7 @@ maillon* initializeCar(char* fileName, maillon *reservation)
         ptrTete = creationMaillon(readingData(indiceColonnes,f,CAR, reservation,NULL));
 
         //will assign a lign of nb lines
-        for(int i=1; i<nbLines; i++)
+        for(int i=1; i<nbLines-1; i++)
         {
             insertionValeur(readingData(indiceColonnes,f,CAR, reservation,NULL),&ptrTete);
         }
