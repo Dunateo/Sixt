@@ -676,6 +676,7 @@ int main (int argc, char ** argv)
         GObject *button_search_reservation;
 
 
+        GObject *button_validate_date_changer;
         /* Variables pour la recherche de client */
         char searchFormEntry[20];
         GtkEntry *search_form[2];
@@ -787,6 +788,9 @@ int main (int argc, char ** argv)
                         g_signal_connect(button_validate_return_vehicule, "clicked", G_CALLBACK(get_return_form_values), retour); //on appelle la fonction au clic
                         g_signal_connect(button_validate_return_vehicule, "clicked", G_CALLBACK(closeWindow), G_OBJECT(return_vehicule));
 
+
+
+
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de retour de réservation ainsi que les calendriers de réservation,
                            d'intialiser le bouton de validation et de faire appel a la fonction
@@ -886,6 +890,9 @@ int main (int argc, char ** argv)
                         gtk_label_set_text(total_reservation, reserv);
 
 
+                        button_validate_date_changer = gtk_builder_get_object(p_builder, "validate_date_changer");
+
+
                     clicReservationCalendrier structTest;
                     /* Boucle for qui permet d'intialiser des boutons clicables pour chaque case de notre
                     calendrier */
@@ -900,7 +907,10 @@ int main (int argc, char ** argv)
                         calendar[i]=gtk_builder_get_object(p_builder, joursCalendrier); //Pour chaque case, on récupère le bouton glade correspondant
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(openWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction d'ouverture
                         g_signal_connect(calendar[i], "clicked", G_CALLBACK(&manage_list_reservation), &structTest);
+                        
                     }
+
+
 
                     structTest.list = list_reservation;
                     structTest.ptrTete = reservation;
