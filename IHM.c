@@ -154,7 +154,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
   GtkWidget*box_car = NULL; // La GtkBox contenant toute les voitures
   GtkWidget*car[DIM]; // Correspond au voiture a afficher, elle est ajouté dans box_car
   GtkWidget*tab[2];// Contient le contenu de GtkBox  de véhicule
-  char number[4]; // Recupere le nombre de voiture pour le concaténer
+  char* number = (char*)calloc(4, sizeof(char)); // Recupere le nombre de voiture pour le concaténer
   maillon*ptr = ptrTete;
   char*model_car;
   char*brand_car;
@@ -206,6 +206,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
     free(model_car);
     free(brand_car);
     }
+  free(number);
 
 }
 
