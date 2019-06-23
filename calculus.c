@@ -317,3 +317,7 @@ float sellingCar(data *val){
 	}
 
 }
+
+void sort_reservation_day(/* arguments */) {
+	
+}

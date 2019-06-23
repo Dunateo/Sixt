@@ -326,12 +326,13 @@ static void get_calendar_values(GtkWidget *widget, ajouteReservation *ajouteRese
  */
 static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteReservation){
     maillon *dataReservation = NULL;
-
+    printf("passe1\n");
     //init maillon reservation
     dataReservation = malloc(sizeof(maillon));
     dataReservation->rent = (data*)malloc(sizeof(data));
     dataReservation->rent->u.value_reserv = malloc(sizeof(reservation));
     dataReservation->rent->typ_val = RESERVATION;
+    printf("passe2\n");
 
     //assignation maillon
     dataReservation->rent->u.value_reserv->end = ajouteReservation->reservation.end;
@@ -339,15 +340,17 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     dataReservation->rent->u.value_reserv->number = DIMReserv+1;
     DIMReserv = DIMReserv+1;
     dataReservation->rent->u.value_reserv->category = ajouteReservation->reservation.category;
+    printf("passe3\n");
 
     //prediction for km
     dataReservation->rent->u.value_reserv->km = milePrediction(&(ajouteReservation->ptrTeteR),ajouteReservation->reservation.begining, ajouteReservation->reservation.end );
-
+    printf("passe4\n");
     //link with client
     dataReservation->rent->u.value_reserv->client_info = malloc(sizeof(client));
     dataReservation->rent->u.value_reserv->client_info->client_name = ajouteReservation->client.client_name;
     dataReservation->rent->u.value_reserv->client_info->driving_license_type = ajouteReservation->client.driving_license_type;
     dataReservation->rent->u.value_reserv->client_info->phone_number = ajouteReservation->client.phone_number;
+    printf("passe5\n");
 
     //adding the reservation to the chained list
     insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
@@ -577,18 +580,13 @@ int main (int argc, char ** argv)
         GObject *button_sell_car;
 
         //initialisation des maillon
-        maillon *car, *customers, *reservation, *recupCar;
-        int up;
+        maillon *car, *customers, *reservation;
         customers = initializeClients("files/clients.csv");
         reservation = initializeReservation("files/booking.csv", customers);
         car = initializeCar("files/vehicules.csv", reservation);
         variable*var; // Structure affichant les details de chaque voiture
 
-        //test
-        recupCar = searchCar(car, reservation->rent->u.value_reserv, &up);
-        printf("%s\n", recupCar->rent->u.value_car->brand_model);
-        printf("%s\n", recupCar->rent->u.value_car->brand_name);
-        printf("la voiture est surclassé: %d\n", up);
+
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
@@ -742,6 +740,7 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(get_add_reservation_entry), &ajouteReservation); //on appelle la fonction des entryForm au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_combo_box_value_from_add_reservation), &ajouteReservation); //on appelle la fonction de calendrier au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values), &ajouteReservation); //on appelle la fonction de calendrier au clic
+                        g_signal_connect(button_validate_add_reservation, "clicked", G_CALLBACK(add_reservation_car), &ajouteReservation); //On y associe la fonction ajout
 
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
@@ -777,6 +776,7 @@ int main (int argc, char ** argv)
                         button_add_reservation = gtk_builder_get_object(p_builder, "add_reservation_button"); //Récupération du bouton d'ajout de résérvation
                         g_signal_connect(button_add_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_reservation_add)); //On y associe la fonction d'ouverture du pop-up d'ajout de réservation
 
+
                         button_search_reservation = gtk_builder_get_object(p_builder, "search_reservation_button"); //Récupération du bouton de recherche client
                         g_signal_connect(button_search_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_client_search)); //On y associe la fonction d'ouverture de la pop-up de recherche client
 
@@ -789,6 +789,7 @@ int main (int argc, char ** argv)
                         button_validate_result = gtk_builder_get_object(p_builder, "button_ok_add_reservation_result"); //Récupération du bouton d'ajout de résérvation
                         g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
                         g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_result_car));
+
 
                         /* Gestion de la liste de reservation */
                         GtkListStore *list_reservation = (GtkListStore *) gtk_builder_get_object(p_builder, "reservation_lists"); //On récupère la liste reservation_lists
