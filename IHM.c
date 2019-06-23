@@ -400,10 +400,9 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
  * @param strucTest
  */
 static void refresh_label_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest){
-  printf("test\n");
 
     for (int i=1; i<=31;i++){
-        
+
         strucTest->clicJour.day = i;
         manage_list_reservation(widget, strucTest);
     }
