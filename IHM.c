@@ -322,6 +322,41 @@ static void get_calendar_values(GtkWidget *widget, ajouteReservation *ajouteRese
 }
 
 /**
+ * create and add a new reservation in our chained list using informations of ajoutereservation
+ * @param widget
+ * @param ajouteReservation
+ */
+static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteReservation){
+    maillon *dataReservation = NULL;
+
+    //init maillon reservation
+    dataReservation = malloc(sizeof(maillon));
+    dataReservation->rent = (data*)malloc(sizeof(data));
+    dataReservation->rent->u.value_reserv = malloc(sizeof(reservation));
+    dataReservation->rent->typ_val = RESERVATION;
+
+    //assignation maillon
+    dataReservation->rent->u.value_reserv->end = ajouteReservation->reservation.end;
+    dataReservation->rent->u.value_reserv->begining = ajouteReservation->reservation.begining;
+    dataReservation->rent->u.value_reserv->number = DIMReserv+1;
+    DIMReserv = DIMReserv+1;
+    dataReservation->rent->u.value_reserv->category = ajouteReservation->reservation.category;
+
+    //prediction for km
+    dataReservation->rent->u.value_reserv->km = milePrediction(&(ajouteReservation->ptrTeteR),ajouteReservation->reservation.begining, ajouteReservation->reservation.end );
+
+    //link with client
+    dataReservation->rent->u.value_reserv->client_info = malloc(sizeof(client));
+    dataReservation->rent->u.value_reserv->client_info->client_name = ajouteReservation->client.client_name;
+    dataReservation->rent->u.value_reserv->client_info->driving_license_type = ajouteReservation->client.driving_license_type;
+    dataReservation->rent->u.value_reserv->client_info->phone_number = ajouteReservation->client.phone_number;
+
+    //adding the reservation to the chained list
+    insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
+
+}
+
+/**
  * Fonction qui gère le contenu de la liste de reservation
  * @param list [description]
  */
