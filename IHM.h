@@ -10,6 +10,16 @@ typedef struct clicReservationCalendrier{
     GtkLabel *label[30];
   }clicReservationCalendrier;
 
+  typedef struct CustomerFile {
+    char*name;
+    char*phone;
+    char*licence;
+    history ** ptrHistoryTete;
+    maillon*ptr;
+    GtkWidget*label[3];
+    data*data;
+    GtkEntry *search_form[2];
+  }CustomerFile;
 
 
 typedef struct variable {
@@ -59,3 +69,5 @@ void edit_label(GtkWidget*widget, variable* data) ;
 void attributVehicule(variable*var, GtkBuilder*p_builder);
 void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete );
 void LibereVar(variable*var);
+void attributCustomer(CustomerFile*custom, GtkBuilder*p_builder);
+void InitCustomerFile(GtkWidget*widget, CustomerFile*data);
