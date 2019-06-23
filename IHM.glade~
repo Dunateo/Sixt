@@ -212,6 +212,12 @@
       </object>
     </child>
   </object>
+  <object class="GtkListStore" id="History">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkListStore" id="History_client">
     <columns>
       <!-- column-name gchararray1 -->
@@ -2661,7 +2667,7 @@
                           <object class="GtkTreeView">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="model">Revision</property>
+                            <property name="model">History</property>
                             <property name="headers_visible">False</property>
                             <property name="search_column">0</property>
                             <property name="hover_selection">True</property>
