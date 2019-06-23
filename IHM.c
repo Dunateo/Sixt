@@ -6,7 +6,7 @@
 #include "chained_list.h"
 #include "initialize.h"
 #include "smartFunctions.h"
-
+#include "getter.h"
 
 
 /**
@@ -157,7 +157,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
   maillon*ptr = ptrTete;
   char*model_car;
   char*brand_car;
-  int i = 1;
+  int i = 0;
   char*cwd;
 
   cwd = (char*) malloc(sizeof(char)*60);
@@ -168,7 +168,7 @@ void GenerateVehicule(variable*var, GtkBuilder*p_builder, maillon*ptrTete ) {
 
   initVoitureDetail(var, p_builder);
 
-  while(ptr->suivant != NULL){ // Boucle selon le nombre de voiture
+  while(ptr != NULL){ // Boucle selon le nombre de voiture
 
 
     model_car = (char*) malloc(sizeof(char)*(strlen(ptr->rent->u.value_car->brand_model)+1));
@@ -465,14 +465,15 @@ static void get_add_reservation_entry(GtkWidget *widget, ajouteReservation *ajou
  * @param widget [description]
  * @param [name] [description]
  */
-static void get_return_form_values( GtkWidget *widget, GtkWidget *entry[2] )
+static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* retour)
 {
         const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
         for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en paramètre
         {
-                entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i])); //On récupère la valeur des différents champs parcourus
+                entry_text[i] = gtk_entry_get_text (GTK_ENTRY (retour->return_form[i])); //On récupère la valeur des différents champs parcourus
                 printf ("Entry contents: %s\n", entry_text[i]);
         }
+        returnVehicule(retour->car, entry_text[2], atoi(entry_text[1]));
 }
 
 /**
