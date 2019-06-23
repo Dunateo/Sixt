@@ -376,6 +376,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     dataReservation->rent->u.value_reserv->number = DIMReserv+1;
     DIMReserv = DIMReserv+1;
     dataReservation->rent->u.value_reserv->category = ajouteReservation->reservation.category;
+    printf("%c\n",ajouteReservation->reservation.category );
 
     //prediction for km
     dataReservation->rent->u.value_reserv->km = milePrediction(&(ajouteReservation->ptrTeteR),ajouteReservation->reservation.begining, ajouteReservation->reservation.end );
