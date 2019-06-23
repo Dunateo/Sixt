@@ -352,7 +352,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     //adding the reservation to the chained list
     insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
 
-    get_result_search_car();
+    //get_result_search_car();
 }
 
 /**
@@ -560,7 +560,7 @@ static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2
  */
 static void get_result_search_car( GtkWidget *widget, GtkWidget *entry[2] )
 {
-    maillon* result = searchCar();
+    //maillon* result = searchCar();
     const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
     for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en parmètre
     {
