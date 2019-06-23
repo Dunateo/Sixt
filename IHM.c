@@ -610,8 +610,11 @@ static void show_result_search_car( GtkWidget *widget,  ajouteReservation *reser
     char* gearbox[] = {"Manual", "Automatic"};
     char* upgraded[] = {"No", "Upgraded 1 class", "Upgraded 2 classes", "No vehicule available"};
     char* strTmp;
-
+    printf("tes24242t\n");
+    printf("%s\n",reserv->foundCar->rent->u.value_car->brand_name );
+    printf("test\n");
     gtk_label_set_text(car_plate, reserv->foundCar->rent->u.value_car->brand_name);
+    printf("TEST APRES SET TEXT\n");
     gtk_label_set_text(car_gearbox, gearbox[reserv->foundCar->rent->u.value_car->gearbox]);
     strTmp = (char*)calloc(sizeof(rentalPrice(reserv->foundCar->rent, &reserv->reservation)), sizeof(char));
     sprintf(strTmp,"%.2f €", rentalPrice(reserv->foundCar->rent, &reserv->reservation));
@@ -700,6 +703,8 @@ int main (int argc, char ** argv)
 
         /* Creation d'un nouveau GtkBuilder */
         p_builder = gtk_builder_new ();
+
+        ajouteReservation.p_builder = p_builder;
 
         if (p_builder != NULL)
         {
@@ -801,7 +806,8 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (get_calendar_values), &ajouteReservation); //on appelle la fonction de calendrier au clic
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_result_car));
-                        g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
+                        g_signal_connect(button_validate_add_reservation, "clicked", G_CALLBACK(add_reservation_car), &ajouteReservation);
+                      //  g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de recherche client d'intialiser le bouton de validation et de faire

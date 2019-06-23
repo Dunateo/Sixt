@@ -88,9 +88,6 @@ maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
 		*upgraded = 0;
 		return carFound;
 	}
-
-
-
 }
 
 /**
