@@ -74,12 +74,12 @@ maillon *searchCar(maillon *ptrtete, reservation* Car_reserv, int *upgraded){
 		*upgraded = 1;
 		return carUpgrade;
 
-	}else if(carUpgrade == NULL){
+	}else if(carFound == NULL && carUpgrade == NULL){
 
 		*upgraded = 2;
 		return carUpgrade2;
 
-	}else if(carUpgrade2 == NULL){
+	}else if(carFound == NULL && carUpgrade == NULL && carUpgrade2 == NULL){
 
 		*upgraded = 3;
 		return carFound;
