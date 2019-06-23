@@ -46,10 +46,12 @@ void InitVar(variable*var, maillon*ptrTete, GtkBuilder*p_builder) {
     }
   }
   for(int i=0; i<=11; i++){
-      var->label1[i] = NULL;
+      var->label[i] = NULL;
   }
   var->ptr = ptrTete;
   var->ptrMainTete = (maintenance**) calloc(DIM , sizeof(maintenance*));
+  var->ptrHistoryTete = (history**) calloc(DIM , sizeof(history*));
+
   var->p_builder = p_builder;
 }
 
@@ -79,7 +81,7 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
     //ptr tete maintenance pour les maintenances
 	 var->ptrMainTete[i] = ptr->rent->u.value_car->car_maint;
-
+   var->ptrHistoryTete[i] = ptr->rent->u.value_car->history_rent;
 
     if(ptr->rent->u.value_car->gearbox == true)
       strcpy(var->voiture_det[i][5],"Automatic"); // gearbox
@@ -106,24 +108,24 @@ void edit_label(GtkWidget*widget, variable* data) {
 
   variable*var = data;
   var->i = atoi(gtk_widget_get_tooltip_text(widget)); // pour récuperer la voiture sur laquelle on clique
-  printf("%d\n", var->i);
 
   GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(var->p_builder, "Revision"); //On récup-re la liste de revision
+  GtkListStore *list_history = (GtkListStore * ) gtk_builder_get_object(var->p_builder, "History"); //On récup-re la liste de revision
 
   // Change le contenu du label
 
-  gtk_label_set_text(GTK_LABEL(var->label1[0]), var->voiture_det[var->i][0]); // Remplace le label plate number
-  gtk_label_set_text(GTK_LABEL(var->label1[1]), var->voiture_det[var->i][1]); // Remplace le label category
-  gtk_label_set_text(GTK_LABEL(var->label1[2]), var->voiture_det[var->i][2]); // Remplace le label km
-  gtk_label_set_text(GTK_LABEL(var->label1[3]), var->voiture_det[var->i][3]); // Remplace le label brand
-  gtk_label_set_text(GTK_LABEL(var->label1[4]), var->voiture_det[var->i][4]); // Remplace le label model
-  gtk_label_set_text(GTK_LABEL(var->label1[5]), var->voiture_det[var->i][5]); // Remplace le label gearbox
-  gtk_label_set_text(GTK_LABEL(var->label1[6]), var->voiture_det[var->i][6]); // Remplace le label years
-  //gtk_label_set_text(GTK_LABEL(var->label1[7]), "Revision"); // Remplace le label revision
-  gtk_label_set_text(GTK_LABEL(var->label1[8]), var->voiture_det[var->i][8]); // Remplace le label daily
-  gtk_label_set_text(GTK_LABEL(var->label1[9]), var->voiture_det[var->i][9]); // Remplace le label selling
-  gtk_label_set_text(GTK_LABEL(var->label1[10]), var->voiture_det[var->i][10]); // Remplace le label purchase
+  gtk_label_set_text(GTK_LABEL(var->label[0]), var->voiture_det[var->i][0]); // Remplace le label plate number
+  gtk_label_set_text(GTK_LABEL(var->label[1]), var->voiture_det[var->i][1]); // Remplace le label category
+  gtk_label_set_text(GTK_LABEL(var->label[2]), var->voiture_det[var->i][2]); // Remplace le label km
+  gtk_label_set_text(GTK_LABEL(var->label[3]), var->voiture_det[var->i][3]); // Remplace le label brand
+  gtk_label_set_text(GTK_LABEL(var->label[4]), var->voiture_det[var->i][4]); // Remplace le label model
+  gtk_label_set_text(GTK_LABEL(var->label[5]), var->voiture_det[var->i][5]); // Remplace le label gearbox
+  gtk_label_set_text(GTK_LABEL(var->label[6]), var->voiture_det[var->i][6]); // Remplace le label years
+  gtk_label_set_text(GTK_LABEL(var->label[8]), var->voiture_det[var->i][8]); // Remplace le label daily
+  gtk_label_set_text(GTK_LABEL(var->label[9]), var->voiture_det[var->i][9]); // Remplace le label selling
+  gtk_label_set_text(GTK_LABEL(var->label[10]), var->voiture_det[var->i][10]); // Remplace le label purchase
   manage_list_revision(list_revision, var->ptrMainTete[var->i]);//revision
+  manage_list_history_car(list_history, var->ptrHistoryTete[var->i]);
 
 }
 
@@ -132,17 +134,16 @@ void attributVehicule(variable*var, GtkBuilder*p_builder) {
 
   // Attribut le label a son identifiant
 
-  var->label1[0] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_plate_number")); // Initialisation du label plate number dans véhicule
-  var->label1[1] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_category")); // Initialisation du label plate number dans véhicule
-  var->label1[2] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_km")); // Initialisation du label plate number dans véhicule
-  var->label1[3] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_bran")); // Initialisation du label plate number dans véhicule
-  var->label1[4] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_mode")); // Initialisation du label plate number dans véhicule
-  var->label1[5] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_gearbox")); // Initialisation du label plate number dans véhicule
-  var->label1[6] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_years")); // Initialisation du label plate number dans véhicule
-  var->label1[7] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_revision")); // Initialisation du label plate number dans véhicule
-  var->label1[8] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_daily")); // Initialisation du label plate number dans véhicule
-  var->label1[9] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_selling")); // Initialisation du label plate number dans véhicule
-  var->label1[10] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_purchase")); // Initialisation du label plate number dans véhicule
+  var->label[0] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_plate_number")); // Initialisation du label plate number dans véhicule
+  var->label[1] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_category")); // Initialisation du label plate number dans véhicule
+  var->label[2] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_km")); // Initialisation du label plate number dans véhicule
+  var->label[3] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_bran")); // Initialisation du label plate number dans véhicule
+  var->label[4] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_mode")); // Initialisation du label plate number dans véhicule
+  var->label[5] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_gearbox")); // Initialisation du label plate number dans véhicule
+  var->label[6] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_years")); // Initialisation du label plate number dans véhicule
+  var->label[8] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_daily")); // Initialisation du label plate number dans véhicule
+  var->label[9] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_selling")); // Initialisation du label plate number dans véhicule
+  var->label[10] = GTK_WIDGET(gtk_builder_get_object(p_builder, "car_purchase")); // Initialisation du label plate number dans véhicule
 
 }
 
@@ -413,6 +414,28 @@ static void manage_list_revision(GtkListStore *list, maintenance *ptrTete)
         ptrTrans = ptrTrans->suivant;
     }
 }
+
+static void manage_list_history_car(GtkListStore*list, history *ptrTete) {
+  history*ptr = ptrTete;
+  char dateS[25];
+  GtkTreeIter iter; //On crée un itérateur
+  gtk_list_store_clear(list); //On vide la liste
+
+  while(ptr != NULL) {
+    ptr->reserv->begining;
+    sprintf(dateS,"%d/%d/%d | %d/%d/%d", ptr->reserv->begining.day, ptr->reserv->begining.month, ptr->reserv->begining.year, ptr->reserv->end.day, ptr->reserv->end.month, ptr->reserv->end.year);
+    gtk_list_store_append(list, &iter); //On crée une nouvelle ligne vide a notre liste
+
+    gtk_list_store_set(list, &iter, 0,dateS, -1); //Et on l'initialise
+
+    strcpy(dateS, "");
+
+    ptr = ptr->suivant;
+  }
+
+}
+
+
 
 /**
  * Fonction qui gère le contenu de la list d'historique

@@ -15,7 +15,8 @@ typedef struct clicReservationCalendrier{
 typedef struct variable {
   char***voiture_det;
   maintenance **ptrMainTete;
-  GtkWidget*label1[11];
+  history ** ptrHistoryTete;
+  GtkWidget*label[11];
   int i;
   maillon*ptr;
   GtkBuilder*p_builder;
@@ -43,6 +44,7 @@ static void get_combo_box_value_from_add_reservation(GtkWidget *widget, ajouteRe
 static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest);
 static void manage_list_revision(GtkListStore *list, maintenance *ptrTete);
 static void manage_list_history(GtkListStore *list, maillon *ptrtete, int *recupTReserv, int *recupTprice);
+static void manage_list_history_car(GtkListStore*list, history *ptrTete);
 static void get_add_reservation_entry(GtkWidget *widget, ajouteReservation *ajouteReservation);
 static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* retour);
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2]);
