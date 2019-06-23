@@ -264,7 +264,7 @@ static void get_combo_box_value_from_add_reservation(GtkWidget *widget, ajouteRe
           return_text[i] = gtk_combo_box_text_get_active_text(ajouteReservation->reservation_dropdown[i]);
   }
   ajouteReservation->client.driving_license_type = return_text[0];
-  ajouteReservation->reservation.category =  return_text[1];
+  ajouteReservation->reservation.category =  return_text[1][0];
 }
 
 static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservationCalendrier *jourCalendrier)
@@ -808,7 +808,7 @@ int main (int argc, char ** argv)
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
                         g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK(openWindow), G_OBJECT(pop_up_result_car));
                         g_signal_connect(button_validate_add_reservation, "clicked", G_CALLBACK(add_reservation_car), &ajouteReservation);
-                      //  g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
+                       g_signal_connect (button_validate_add_reservation, "clicked", G_CALLBACK (show_result_search_car), &ajouteReservation);
 
                         /* Permet d'initialiser les différents entryForm de notre fenetre
                            de recherche client d'intialiser le bouton de validation et de faire
