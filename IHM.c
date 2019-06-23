@@ -502,11 +502,18 @@ int main (int argc, char ** argv)
         GObject *button_sell_car;
 
         //initialisation des maillon
-        maillon *car, *customers, *reservation;
+        maillon *car, *customers, *reservation, *recupCar;
+        int up;
         customers = initializeClients("files/clients.csv");
         reservation = initializeReservation("files/booking.csv", customers);
         car = initializeCar("files/vehicules.csv", reservation);
         variable*var; // Structure affichant les details de chaque voiture
+
+        //test
+        recupCar = searchCar(car, reservation->rent->u.value_reserv, &up);
+        printf("%s\n", recupCar->rent->u.value_car->brand_model);
+        printf("%s\n", recupCar->rent->u.value_car->brand_name);
+        printf("la voiture est surclassé: %d\n", up);
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
