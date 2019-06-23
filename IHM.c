@@ -229,7 +229,7 @@ static void get_combo_box_value_from_add_reservation(GtkWidget *widget, ajouteRe
           return_text[i] = gtk_combo_box_text_get_active_text(ajouteReservation->reservation_dropdown[i]);
   }
   ajouteReservation->client.driving_license_type = return_text[0];
-  ajouteReservation->reservation.category = return_text[1];
+  ajouteReservation->reservation.category =  return_text[1];
 }
 
 static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservationCalendrier *jourCalendrier)
