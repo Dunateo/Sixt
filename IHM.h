@@ -56,6 +56,7 @@ static void get_combo_box_value(GtkWidget *widget, GtkComboBoxText *combo_box[2]
 static void get_calendar_values(GtkWidget *widget, ajouteReservation *ajouteReservation);
 static void get_combo_box_value_from_add_reservation(GtkWidget *widget, ajouteReservation *ajouteReservation);
 static void manage_list_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest);
+static void refresh_label_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest);
 static void manage_list_revision(GtkListStore *list, maintenance *ptrTete);
 static void manage_list_history(GtkListStore *list, maillon *ptrtete, int *recupTReserv, int *recupTprice);
 static void manage_list_history_car(GtkListStore*list, history *ptrTete);
