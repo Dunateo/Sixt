@@ -14,7 +14,7 @@
 
 //global for the car display malloc
 int DIM;
-
+int DIMReserv;
 maillon* initializeCar(char* fileName, maillon *reservation);
 maillon* initializeClients(char* fileName);
 maillon* initializeReservation(char* fileName, maillon* client);

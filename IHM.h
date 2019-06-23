@@ -27,6 +27,7 @@ typedef struct ajouteReservation{
       GtkComboBoxText *reservation_dropdown[2];
       client client;
       reservation reservation;
+      maillon *ptrTeteR;
 }ajouteReservation;
 
 typedef struct returnVehiculeStruct{

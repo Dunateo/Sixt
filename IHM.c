@@ -77,7 +77,7 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
   while(ptr != NULL ){
 
 
-
+    //ptr tete maintenance pour les maintenances
 	 var->ptrMainTete[i] = ptr->rent->u.value_car->car_maint;
 
 
@@ -106,6 +106,7 @@ void edit_label(GtkWidget*widget, variable* data) {
 
   variable*var = data;
   var->i = atoi(gtk_widget_get_tooltip_text(widget)); // pour récuperer la voiture sur laquelle on clique
+  printf("%d\n", var->i);
 
   GtkListStore *list_revision = (GtkListStore * ) gtk_builder_get_object(var->p_builder, "Revision"); //On récup-re la liste de revision
 
@@ -225,7 +226,7 @@ static void get_combo_box_value_from_add_reservation(GtkWidget *widget, ajouteRe
           return_text[i] = gtk_combo_box_text_get_active_text(ajouteReservation->reservation_dropdown[i]);
   }
   ajouteReservation->client.driving_license_type = return_text[0];
-  ajouteReservation->reservation.category = return_text[1];
+  ajouteReservation->reservation.category =  return_text[1];
 }
 
 static void get_calendar_values_from_main_window(GtkWidget *widget, clicReservationCalendrier *jourCalendrier)
@@ -315,6 +316,41 @@ static void get_calendar_values(GtkWidget *widget, ajouteReservation *ajouteRese
         ajouteReservation->reservation.end.month = month[1];
         ajouteReservation->reservation.end.day = day[1];
         ajouteReservation->reservation.end.hour = 9;
+}
+
+/**
+ * create and add a new reservation in our chained list using informations of ajoutereservation
+ * @param widget
+ * @param ajouteReservation
+ */
+static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteReservation){
+    maillon *dataReservation = NULL;
+
+    //init maillon reservation
+    dataReservation = malloc(sizeof(maillon));
+    dataReservation->rent = (data*)malloc(sizeof(data));
+    dataReservation->rent->u.value_reserv = malloc(sizeof(reservation));
+    dataReservation->rent->typ_val = RESERVATION;
+
+    //assignation maillon
+    dataReservation->rent->u.value_reserv->end = ajouteReservation->reservation.end;
+    dataReservation->rent->u.value_reserv->begining = ajouteReservation->reservation.begining;
+    dataReservation->rent->u.value_reserv->number = DIMReserv+1;
+    DIMReserv = DIMReserv+1;
+    dataReservation->rent->u.value_reserv->category = ajouteReservation->reservation.category;
+
+    //prediction for km
+    dataReservation->rent->u.value_reserv->km = milePrediction(&(ajouteReservation->ptrTeteR),ajouteReservation->reservation.begining, ajouteReservation->reservation.end );
+
+    //link with client
+    dataReservation->rent->u.value_reserv->client_info = malloc(sizeof(client));
+    dataReservation->rent->u.value_reserv->client_info->client_name = ajouteReservation->client.client_name;
+    dataReservation->rent->u.value_reserv->client_info->driving_license_type = ajouteReservation->client.driving_license_type;
+    dataReservation->rent->u.value_reserv->client_info->phone_number = ajouteReservation->client.phone_number;
+
+    //adding the reservation to the chained list
+    insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
+
 }
 
 /**
@@ -446,7 +482,6 @@ if (ptrtete->rent->typ_val == CAR) {
 static void get_add_reservation_entry(GtkWidget *widget, ajouteReservation *ajouteReservation)
 {
         const gchar *entry_text[3]; //On crée un tableau de 3 chaines dans lequel sera stocké les valeurs des champs
-        char *client_name = "";
         for(int i=0; i<3; i++) //On parcours le tableau d'entry passé en paramêtre
         {
                 entry_text[i] = gtk_entry_get_text (GTK_ENTRY (ajouteReservation->addReservation_form[i])); //On récupère la valeur des différents champs
@@ -504,27 +539,18 @@ int main (int argc, char ** argv)
         GObject *button_sell_car;
 
         //initialisation des maillon
-        maillon *car, *customers, *reservation, *resultcar;
+        maillon *car, *customers, *reservation, *recupCar;
+        int up;
         customers = initializeClients("files/clients.csv");
         reservation = initializeReservation("files/booking.csv", customers);
         car = initializeCar("files/vehicules.csv", reservation);
         variable*var; // Structure affichant les details de chaque voiture
-        //test console
-        int prediction;
-        date d,e;
-        d.day = 3;
-        d.year = 2019;
-        d.month = 10;
-        d.hour = 9;
 
-        e.day = 23;
-        e.year = 2019;
-        e.month = 10;
-        e.hour = 9;
-        //prediction = milePrediction(&reservation, d, e);
-        int h;
-        h = calculusDate(d,e);
-        printf("Prediction %d pour %d jours \n", prediction,h);
+        //test
+        recupCar = searchCar(car, reservation->rent->u.value_reserv, &up);
+        printf("%s\n", recupCar->rent->u.value_car->brand_model);
+        printf("%s\n", recupCar->rent->u.value_car->brand_name);
+        printf("la voiture est surclassé: %d\n", up);
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
@@ -539,7 +565,6 @@ int main (int argc, char ** argv)
 
         /* Variables pour l'ajout de réservation */
         char addReservationFormEntry[30];
-        GtkEntry *addReservation_form[3];
         GObject *button_validate_add_reservation;
         GObject *button_cancel_add_reservation;
         GObject *button_add_reservation;
@@ -551,18 +576,17 @@ int main (int argc, char ** argv)
         GtkEntry *search_form[2];
         GObject *button_validate_search_client;
         GObject *button_search_stop;
+        GObject *button_cancel_customer_file;
 
         /* Variables pour le calendrier principal */
         GObject *calendar[31];
         char joursCalendrier[20];
         GtkComboBoxText *date_changer[2];
         char char_date_changer[20];
-        GObject *button_validate_date_changer;
         char labelJourCalendrier[15];
 
 
         /* Variables pour le calendrier de réservation*/
-        GtkCalendar *calendar_reservation[2];
         char calendar_reservation_name[25];
         char compteur[20];
 
@@ -571,6 +595,8 @@ int main (int argc, char ** argv)
         GtkLabel *total_price;
 
         ajouteReservation ajouteReservation;
+        //ptrReserv
+        ajouteReservation.ptrTeteR = reservation;
         /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
         ajouteReservat        ion.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
         ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/
@@ -611,6 +637,11 @@ int main (int argc, char ** argv)
                         GtkWidget * return_vehicule = (GtkWidget * ) gtk_builder_get_object (
                                 p_builder, "return_vehicule"
                                 );
+
+                                /* Permet d'initailiser la fenetre de retour vehicule */
+                                GtkWidget * customer_file = (GtkWidget * ) gtk_builder_get_object (
+                                        p_builder, "Customer_file"
+                                        );
 
                         /* Permet d'intialisre les label a remplir pour l'onglet History */
                         total_price = (GtkLabel*)gtk_builder_get_object(p_builder, "total_price");
@@ -680,10 +711,11 @@ int main (int argc, char ** argv)
                                 strcat(searchFormEntry, compteur); //on concatène les deux chaines
                                 search_form[z] = (GtkEntry*)gtk_builder_get_object(p_builder, searchFormEntry); //on récupère les entryform de Glade
                         }
+                        button_cancel_customer_file = gtk_builder_get_object(p_builder, "cancel_customer_file");
                         button_validate_search_client = gtk_builder_get_object(p_builder, "search_client_validate_button"); //On intialise le bouton de validation
                         g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(get_search_client_form_values), search_form); //On appelle la fonction au clic sur le bouton
-
-
+                        g_signal_connect(button_validate_search_client, "clicked", G_CALLBACK(openWindow), G_OBJECT(customer_file));
+                        g_signal_connect(button_cancel_customer_file, "clicked", G_CALLBACK(closeWindow), G_OBJECT(customer_file));
                         /* Gestion des boutons */
                         button_cancel_add_reservation = gtk_builder_get_object(p_builder, "add_reservation_cancel_butto"); //Récupération du bouton d'annulation d'ajout de réservation
                         g_signal_connect (button_cancel_add_reservation, "clicked", G_CALLBACK (closeWindow), G_OBJECT(pop_up_reservation_add)); //On y associe la fonction de fermeture de fenetre
@@ -764,7 +796,8 @@ int main (int argc, char ** argv)
 
                                 structTest.clicJour = actualDate();
                                 structTest.clicJour.day = i;
-                                manage_list_reservation(list_reservation, &structTest);
+                                //we dont use list reservation in this case , normally manage take a GTK widget we give him a fake stuff
+                                manage_list_reservation((GtkWidget *)list_reservation, &structTest);
                                 gtk_combo_box_set_active (date_changer[0],structTest.clicJour.month-1);
                                 gtk_combo_box_set_active (date_changer[1],0);
 
