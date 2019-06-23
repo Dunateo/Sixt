@@ -617,7 +617,7 @@ static void show_result_search_car( GtkWidget *widget,  ajouteReservation *reser
     gtk_label_set_text(car_plate, reserv->foundCar->rent->u.value_car->brand_name);
     printf("TEST APRES SET TEXT\n");
     gtk_label_set_text(car_gearbox, gearbox[reserv->foundCar->rent->u.value_car->gearbox]);
-    strTmp = (char*)calloc(10, sizeof(char));
+    strTmp = (char*)calloc(7, sizeof(char));
     sprintf(strTmp,"%.2f €", rentalPrice(reserv->foundCar->rent, &reserv->reservation));
     gtk_label_set_text(car_price, strTmp);
     gtk_label_set_text(car_model, reserv->foundCar->rent->u.value_car->brand_model);
