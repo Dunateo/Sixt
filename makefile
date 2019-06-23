@@ -1,8 +1,8 @@
 GTK_CFLAGS = $(shell pkg-config --cflags gtk+-3.0)
 GTK_LDFLAGS = $(shell pkg-config --libs gtk+-3.0)
 
-Sixt: file.o chaine.o calculus.o initialize.o chained_list.o smartFunctions.o IHM.o getter.o
-	gcc file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o  getter.o IHM.o  $(GTK_LDFLAGS) $(GTK_CFLAGS) -o Sixt
+Rental-Core: file.o chaine.o calculus.o initialize.o chained_list.o smartFunctions.o IHM.o getter.o
+	gcc file.o chaine.o calculus.o smartFunctions.o initialize.o  chained_list.o  getter.o IHM.o  $(GTK_LDFLAGS) $(GTK_CFLAGS) -o Rental-Core
 
 chained_list.o: chained_list.h chained_list.c calculus.o
 	gcc -c -Wall chained_list.c
