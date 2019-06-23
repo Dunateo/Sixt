@@ -38,17 +38,18 @@ void openWindow(GtkWidget *widget, gpointer window)
 
 void InitVar(variable*var, maillon*ptrTete, GtkBuilder*p_builder) {
   var->i = 0;
-  var->voiture_det = (char***) malloc(sizeof(char**)*DIM); // Nombre de voiture + 1 (car le nombre de voiture commence a 1)
+  var->voiture_det = (char***) calloc(DIM,sizeof(char**)); // Nombre de voiture + 1 (car le nombre de voiture commence a 1)
   for(int j = 0; j<DIM;j++) {
-    var->voiture_det[j] = (char**) malloc(sizeof(char*)*11); // Nombre d'attribut
+    var->voiture_det[j] = (char**) calloc(11,sizeof(char*)); // Nombre d'attribut
     for(int i = 0; i<11; i++) {
-      var->voiture_det[j][i] = (char*) malloc(sizeof(char)*30); // Nombre de caractère
+      var->voiture_det[j][i] = (char*) calloc(30,sizeof(char)); // Nombre de caractère
     }
   }
-  for(int i=0; i<=11; i++)
-  var->label1[i] = NULL;
+  for(int i=0; i<=11; i++){
+      var->label1[i] = NULL;
+  }
   var->ptr = ptrTete;
-  var->ptrMainTete = (maintenance**) malloc(sizeof(maintenance*)*DIM);
+  var->ptrMainTete = (maintenance**) calloc(DIM , sizeof(maintenance*));
   var->p_builder = p_builder;
 }
 
@@ -68,12 +69,12 @@ void LibereVar(variable*var) {
 void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
   maillon*ptr = var->ptr;
-  int i = 1;
+  int i = 0;
   /* Gestion de la liste de révision */
 
 
 
-  while(ptr->suivant != NULL ){
+  while(ptr != NULL ){
 
 
 
@@ -81,9 +82,9 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 
 
     if(ptr->rent->u.value_car->gearbox == true)
-      var->voiture_det[i][5] = "Automatic"; // gearbox
+      strcpy(var->voiture_det[i][5],"Automatic"); // gearbox
     else
-      var->voiture_det[i][5] = "Manuel"; // gearbox
+      strcpy(var->voiture_det[i][5],"Manuel"); // gearbox
 
     strcpy(var->voiture_det[i][0], ptr->rent->u.value_car->plate_number); //plate number
     sprintf(var->voiture_det[i][1],"%c", ptr->rent->u.value_car->category);  //category
@@ -91,9 +92,9 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
     strcpy(var->voiture_det[i][3], ptr->rent->u.value_car->brand_name); //brand
     strcpy(var->voiture_det[i][4], ptr->rent->u.value_car->brand_model); // model
     sprintf(var->voiture_det[i][6],"%d",ptr->rent->u.value_car->car_year); // years
-    sprintf(var->voiture_det[i][8] , "%.f€", dailyPrice(ptr->rent->u.value_car->category)); // daily price
-    sprintf(var->voiture_det[i][9] ,"%.f€", sellingCar(ptr->rent)); // selling price
-    sprintf(var->voiture_det[i][10] ,"%.f€",ptr->rent->u.value_car->price); // purchase price
+    sprintf(var->voiture_det[i][8] , "%.2f€", dailyPrice(ptr->rent->u.value_car->category)); // daily price
+    sprintf(var->voiture_det[i][9] ,"%.2f€", sellingCar(ptr->rent)); // selling price
+    sprintf(var->voiture_det[i][10] ,"%.2f€",ptr->rent->u.value_car->price); // purchase price
 
 
 
@@ -104,7 +105,7 @@ void initVoitureDetail(variable*var, GtkBuilder *p_builder) {
 }
 
 
-void edit_label(GtkWidget*widget, gpointer data) {
+void edit_label(GtkWidget*widget, variable* data) {
 
   variable*var = data;
   var->i = atoi(gtk_widget_get_tooltip_text(widget)); // pour récuperer la voiture sur laquelle on clique
@@ -406,7 +407,7 @@ if (ptrtete->rent->typ_val == CAR) {
         while (ptrMaint!=NULL){
             maintBool = dateCompare(ptrtransH->reserv->end, ptrMaint->date_maintenance);
             if (maintBool == true){
-                priceCost = ptrMaint->coast+priceCost;
+                priceCost = ptrMaint->cost+priceCost;
             }
             ptrMaint = ptrMaint->suivant;
         }
@@ -516,7 +517,7 @@ int main (int argc, char ** argv)
         e.year = 2019;
         e.month = 10;
         e.hour = 9;
-        prediction = milePrediction(&reservation, d, e);
+        //prediction = milePrediction(&reservation, d, e);
         int h;
         h = calculusDate(d,e);
         printf("Prediction %d pour %d jours \n", prediction,h);
