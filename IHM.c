@@ -391,7 +391,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
 
     //search a car for the reservation
     ajouteReservation->foundCar = searchCar(ajouteReservation->ptrTeteC, dataReservation->rent->u.value_reserv, &ajouteReservation->upgraded);
-
+    printf("UP : %d\n", ajouteReservation->upgraded);
 }
 
 /**
