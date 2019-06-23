@@ -786,9 +786,9 @@ int main (int argc, char ** argv)
                         reservation_list_return_button = gtk_builder_get_object(p_builder, "reservation_list_return_button"); //Récupération du bouton de retour dans pop_up de liste reservation
                         g_signal_connect(reservation_list_return_button, "clicked", G_CALLBACK(closeWindow), G_OBJECT(reservation_list_window)); //On y associe la fonction de fermeture fenetre lors du clic
 
-                        button_validate_result = gtk_builder_get_object(p_builder, "add_reservation_button"); //Récupération du bouton d'ajout de résérvation
+                        button_validate_result = gtk_builder_get_object(p_builder, "button_ok_add_reservation_result"); //Récupération du bouton d'ajout de résérvation
                         g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
-                        g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_reservation_add));
+                        g_signal_connect(button_validate_result, "clicked", G_CALLBACK(closeWindow), G_OBJECT(pop_up_result_car));
 
                         /* Gestion de la liste de reservation */
                         GtkListStore *list_reservation = (GtkListStore *) gtk_builder_get_object(p_builder, "reservation_lists"); //On récupère la liste reservation_lists
