@@ -395,6 +395,20 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
 }
 
 /**
+ * refresh the label for
+ * @param widget
+ * @param strucTest
+ */
+static void refresh_label_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest){
+
+    for (int i=1; i<=31;i++){
+        strucTest->clicJour.day = i;
+        manage_list_reservation(widget, strucTest);
+    }
+
+}
+
+/**
  * Fonction qui gère le contenu de la liste de reservation
  * @param list [description]
  */
