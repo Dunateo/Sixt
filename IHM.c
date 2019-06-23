@@ -400,10 +400,8 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
  * @param strucTest
  */
 static void refresh_label_reservation(GtkWidget *widget, clicReservationCalendrier *strucTest){
-  printf("test\n");
-
     for (int i=1; i<=31;i++){
-        
+
         strucTest->clicJour.day = i;
         manage_list_reservation(widget, strucTest);
     }
@@ -946,6 +944,7 @@ int main (int argc, char ** argv)
 
                         //Calendrier date refresh
                         button_validate_date_changer = gtk_builder_get_object(p_builder, "validate_date_changer");
+                        g_signal_connect(button_validate_date_changer, "clicked", G_CALLBACK(get_calendar_values_from_main_window), &structTest);
                         g_signal_connect(button_validate_date_changer, "clicked", G_CALLBACK(refresh_label_reservation), &structTest);
 
 
