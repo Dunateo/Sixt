@@ -450,7 +450,6 @@ if (ptrtete->rent->typ_val == CAR) {
 static void get_add_reservation_entry(GtkWidget *widget, ajouteReservation *ajouteReservation)
 {
         const gchar *entry_text[3]; //On crée un tableau de 3 chaines dans lequel sera stocké les valeurs des champs
-        char *client_name = "";
         for(int i=0; i<3; i++) //On parcours le tableau d'entry passé en paramêtre
         {
                 entry_text[i] = gtk_entry_get_text (GTK_ENTRY (ajouteReservation->addReservation_form[i])); //On récupère la valeur des différents champs
@@ -502,27 +501,11 @@ int main (int argc, char ** argv)
         GObject *button_sell_car;
 
         //initialisation des maillon
-        maillon *car, *customers, *reservation, *resultcar;
+        maillon *car, *customers, *reservation;
         customers = initializeClients("files/clients.csv");
         reservation = initializeReservation("files/booking.csv", customers);
         car = initializeCar("files/vehicules.csv", reservation);
         variable*var; // Structure affichant les details de chaque voiture
-        //test console
-        int prediction;
-        date d,e;
-        d.day = 3;
-        d.year = 2019;
-        d.month = 10;
-        d.hour = 9;
-
-        e.day = 23;
-        e.year = 2019;
-        e.month = 10;
-        e.hour = 9;
-        //prediction = milePrediction(&reservation, d, e);
-        int h;
-        h = calculusDate(d,e);
-        printf("Prediction %d pour %d jours \n", prediction,h);
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
@@ -536,7 +519,6 @@ int main (int argc, char ** argv)
 
         /* Variables pour l'ajout de réservation */
         char addReservationFormEntry[30];
-        GtkEntry *addReservation_form[3];
         GObject *button_validate_add_reservation;
         GObject *button_cancel_add_reservation;
         GObject *button_add_reservation;
@@ -554,12 +536,10 @@ int main (int argc, char ** argv)
         char joursCalendrier[20];
         GtkComboBoxText *date_changer[2];
         char char_date_changer[20];
-        GObject *button_validate_date_changer;
         char labelJourCalendrier[15];
 
 
         /* Variables pour le calendrier de réservation*/
-        GtkCalendar *calendar_reservation[2];
         char calendar_reservation_name[25];
         char compteur[20];
 
@@ -761,7 +741,8 @@ int main (int argc, char ** argv)
 
                                 structTest.clicJour = actualDate();
                                 structTest.clicJour.day = i;
-                                manage_list_reservation(list_reservation, &structTest);
+                                //we dont use list reservation in this case , normally manage take a GTK widget we give him a fake stuff
+                                manage_list_reservation((GtkWidget *)list_reservation, &structTest);
                                 gtk_combo_box_set_active (date_changer[0],structTest.clicJour.month-1);
                                 gtk_combo_box_set_active (date_changer[1],0);
 
