@@ -393,7 +393,7 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     //search a car for the reservation
     ajouteReservation->foundCar = searchCar(ajouteReservation->ptrTeteC, dataReservation->rent->u.value_reserv, &ajouteReservation->upgraded);
     printf("%s\n", ajouteReservation->foundCar->rent->u.value_car->brand_name);
- 
+
 
     //get_result_search_car();
 }
@@ -682,7 +682,7 @@ int main (int argc, char ** argv)
         ajouteReservation.ptrTeteC = car;
 
         /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
-        ajouteReservat        ion.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
+        ajouteReservation.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
         ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/
 
         /* Initialisation de GTK+ */
