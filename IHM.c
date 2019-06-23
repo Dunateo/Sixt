@@ -352,9 +352,9 @@ static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteRes
     //adding the reservation to the chained list
     insertionValeur(dataReservation->rent,&(ajouteReservation->ptrTeteR));
 
-    show_result_search_car();
-
-
+    //search a car for the reservation
+    ajouteReservation->foundCar = searchCar(ajouteReservation->ptrTeteC, dataReservation->rent->u.value_reserv, &ajouteReservation->upgraded);
+    printf("%s\n", ajouteReservation->foundCar->rent->u.value_car->brand_name);
 }
 
 /**
@@ -546,8 +546,7 @@ static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* ret
  */
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2] )
 {
-    const gchar *entry_text[2] = {NULL, NULL};
-   //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
+    const gchar *entry_text[2]; //On crée un tableau de 2 chaines dans lequel sera stocké les valeurs des champs
         for(int i=0; i<2; i++) //On parcours le tableau d'entry passé en parmètre
         {
                 entry_text[i] = gtk_entry_get_text (GTK_ENTRY (entry[i]));
@@ -571,12 +570,19 @@ static void show_result_search_car( GtkWidget *widget,  ajouteReservation *reser
     car_surclasse = (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_surclasse");
     car_km= (GtkLabel*)gtk_builder_get_object(reserv->p_builder, "pop-up_result_car_km");
 
-    gtk_label_set_text(car_plate, "");
-    gtk_label_set_text(car_gearbox, "");
-    gtk_label_set_text(car_price, "");
-    gtk_label_set_text(car_model, "");
-    gtk_label_set_text(car_surclasse, "");
-    gtk_label_set_text(car_km, "");
+    char* gearbox[] = {"Manual", "Automatic"};
+    char* upgraded[] = {"No", "Upgraded 1 class", "Upgraded 2 classes", "No vehicule available"};
+    char* strTmp;
+
+    gtk_label_set_text(car_plate, reserv->foundCar->rent->u.value_car->brand_name);
+    gtk_label_set_text(car_gearbox, gearbox[reserv->foundCar->rent->u.value_car->gearbox]);
+    strTmp = (char*)calloc(sizeof(rentalPrice(reserv->foundCar->rent, &reserv->reservation)), sizeof(char));
+    sprintf(strTmp,"%.2f €", rentalPrice(reserv->foundCar->rent, &reserv->reservation));
+    gtk_label_set_text(car_price, strTmp);
+    gtk_label_set_text(car_model, reserv->foundCar->rent->u.value_car->brand_model);
+    gtk_label_set_text(car_surclasse, upgraded[reserv->upgraded]);
+
+    gtk_label_set_text(car_km, strTmp);
 }
 
 int main (int argc, char ** argv)
@@ -587,18 +593,13 @@ int main (int argc, char ** argv)
         GObject *button_sell_car;
 
         //initialisation des maillon
-        maillon *car, *customers, *reservation, *recupCar;
-        int up;
+        maillon *car, *customers, *reservation;
         customers = initializeClients("files/clients.csv");
         reservation = initializeReservation("files/booking.csv", customers);
         car = initializeCar("files/vehicules.csv", reservation);
         variable*var; // Structure affichant les details de chaque voiture
 
-        //test
-        recupCar = searchCar(car, reservation->rent->u.value_reserv, &up);
-        printf("%s\n", recupCar->rent->u.value_car->brand_model);
-        printf("%s\n", recupCar->rent->u.value_car->brand_name);
-        printf("la voiture est surclassé: %d\n", up);
+
 
         /* Variables pour la fenetre de retour vehicule */
         char returnFormEntry[20];
@@ -645,8 +646,13 @@ int main (int argc, char ** argv)
         GtkLabel *total_price;
 
         ajouteReservation ajouteReservation;
-        //ptrReserv
+        ajouteReservation.ptrTeteR = NULL;
+        ajouteReservation.ptrTeteC = NULL;
+        ajouteReservation.foundCar = NULL;
+        //ptrReserv and ptrCar
         ajouteReservation.ptrTeteR = reservation;
+        ajouteReservation.ptrTeteC = car;
+
         /*ajouteReservation.calendar_reservation = (GtkCalendar *)malloc(sizeof(GtkCalendar)*2);
         ajouteReservat        ion.addReservation_form = (GtkEntry *)malloc(sizeof(GtkEntry)*3);
         ajouteReservation.reservation_dropdown = (GtkComboBoxText *)malloc(sizeof(GtkComboBoxText)*2);*/

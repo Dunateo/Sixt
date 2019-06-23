@@ -30,6 +30,9 @@ typedef struct ajouteReservation{
       client client;
       reservation reservation;
       maillon *ptrTeteR;
+      maillon *ptrTeteC;
+      maillon *foundCar;
+      int upgraded;
 }ajouteReservation;
 
 typedef struct returnVehiculeStruct{
@@ -48,6 +51,7 @@ static void manage_list_history(GtkListStore *list, maillon *ptrtete, int *recup
 static void manage_list_history_car(GtkListStore*list, history *ptrTete);
 static void get_add_reservation_entry(GtkWidget *widget, ajouteReservation *ajouteReservation);
 static void get_return_form_values( GtkWidget *widget, returnVehiculeStruct* retour);
+static void add_reservation_car( GtkWidget *widget, ajouteReservation *ajouteReservation);
 static void get_search_client_form_values( GtkWidget *widget, GtkWidget *entry[2]);
 int main_ihm (int argc, char ** argv);
 void InitVar(variable*var, maillon*ptrTete, GtkBuilder*p_builder);
