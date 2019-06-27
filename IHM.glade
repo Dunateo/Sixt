@@ -2,6 +2,26 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
+  <object class="GtkListStore" id="History">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkListStore" id="History_client">
+    <columns>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">16-01-2018 -&gt;  23-02-2019</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">29-06-2019 -&gt; 13-12-2019</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkDialog" id="Customer_file">
     <property name="can_focus">False</property>
     <property name="type">popup</property>
@@ -160,6 +180,49 @@
                 <property name="x">90</property>
               </packing>
             </child>
+            <child>
+              <object class="GtkAccelLabel">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">History : </property>
+              </object>
+              <packing>
+                <property name="x">220</property>
+                <property name="y">50</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTreeView">
+                <property name="width_request">100</property>
+                <property name="height_request">80</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="model">History_client</property>
+                <property name="headers_visible">False</property>
+                <property name="search_column">0</property>
+                <property name="hover_selection">True</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection"/>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="Revision_car3">
+                    <child>
+                      <object class="GtkCellRendererText"/>
+                      <attributes>
+                        <attribute name="markup">0</attribute>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="x">305</property>
+                <property name="y">50</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -169,18 +232,6 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkListStore" id="History">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
-  </object>
-  <object class="GtkListStore" id="History_client">
-    <columns>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-    </columns>
   </object>
   <object class="GtkListStore" id="Revision">
     <columns>
@@ -3439,7 +3490,7 @@
             </child>
             <child>
               <object class="GtkButton" id="day_filter">
-                <property name="label" translatable="yes">Day</property>
+                <property name="label" translatable="yes">Date</property>
                 <property name="width_request">87</property>
                 <property name="height_request">37</property>
                 <property name="visible">True</property>
@@ -3456,7 +3507,7 @@
             </child>
             <child>
               <object class="GtkButton" id="month_filter">
-                <property name="label" translatable="yes">Month</property>
+                <property name="label" translatable="yes">KM</property>
                 <property name="width_request">83</property>
                 <property name="height_request">38</property>
                 <property name="visible">True</property>
@@ -3472,7 +3523,7 @@
             </child>
             <child>
               <object class="GtkButton" id="years_filter">
-                <property name="label" translatable="yes">Years</property>
+                <property name="label" translatable="yes">Price+</property>
                 <property name="width_request">91</property>
                 <property name="height_request">39</property>
                 <property name="visible">True</property>
@@ -3789,7 +3840,7 @@
                 <property name="day">25</property>
               </object>
               <packing>
-                <property name="x">159</property>
+                <property name="x">99</property>
                 <property name="y">268</property>
               </packing>
             </child>
